@@ -1,10 +1,10 @@
 # Swimmer Buddy
 ## Overview
-- This site is designed for swimmers
+- This site is designed for swimmers.
 - The site allows the user to create, save and organize their workouts.
-- The user can organize their workouts into collections
-- The user can search workouts by keywords
-- The user can add workouts created by other swimmers to their own collections
+- The user can organize their workouts into collections.
+- The user can search workouts by keywords.
+- The user can add workouts created by other swimmers to their own collections.
 
 
 ## ERD
