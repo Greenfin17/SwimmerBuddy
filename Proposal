@@ -1,0 +1,28 @@
+Workout App for Swimmers
+
+This app will allow swimming enthusiasts to save their workouts and organize and search them by emphasis, distance, stroke, date submitted or author. The user will then have a ready collection of workouts to choose from when planning their training. The user can create new workouts and select the format, yards or meters, and the pool configuration, short course or long course, for a new workout. The user will be presented with a variable length form for adding sets. The user can enter the time interval for each set and the number of repetitions. There will be a field for describing each set as well as each portion of the set, i.e, kick/swim/drill by 25’s, build, descend each round, etc. The user will be able to update and delete any workouts they create. The user will be able to mark their workouts as shared or public so that others may view their workout.
+
+I need an easy to use application to save workouts from my swim club, so that I can pull them out for when I swim on my own.  I often end up doing exactly the same workout that I have memorized. An app would facilitate planning my own training, and could be useful for other swimmers.
+
+Features:
+
+The user logs in to the app to access their collection of workouts.
+
+The user will be presented with a form to allow creating and editing workouts.  The form will allow the  user to select the pool configuration. 
+
+The user will be able to add sets to each workout with descriptions, time intervals and repetitions.
+
+The user can search workouts by distance or keywords.
+
+The user can organize their workouts into collections by any criteria the user chooses. - stretch
+
+The user can mark their workouts public to allow other users to add the workouts to their own collections.  If the owner deletes a workout, others will see a notice that the owner has deleted the workout – stretch.
+
+The user can print a workout to bring to the pool – stretch.
+
+
+
+
+
+
+
