@@ -8,3 +8,6 @@
 
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
+
+## Wireframes
+https://www.figma.com/file/uziJlOLbyn5l9UUaELQA4t/Swimmer-Buddy?node-id=1%3A2
