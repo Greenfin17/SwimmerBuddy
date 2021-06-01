@@ -7,7 +7,7 @@
 - The user can add workouts created by other swimmers to their own collections.
 
 ## User Story
- - When the user opens the page, the user sees a menu with a Workouts link and a login button.
+ - When the user opens the home page, the user sees a menu with a Workouts link and a login button.
  - The user can view public workouts by clicking the Workouts Link. The user can search public workouts.
  - The user can sign in.
  - The authenticated user can view collections of workouts, workouts created by the user, and public workouts.
