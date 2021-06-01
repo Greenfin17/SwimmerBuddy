@@ -6,6 +6,16 @@
 - The user can search workouts by keywords.
 - The user can add workouts created by other swimmers to their own collections.
 
+## User Story
+ - When the user opens the page, the user sees a menu with a Workouts link and a login button.
+ - The user can view public workouts by clicking the Workouts Link. The user can search public workouts.
+ - The user can sign in.
+ - The authenticated user can view collections of workouts, workouts created by the user, and public workouts.
+ - The authenticated user can create collections, and add individual workouts to the collections.
+ - A workout can be added to more than one collections.
+ - A workout added to a collection does not have to be a workout created by the user.
+ - The authenticated user has full create, read, update and delete capability on collections and workouts created by the user.
+
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
 
