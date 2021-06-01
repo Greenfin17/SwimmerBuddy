@@ -10,9 +10,9 @@
  - When the user opens the home page, the user sees a menu with a Workouts link and a login button.
  - The user can view public workouts by clicking the Workouts Link. The user can search public workouts.
  - The user can sign in.
- - The authenticated user can view collections of workouts, workouts created by the user, and public workouts.
- - The authenticated user can create collections, and add individual workouts to the collections.
- - A workout can be added to more than one collections.
+ - The authenticated user can view collections of workouts created by the user, workouts created by the user, and public workouts.
+ - The authenticated user can create collections, and add individual workouts to collections.
+ - A workout can be added to more than one collection.
  - A workout added to a collection does not have to be a workout created by the user.
  - The authenticated user has full create, read, update and delete capability on collections and workouts created by the user.
 
