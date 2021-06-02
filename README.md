@@ -28,4 +28,6 @@ https://www.figma.com/file/uziJlOLbyn5l9UUaELQA4t/Swimmer-Buddy?node-id=1%3A2
 https://lucid.app/lucidchart/5d56ad97-811f-4e41-8585-388dedf594f0/edit?page=0_0#
 
 ## Personal Bio Site
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9e639f94-6157-4618-a5ed-dbb4c6d7dc1e/deploy-status)](https://app.netlify.com/sites/bio-site-john-maple/deploys)
+
 https://bio-site-john-maple.netlify.app/
