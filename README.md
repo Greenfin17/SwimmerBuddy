@@ -9,15 +9,14 @@
 ## User Story
  - When the user opens the home page, the user sees a menu with a Workouts link and a login button.
  - The user can view public workouts by clicking the Workouts Link. The user can search public workouts.
- - The user can sign in.
+ - The user can sign in using Google.
  - The authenticated user can add their location and any club affiliation in their user profile.
  - The authenticated user can view workouts created by the user and workouts created by other users that are marked public.
- - The authenticated user can create collections of workouts, and add individual workouts to collections. 
- - The authenticated user can view their personal collections of workouts, as well as update and delete collections.
+ - The authenticated user can create, view, update and delete their own workouts.
+ - The authenticated user can create, view, update and delete their own personal collections of workouts.
  - A workout can be added to more than one collection.
  - A workout added to a collection does not have to be a workout created by the user.
- - The authenticated user has full create, read, update and delete capability on collections and workouts created by the user.
-
+ 
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
 
