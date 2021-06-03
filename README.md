@@ -15,7 +15,7 @@
  - The authenticated user can create, view, update and delete their own workouts.
  - The authenticated user can create, view, update and delete their own personal collections of workouts.
  - A workout can be added to more than one collection.
- - A workout added to a collection does not have to be a workout created by the user.
+ - A workout added to a collection does not have to be a workout created by the user if the creator marked the workout public.
  
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
