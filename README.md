@@ -30,3 +30,6 @@ https://lucid.app/lucidchart/5d56ad97-811f-4e41-8585-388dedf594f0/edit?page=0_0#
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9e639f94-6157-4618-a5ed-dbb4c6d7dc1e/deploy-status)](https://app.netlify.com/sites/bio-site-john-maple/deploys)
 
 https://bio-site-john-maple.netlify.app/
+
+## Loom Video
+https://www.loom.com/share/b3dd46964edf45aa8645c21a8bf701c4
