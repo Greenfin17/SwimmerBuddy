@@ -8,7 +8,7 @@
 
 ## User Story
  - When the user opens the home page, the user sees a menu with a workouts link and a login button.
- - The user can view public workouts by clicking the Workouts Link. The user can search public workouts.
+ - The user can view public workouts by clicking the workouts Link. The user can search public workouts.
  - The user can sign in using Google.
  - The authenticated user can add their location and any club affiliation in their user profile.
  - The authenticated user can view workouts created by the user and workouts created by other users that are marked public.
