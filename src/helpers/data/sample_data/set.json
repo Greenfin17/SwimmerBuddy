@@ -1,0 +1,80 @@
+{
+  "set1": {
+    "ID": "set1",
+    "group_ID": "warmup1",
+    "repetitions": "1",
+    "distance":  "",
+    "comment": "5 minute warm up",
+    "stroke": "choice",
+    "interval": "5:00"
+  },
+  "set2": {
+    "ID": "set2",
+    "group_ID": "warmup1",
+    "repetitions": "20",
+    "distance":  "25",
+    "comment": "1. Kick 2. DPS 3. SWIM - strong build 4. DPS",
+    "stroke": "freestyle",
+    "interval": ":30"
+  },
+  "set3" : {
+    "ID": "set3":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "25",
+    "comment": "Fast",
+    "stroke": "choice",
+    "interval": ":60"
+  },
+  "set4" : {
+    "ID": "set4":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "25",
+    "comment": "Easy",
+    "stroke": "choice",
+    "interval": ":60"
+  },
+  "set5" : {
+    "ID": "set5":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "50",
+    "comment": "Fast",
+    "stroke": "choice",
+    "interval": "1:00"
+  },
+  "set6" : {
+    "ID": "set6":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "50",
+    "comment": "Easy",
+    "stroke": "choice",
+    "interval": "1:00"
+  },
+  "set7" : {
+    "ID": "set7":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "100",
+    "comment": "Fast",
+    "stroke": "choice",
+    "interval": "2:00"
+  },
+  "set8" : {
+    "ID": "set8":
+    "group_ID": "mainset1",
+    "repetitions": "1",
+    "distance":  "100",
+    "comment": "Easy",
+    "stroke": "choice",
+    "interval": "2:00"
+  }
+}
+
+
+
+
+
+
