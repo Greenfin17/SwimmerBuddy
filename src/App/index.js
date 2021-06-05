@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import firebase from 'firebase';
+import Navbar from '../components/Navbar';
+import { addUser, getUser } from '../helpers/data/userData';
 import './App.scss';
 
 function App() {
-  const [domWriting, setDomWriting] = useState('Nothing Here!');
+  const [user, setUser] = useState(null);
 
-  const handleClick = (e) => {
-    console.warn(`You clicked ${e.target.id}`);
-    setDomWriting(`You clicked ${e.target.id}! Check the Console!`);
-  };
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((authed) => {
+      if (authed) {
+        const userInfoObj = {
+          fullName: authed.displayName,
+          profileImage: authed.photoURL,
+          uid: authed.uid,
+          username: authed.email.split('@')[0],
+        };
+        setUser(userInfoObj);
+        getUser(authed.uid).then((userResp) => {
+          if (userResp.length < 1) {
+            addUser(userInfoObj);
+          }
+        });
+      } else if (user || user === null) {
+        setUser(false);
+      }
+    });
+  }, []);
 
   return (
     <div className='App'>
-      <h2>INSIDE APP COMPONENT</h2>
-      <div>
-        <button
-          id='this-button'
-          className='btn btn-info'
-          onClick={handleClick}
-        >
-          I am THIS button
-        </button>
-      </div>
-      <div>
-        <button
-          id='that-button'
-          className='btn btn-primary mt-3'
-          onClick={handleClick}
-        >
-          I am THAT button
-        </button>
-      </div>
-      <h3>{domWriting}</h3>
+      <Router>
+        <Navbar user={user} />
+      </Router>
+      <h1>Swimmer Buddy</h1>
     </div>
   );
 }

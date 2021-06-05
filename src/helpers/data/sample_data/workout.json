@@ -1,0 +1,22 @@
+{
+  "workout1" : {
+    "ID": "abc123",
+    "author_uid": "xyz",
+    "title": "NAC 3-9-2021",
+    "date": "6-1-2021",
+    "description": "Speed workout",
+    "public" : "true",
+    "yards" : "false",
+    "longcourse": "true"
+  },
+  "workout2": {
+    "ID": "def123",
+    "author_uid": "xyz",
+    "title": "NAC 3-10-2021",
+    "date": "6-1-2021",
+    "description": "Speed workout",
+    "public" : "true",
+    "yards" : "false",
+    "longcourse": "true"
+  }
+}
