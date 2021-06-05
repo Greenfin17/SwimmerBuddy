@@ -27,7 +27,7 @@
     "interval": ":60"
   },
   "set4" : {
-    "ID": "set4":
+    "ID": "set4",
     "group_ID": "mainset1",
     "repetitions": "1",
     "distance":  "25",
@@ -36,7 +36,7 @@
     "interval": ":60"
   },
   "set5" : {
-    "ID": "set5":
+    "ID": "set5",
     "group_ID": "mainset1",
     "repetitions": "1",
     "distance":  "50",
@@ -45,7 +45,7 @@
     "interval": "1:00"
   },
   "set6" : {
-    "ID": "set6":
+    "ID": "set6",
     "group_ID": "mainset1",
     "repetitions": "1",
     "distance":  "50",
@@ -54,7 +54,7 @@
     "interval": "1:00"
   },
   "set7" : {
-    "ID": "set7":
+    "ID": "set7",
     "group_ID": "mainset1",
     "repetitions": "1",
     "distance":  "100",
@@ -63,7 +63,7 @@
     "interval": "2:00"
   },
   "set8" : {
-    "ID": "set8":
+    "ID": "set8",
     "group_ID": "mainset1",
     "repetitions": "1",
     "distance":  "100",
