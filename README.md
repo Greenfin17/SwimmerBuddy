@@ -16,6 +16,18 @@
  - The authenticated user can create, view, update and delete their own personal collections of workouts.
  - A workout can be added to more than one collection.
  - A workout added to a collection does not have to be a workout created by the user if the creator marked the workout public.
+
+## MVP
+- The authenticated user can create, read, update and delete workouts.
+- The authenticated user can search workouts.
+
+## STRETCH
+- The authenticated user can mark their workouts public.
+- The unauthenticated user can view and search public workouts.
+- The authenticated user can create, read update and delete collections of workouts
+- The authenticated user can search their own collections
+- The user can print a workout to bring to the pool
+
  
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
