@@ -25,8 +25,8 @@
 - The authenticated user can mark their workouts public.
 - The unauthenticated user can view and search public workouts.
 - The authenticated user can create, read update and delete collections of workouts
-- The authenticated user can search their own collections
-- The user can print a workout to bring to the pool
+- The authenticated user can search their own collections.
+- The user can print a workout to bring to the pool.
 
  
 ## ERD
