@@ -1,0 +1,15 @@
+{
+  "warmup1": {
+    "ID": "warmup1",
+    "workout_ID": "abc123",
+    "repetitions": "1",
+    "title": "Warm Up",
+    "comment": "From-Where-You-Are Swim Meet"
+  },
+  "mainset1": {
+    "ID": "mainset1",
+    "workout_ID": "abc123",
+    "repetitions": "3",
+    "title": "Mhin Set",
+    "comment": "opportunity to get From-Where-You-Are Swim Meet times"
+}
