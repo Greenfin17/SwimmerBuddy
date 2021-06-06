@@ -1,0 +1,19 @@
+// _workouts.scss
+
+.workout-cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  
+  .workout-card {
+    width: 20rem;
+  }
+
+  .group-title {
+    display: inline-block;
+  }
+
+  .group-repetitions {
+    display: inline-block;
+  }
+}

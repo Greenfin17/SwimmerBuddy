@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import firebase from 'firebase';
 import NavBar from '../components/NavBar';
-import TitleBox from '../components/TitleBox';
 import { addUser, getUser } from '../helpers/data/userData';
+import getFullUserWorkouts from '../helpers/data/workoutGroupSetData';
+import Routes from '../helpers/Routes';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userWorkouts, setUserWorkouts] = useState([]);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -23,6 +25,7 @@ function App() {
             addUser(userInfoObj);
           }
         });
+        getFullUserWorkouts(authed.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
       } else if (user || user === null) {
         setUser(false);
       }
@@ -33,9 +36,10 @@ function App() {
     <div className='App'>
       <Router>
         <NavBar user={user} />
-        <TitleBox />
+        <Routes
+          user={user}
+          userWorkouts = {userWorkouts} />
       </Router>
-
     </div>
   );
 }
