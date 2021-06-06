@@ -20,7 +20,7 @@ const NavBar = ({ user }) => {
 
   return (
     <div>
-      <Navbar color='light' light expand='md'>
+      <Navbar light expand='md'>
         <Link className='navbar-brand' to='/' >Swimmer Buddy</Link>
         <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>

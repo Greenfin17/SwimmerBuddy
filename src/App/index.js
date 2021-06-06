@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import firebase from 'firebase';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
+import TitleBox from '../components/TitleBox';
 import { addUser, getUser } from '../helpers/data/userData';
-import './App.scss';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,9 +32,10 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <Navbar user={user} />
+        <NavBar user={user} />
+        <TitleBox />
       </Router>
-      <h1>Swimmer Buddy</h1>
+
     </div>
   );
 }

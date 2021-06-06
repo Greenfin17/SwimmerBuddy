@@ -1,0 +1,16 @@
+// _navbar.scss
+
+.navbar {
+  background-color: transparent;
+}
+.navbar .navbar-brand {
+  font-size: 1.6rem;
+  margin-left: .6rem;
+}
+.navbar ul {
+  margin-inline-start: auto;
+  margin-right: 2% !important;
+  font-size: 1.4rem;
+  font-weight: 600;
+  opacity: 100%;
+}
