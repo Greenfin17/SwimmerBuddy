@@ -26,7 +26,7 @@ const NavBar = ({ user }) => {
           <Collapse isOpen={isOpen} navbar>
             <Nav className='mr-auto' navbar>
               <NavItem>
-                <Link className='nav-link' to='/collections'>Collections</Link>
+                { user && <Link className='nav-link' to='/collections'>Collections</Link> }
               </NavItem>
               <NavItem>
                 <Link className='nav-link' to='/workouts'>Workouts</Link>
