@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import firebase from 'firebase';
 import NavBar from '../components/NavBar';
 import { addUser, getUser } from '../helpers/data/userData';
-import getFullUserWorkouts from '../helpers/data/workoutGroupSetData';
+import { getFullUserWorkouts } from '../helpers/data/workoutGroupSetData';
 import Routes from '../helpers/Routes';
 
 function App() {

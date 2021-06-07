@@ -15,4 +15,16 @@ const getGroups = (workoutId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export default getGroups;
+const getSingleGroup = (workoutId) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/group/${workoutId}.json`)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    }).catch((error) => reject(error));
+});
+
+export {
+  getGroups,
+  getSingleGroup
+};

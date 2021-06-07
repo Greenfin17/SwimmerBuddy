@@ -4,14 +4,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WorkoutCard from '../components/cards/WorkoutCard';
+import TitleBox from '../components/TitleBox';
 
 const WorkoutsView = ({
   user,
   userWorkouts
 }) => (
   <>
-    <p>Workouts View</p>
-    <p>Welcome {user.fullName}</p>
+    <TitleBox heading1='Workouts' />
     <div className='workout-cards-container'>
       { user && userWorkouts.map((workout, key) => <WorkoutCard
         key={key}

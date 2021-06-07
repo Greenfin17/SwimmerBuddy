@@ -29,12 +29,14 @@ const WorkoutCard = ({
         <CardBody className='workout-card-body'>
           <CardTitle tag='h5'>{workout.title}</CardTitle>
           <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>
-          { workout.groupArr.map((group, key) => <div
-            key={key} className='row group-header'>
+          { workout.groupArr.map((group, key) => <div key={key} className='group-data'>
+            <div className='row group-header'>
               <div className='col-4 group-title'>
             {group.title}</div>
             <div className='col-3 group-repetitions'>x {group.repetitions}</div>
-            <div className='col-5 '>Interval</div></div>) }
+            <div className='col-5 '>Interval</div></div>
+              { group.setArr.map((set, key2) => <div className='set-data row col-4' key={key2}>
+                  {set.distance} x {set.repetitions} </div>)} </div>)}
           <hr />
           <Button className="btn btn-info"
             onClick={handleEditClick} >Edit Workout</Button>
