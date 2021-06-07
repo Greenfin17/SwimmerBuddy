@@ -6,14 +6,22 @@
   justify-content: space-evenly;
   
   .workout-card {
-    width: 20rem;
+    width: 30rem;
   }
 
-  .group-title {
-    display: inline-block;
+  .group-data {
+    margin: 0 0 .3rem 0;
   }
 
-  .group-repetitions {
-    display: inline-block;
+  .group-title, .group-repetitions, .interval-header {
+    font-weight: 600;
+  }
+
+  .set-interval {
+    text-align: right;
+  }
+
+  .interval-header {
+    text-align: right;
   }
 }

@@ -2,7 +2,15 @@
 
 import getUserWorkouts from './workoutData';
 import { getGroups } from './groupData';
-import getSets from './setData';
+import { getSets, cmpSets, setArrDistance } from './setData';
+
+/* const totalDistance = (distanceArr) => {
+  let returnVal = 0;
+  distanceArr.forEach((unit) => {
+    returnVal += unit;
+  });
+  return returnVal;
+}; */
 
 const getGroupSetData = (group) => new Promise((resolve, reject) => {
   getSets(group.id).then((setArr) => {
@@ -26,22 +34,22 @@ const getWorkoutGroupData = (workout) => new Promise((resolve, reject) => {
 
 const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
   const workoutReturnArr = [];
-  const groupTempArr = [];
   getUserWorkouts(uid).then((workoutArr) => {
     workoutArr.forEach((workout) => {
       const midArr = [];
       getGroups(workout.id).then((groupArr) => {
         groupArr.forEach((group) => getSets(group.id).then((setArr) => {
+          setArr.sort(cmpSets);
           const groupObj = {
             ...group,
-            setArr
+            setArr,
+            groupDistance: setArrDistance(setArr)
           };
           midArr.push(groupObj);
         }));
-        groupTempArr.push(midArr);
         const workoutDataObj = {
           ...workout,
-          groupArr: midArr
+          groupArr: midArr,
         };
         workoutReturnArr.push(workoutDataObj);
       });

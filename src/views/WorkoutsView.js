@@ -13,8 +13,8 @@ const WorkoutsView = ({
   <>
     <TitleBox heading1='Workouts' />
     <div className='workout-cards-container'>
-      { user && userWorkouts.map((workout, key) => <WorkoutCard
-        key={key}
+      { user && userWorkouts.map((workout) => <WorkoutCard
+        key={workout.id}
         user={user}
         workout={workout}
         />)
