@@ -1,0 +1,14 @@
+// _workoutForm.scss
+
+.workout-form {
+  width: 30rem;
+  margin: auto;
+}
+
+.form-group-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  width: 70rem;
+  background: #efefef;
+}

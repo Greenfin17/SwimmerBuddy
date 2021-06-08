@@ -5,6 +5,16 @@ import firebaseConfig from '../apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
+const getSingleWorkout = (workoutId) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/workout/${workoutId}.json`)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
+
 const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/workout.json?orderBy="author_uid"&equalTo="${uid}"`)
     .then((response) => {
@@ -15,4 +25,6 @@ const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export default getUserWorkouts;
+export {
+  getSingleWorkout, getUserWorkouts
+};

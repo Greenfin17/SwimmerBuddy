@@ -5,6 +5,8 @@ import firebaseConfig from '../apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
+const cmpGroups = (groupA, groupB) => groupA.sequence - groupB.sequence;
+
 const getGroups = (workoutId) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/group.json?orderBy="workout_id"&equalTo="${workoutId}"`)
     .then((response) => {
@@ -25,6 +27,7 @@ const getSingleGroup = (workoutId) => new Promise((resolve, reject) => {
 });
 
 export {
+  cmpGroups,
   getGroups,
   getSingleGroup
 };

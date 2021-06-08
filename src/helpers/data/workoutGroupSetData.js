@@ -1,7 +1,7 @@
 // workoutGroupSetData.js
 
-import getUserWorkouts from './workoutData';
-import { getGroups } from './groupData';
+import { getSingleWorkout, getUserWorkouts } from './workoutData';
+import { getGroups, cmpGroups } from './groupData';
 import { getSets, cmpSets, setArrDistance } from './setData';
 
 /* const totalDistance = (distanceArr) => {
@@ -32,6 +32,27 @@ const getWorkoutGroupData = (workout) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
+const getSingleWorkoutSets = (workoutId) => new Promise((resolve, reject) => {
+  getSingleWorkout(workoutId).then((workout) => getGroups(workout.id).then((groupArr) => {
+    const midArr = [];
+    groupArr.sort(cmpGroups);
+    groupArr.forEach((group) => getSets(group.id).then((setArr) => {
+      setArr.sort(cmpSets);
+      const groupObj = {
+        ...group,
+        setArr,
+        groupDistance: setArrDistance(setArr)
+      };
+      midArr.push(groupObj);
+    }));
+    const workoutDataObj = {
+      ...workout,
+      groupArr: midArr,
+    };
+    resolve(workoutDataObj);
+  })).catch((error) => reject(error));
+});
+
 const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
   const workoutReturnArr = [];
   getUserWorkouts(uid).then((workoutArr) => {
@@ -60,6 +81,7 @@ const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
 
 export {
   getFullUserWorkouts,
+  getSingleWorkoutSets,
   getGroupSetData,
   getWorkoutGroupData
 };
