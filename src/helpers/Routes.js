@@ -36,6 +36,7 @@ const Routes = ({
         user={user}
         component={() => <WorkoutForm
           user={user}
+          workoutProp={userWorkouts}
       />}
       />
       <Route path='*'

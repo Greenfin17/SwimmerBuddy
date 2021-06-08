@@ -53,6 +53,29 @@ const getSingleWorkoutSets = (workoutId) => new Promise((resolve, reject) => {
   })).catch((error) => reject(error));
 });
 
+const getSingleWorkoutSetsLocal = (workoutArr, workoutId) => {
+  let returnObj = {};
+  for (let i = 0; i < workoutArr.length; i += 1) {
+    if (workoutArr[i].id === workoutId) {
+      returnObj = workoutArr[i];
+      break;
+    }
+    console.warn(returnObj);
+  }
+  return returnObj;
+};
+
+const getWorkoutIndex = (workoutArr, workoutId) => {
+  let returnVal = '';
+  for (let i = 0; i < workoutArr.length; i += 1) {
+    if (workoutArr[i].id === workoutId) {
+      returnVal = i;
+      break;
+    }
+  }
+  return returnVal;
+};
+
 const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
   const workoutReturnArr = [];
   getUserWorkouts(uid).then((workoutArr) => {
@@ -82,6 +105,8 @@ const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
 export {
   getFullUserWorkouts,
   getSingleWorkoutSets,
+  getSingleWorkoutSetsLocal,
   getGroupSetData,
-  getWorkoutGroupData
+  getWorkoutGroupData,
+  getWorkoutIndex
 };

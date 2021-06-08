@@ -11,10 +11,11 @@ import {
   Button,
 } from 'reactstrap';
 import GroupFormDiv from '../cards/GroupFormDiv';
-import { getSingleWorkoutSets } from '../../helpers/data/workoutGroupSetData';
+import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
-  user
+  user,
+  workoutProp
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -41,19 +42,11 @@ const WorkoutForm = ({
     e.preventDefault();
     console.warn(workout.groupArr);
   });
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-  useEffect(() => {
-    getSingleWorkoutSets(id).then((workoutObj) => {
-      setWorkout(workoutObj);
-    });
-    delay(5000);
-  }, []);
 
   useEffect(() => {
-    setWorkout((prevState) => ({
-      ...prevState,
-    }));
-  }, [workout.groupArr.length]);
+    const index = getWorkoutIndex(workoutProp, id);
+    setWorkout(workoutProp[index]);
+  }, []);
 
   return (
     <div className='form-container'>
@@ -86,7 +79,7 @@ const WorkoutForm = ({
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
-         <GroupFormDiv groupArr={workout.groupArr} />
+          <GroupFormDiv groupArr={workout.groupArr} />
         </div>
       </Form>
     </div>
@@ -94,7 +87,8 @@ const WorkoutForm = ({
 };
 
 WorkoutForm.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  workoutProp: PropTypes.array
 };
 
 export default WorkoutForm;

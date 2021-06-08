@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 
 const GroupFormDiv = ({
   groupArr
-}) => (
+}) => {
+  console.warn(groupArr.length);
+  return (
   <div className='form-group-listing'>
     { groupArr.map((group) => <div key={group.id} className='form-group-data'>
       <div className='row form-group-header'>
@@ -22,7 +24,8 @@ const GroupFormDiv = ({
         </div>)}
     </div>)}
   </div>
-);
+  );
+};
 
 GroupFormDiv.propTypes = {
   groupArr: PropTypes.array
