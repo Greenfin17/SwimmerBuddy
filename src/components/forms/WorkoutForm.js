@@ -41,7 +41,7 @@ const WorkoutForm = ({
 
   const handleSubmit = ((e) => {
     e.preventDefault();
-    console.warn(id);
+    console.warn(workout);
   });
 
   useEffect(() => {

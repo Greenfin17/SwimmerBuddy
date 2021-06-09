@@ -3,7 +3,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import GroupFormCard from './GroupFormCard';
+// import GroupFormCard from './GroupFormCard';
+import SetGroupForm from '../forms/SetGroupForm';
 
 const GroupFormDiv = ({
   groupArr,
@@ -15,7 +16,7 @@ const GroupFormDiv = ({
   return (
   <div className='form-group-listing'>
     <div className='form-listing-wrapper'>
-    { groupArr.map((group) => <GroupFormCard
+    { groupArr.map((group) => <SetGroupForm
         key={group.id} workoutId={workoutId} group={group}
         handInputChange={handleInputChange} />)}
     </div>
