@@ -1,14 +1,20 @@
 // _workoutForm.scss
 
 .workout-form {
-  width: 30rem;
+  width: 90%;
   margin: auto;
-}
+  
+  .form-group-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    background: #efefef;
+  }
 
-.form-group-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  width: 70rem;
-  background: #efefef;
+  .workout-form-group {
+    margin: 1rem 0 0;
+  }
+  .form-listing-wrapper {
+    margin: 1rem .1rem 0;
+  }
 }

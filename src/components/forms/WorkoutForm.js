@@ -36,16 +36,19 @@ const WorkoutForm = ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
+    console.warn(e.target.value);
   };
 
   const handleSubmit = ((e) => {
     e.preventDefault();
-    console.warn(workout.groupArr);
+    console.warn(id);
   });
 
   useEffect(() => {
-    const index = getWorkoutIndex(workoutProp, id);
-    setWorkout(workoutProp[index]);
+    if (id) {
+      const index = getWorkoutIndex(workoutProp, id);
+      setWorkout(workoutProp[index]);
+    }
   }, []);
 
   return (
@@ -79,7 +82,10 @@ const WorkoutForm = ({
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
-          <GroupFormDiv groupArr={workout.groupArr} />
+          <GroupFormDiv groupArr={workout.groupArr}
+            workoutId={id}
+            handleSubmit={handleSubmit}
+            handleInputChange={handleInputChange}/>
         </div>
       </Form>
     </div>

@@ -3,32 +3,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import GroupFormCard from './GroupFormCard';
 
 const GroupFormDiv = ({
-  groupArr
+  groupArr,
+  workoutId,
+  handleInputChange
 }) => {
   console.warn(groupArr.length);
+
   return (
   <div className='form-group-listing'>
-    { groupArr.map((group) => <div key={group.id} className='form-group-data'>
-      <div className='row form-group-header'>
-        <div className='col-4 form-group-title'>
-          {group.title}</div>
-        <div className='col-3 group-repetitions'>x {group.repetitions}</div>
-        <div className='col-5 interval-header'>Interval</div>
-      </div>
-      { group.setArr.map((set) => <div key={set.id} className='set-data row' >
-          <div className='col-4'>{set.distance} x {set.repetitions} {set.stroke}</div>
-          <div className='col-6'>{set.comment}</div>
-          <div className='col-2 set-interval'>{set.interval}</div>
-        </div>)}
-    </div>)}
+    <div className='form-listing-wrapper'>
+    { groupArr.map((group) => <GroupFormCard
+        key={group.id} workoutId={workoutId} group={group}
+        handInputChange={handleInputChange} />)}
+    </div>
   </div>
   );
 };
 
 GroupFormDiv.propTypes = {
-  groupArr: PropTypes.array
+  groupArr: PropTypes.array,
+  workoutId: PropTypes.string,
+  handleInputChange: PropTypes.func
 };
 
 export default GroupFormDiv;

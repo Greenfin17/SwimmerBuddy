@@ -27,15 +27,17 @@ const WorkoutCard = ({
     let returnVal = 0;
     let reps = 0;
     let groupTotal = 0;
-    workoutObj.groupArr.forEach((unit) => {
-      reps = Number(unit.repetitions);
-      groupTotal = unit.groupDistance;
-      if (Number.isInteger(reps)) {
-        groupTotal *= reps;
-      }
-      returnVal += groupTotal;
-      groupTotal = 0;
-    });
+    if (workoutObj) {
+      workoutObj.groupArr.forEach((unit) => {
+        reps = Number(unit.repetitions);
+        groupTotal = unit.groupDistance;
+        if (Number.isInteger(reps)) {
+          groupTotal *= reps;
+        }
+        returnVal += groupTotal;
+        groupTotal = 0;
+      });
+    }
     return returnVal;
   };
   const totalDistance = distanceFunc(workout);
