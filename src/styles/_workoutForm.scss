@@ -13,11 +13,12 @@
 
   .workout-form-group {
     margin: 1rem 0 0;
+    flex-basis: 35%;
   }
   .form-listing-wrapper {
     margin: 1rem .1rem 0;
   }
   .form-group-listing {
-   width: 24rem;
+    flex-basis: 55%;
   }
 }

@@ -9,7 +9,10 @@ import {
 import SetForm from './SetForm';
 
 const SetGroupForm = ({
+  index,
   group,
+  localGroupArr,
+  setLocalGroupArr,
 }) => {
   const [localGroup, setLocalGroup] = useState({
     comment: '',
@@ -20,13 +23,26 @@ const SetGroupForm = ({
     workout_id: group.id,
     setArr: []
   });
+
   const handleInputChange = (e) => {
     setLocalGroup((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
-    console.warn(e.target.value);
   };
+
+  useEffect(() => {
+    const tempGroupArr = [...localGroupArr];
+    tempGroupArr[index] = { ...localGroup };
+    setLocalGroupArr(tempGroupArr);
+  }, [localGroup]);
+  /*
+  useEffect(() => {
+    const tempWorkout = { ...workout };
+    tempWorkout.groupArr = [...localGroupArr];
+    setWorkout(tempWorkout);
+  }, []);
+*/
   useEffect(() => {
     setLocalGroup(group);
   }, []);
@@ -49,18 +65,27 @@ const SetGroupForm = ({
           </div>
         </div>
         <div className='row'>
-          <Label className='col-4' for='workout-description'>Distance</Label>
-          <Label className='col-8' for='workout-description'>Repetitions</Label>
+          <Label className='col-2 set-distance' for='set-distance'>Distance</Label>
+          <Label className='col-2 set-reps' for='set-repetitions'>Reps</Label>
+          <Label className='col-3' for='set-stroke'>Stroke</Label>
+          <Label className='col-2' for='set-comment'>Comment</Label>
+          <Label className='col-3 set-interval' for='set-interval'>Interval</Label>
         </div>
-        { localGroup.setArr.map((set) => <SetForm
-          key={set.id} set={set} />) }
+        { group.setArr.map((set, key) => <SetForm
+          key={set.id} index={key}
+          set={set}
+          localGroup={localGroup} setLocalGroup={setLocalGroup}
+          />) }
       </FormGroup>
     </div>
   );
 };
 
 SetGroupForm.propTypes = {
+  index: PropTypes.number,
   group: PropTypes.object,
+  localGroupArr: PropTypes.array,
+  setLocalGroupArr: PropTypes.func,
 };
 
 export default SetGroupForm;

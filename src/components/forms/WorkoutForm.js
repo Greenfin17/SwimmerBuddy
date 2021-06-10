@@ -29,6 +29,11 @@ const WorkoutForm = ({
     groupArr: []
   });
 
+  const [localGroupArr, setLocalGroupArr] = useState([]);
+  useEffect(() => {
+    setLocalGroupArr(workout.groupArr);
+  }, [workout.groupArr]);
+
   const { id } = useParams();
 
   const handleInputChange = (e) => {
@@ -36,12 +41,10 @@ const WorkoutForm = ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
-    console.warn(e.target.value);
   };
 
   const handleSubmit = ((e) => {
     e.preventDefault();
-    console.warn(workout);
   });
 
   useEffect(() => {
@@ -82,8 +85,10 @@ const WorkoutForm = ({
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
-          <GroupFormDiv groupArr={workout.groupArr}
-            workoutId={id}
+          <GroupFormDiv workout={workout}
+            setWorkout={setWorkout}
+            localGroupArr={localGroupArr}
+            setLocalGroupArr={setLocalGroupArr}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}/>
         </div>

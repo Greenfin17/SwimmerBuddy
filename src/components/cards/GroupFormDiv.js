@@ -7,27 +7,30 @@ import PropTypes from 'prop-types';
 import SetGroupForm from '../forms/SetGroupForm';
 
 const GroupFormDiv = ({
-  groupArr,
-  workoutId,
-  handleInputChange
-}) => {
-  console.warn(groupArr.length);
-
-  return (
+  workout,
+  setWorkout,
+  localGroupArr,
+  setLocalGroupArr
+}) => (
   <div className='form-group-listing'>
     <div className='form-listing-wrapper'>
-    { groupArr.map((group) => <SetGroupForm
-        key={group.id} workoutId={workoutId} group={group}
-        handInputChange={handleInputChange} />)}
+    { workout.groupArr.map((group, key) => <SetGroupForm
+        key={group.id}
+        index={key}
+        group={group}
+        localGroupArr={localGroupArr}
+        setLocalGroupArr={setLocalGroupArr}
+        workout={workout}
+        setWorkout={setWorkout} />)}
     </div>
   </div>
-  );
-};
+);
 
 GroupFormDiv.propTypes = {
-  groupArr: PropTypes.array,
-  workoutId: PropTypes.string,
-  handleInputChange: PropTypes.func
+  workout: PropTypes.object,
+  setWorkout: PropTypes.func,
+  localGroupArr: PropTypes.array,
+  setLocalGroupArr: PropTypes.func
 };
 
 export default GroupFormDiv;

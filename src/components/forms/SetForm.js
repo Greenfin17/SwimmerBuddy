@@ -9,6 +9,9 @@ import {
 
 const SetForm = ({
   set,
+  index,
+  localGroup,
+  setLocalGroup
 }) => {
   const [localSet, setLocalSet] = useState({
     comment: '',
@@ -24,22 +27,45 @@ const SetForm = ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
-    console.warn(e.target.value);
   };
+
+  // Update parent component localGroup hook
+  useEffect(() => {
+    const groupObj = { ...localGroup };
+    groupObj.setArr[index] = { ...localSet };
+    setLocalGroup(groupObj);
+  }, [localSet]);
+
   useEffect(() => {
     setLocalSet(set);
   }, []);
 
   return (
     <div className='row'>
-      <div className='col-4'>
+      <div className='col-1 set-distance'>
         <Input type='text' className='form-control' aria-describedby='Set Group Title'
           name='distance' value={localSet.distance || ''} onChange={handleInputChange}
           placeholder='100/200 etc' />
       </div>
-      <div className='col-8'>
-        <Input type='text' className='form-control' aria-describedby='Workout Description'
+      <div className='col-1 set-multiplier'> x </div>
+      <div className='col-1'>
+        <Input type='text' className='form-control' aria-describedby='Set Repetitions'
           name='repetitions' value={localSet.repetitions || ''} onChange={handleInputChange}
+          placeholder='' />
+      </div>
+      <div className='col-3'>
+        <Input type='text' className='form-control' aria-describedby='Set Stroke'
+          name='stroke' value={localSet.stroke || ''} onChange={handleInputChange}
+          placeholder='' />
+      </div>
+      <div className='col-4'>
+        <Input type='text' className='form-control' aria-describedby='Set Comment'
+          name='comment' value={localSet.comment || ''} onChange={handleInputChange}
+          placeholder='' />
+      </div>
+      <div className='col-2'>
+        <Input type='text' className='form-control' aria-describedby='Set Interval'
+          name='interval' value={localSet.interval || ''} onChange={handleInputChange}
           placeholder='' />
       </div>
     </div>
@@ -48,7 +74,9 @@ const SetForm = ({
 
 SetForm.propTypes = {
   set: PropTypes.object,
-  handleInputChange: PropTypes.func
+  index: PropTypes.number,
+  localGroup: PropTypes.object,
+  setLocalGroup: PropTypes.func
 };
 
 export default SetForm;

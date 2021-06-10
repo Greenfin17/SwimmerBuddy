@@ -60,7 +60,6 @@ const getSingleWorkoutSetsLocal = (workoutArr, workoutId) => {
       returnObj = workoutArr[i];
       break;
     }
-    console.warn(returnObj);
   }
   return returnObj;
 };
