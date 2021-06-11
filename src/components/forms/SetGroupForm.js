@@ -13,14 +13,15 @@ const SetGroupForm = ({
   group,
   localGroupArr,
   setLocalGroupArr,
+  workoutId,
 }) => {
   const [localGroup, setLocalGroup] = useState({
     comment: '',
     id: '',
     repetitions: '',
-    sequence: '',
+    sequence: 0,
     title: '',
-    workout_id: group.id,
+    workout_id: workoutId,
     setArr: []
   });
 
@@ -32,17 +33,29 @@ const SetGroupForm = ({
   };
 
   useEffect(() => {
-    const tempGroupArr = [...localGroupArr];
-    tempGroupArr[index] = { ...localGroup };
-    setLocalGroupArr(tempGroupArr);
+    const tempLocalGroupArr = [...localGroupArr];
+    tempLocalGroupArr[index] = { ...localGroup };
+    setLocalGroupArr(tempLocalGroupArr);
   }, [localGroup]);
-  /*
-  useEffect(() => {
-    const tempWorkout = { ...workout };
-    tempWorkout.groupArr = [...localGroupArr];
-    setWorkout(tempWorkout);
-  }, []);
-*/
+
+  const addSetClick = () => {
+    // Sequence starts at 1 for readability if needed
+    const sequence = localGroup.setArr.length + 1;
+    const tempGroup = { ...localGroup };
+    const tempGroupArr = [...localGroupArr];
+    const blankSetObj = {
+      comment: '',
+      id: '',
+      repetitions: '',
+      sequence,
+      group_id: group.id,
+    };
+    tempGroup.setArr.push(blankSetObj);
+    setLocalGroup(tempGroup);
+    tempGroupArr[index] = { ...tempGroup };
+    setLocalGroupArr(tempGroupArr);
+  };
+
   useEffect(() => {
     setLocalGroup(group);
   }, []);
@@ -59,6 +72,7 @@ const SetGroupForm = ({
           </div>
           <div className='col-8'>
             <Label for='workout-description'>Comment</Label>
+              <span className='add-set-icon' onClick={addSetClick}>Add Set<i className='fas fa-plus'></i></span>
             <Input type='text' className='form-control' aria-describedby='Workout Description'
               name='comment' value={localGroup.comment || ''} onChange={handleInputChange}
               placeholder='Workout Description' />
@@ -72,7 +86,7 @@ const SetGroupForm = ({
           <Label className='col-3 set-interval' for='set-interval'>Interval</Label>
         </div>
         { group.setArr.map((set, key) => <SetForm
-          key={set.id} index={key}
+          key={key} index={key}
           set={set}
           localGroup={localGroup} setLocalGroup={setLocalGroup}
           />) }
@@ -86,6 +100,7 @@ SetGroupForm.propTypes = {
   group: PropTypes.object,
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func,
+  workoutId: PropTypes.string,
 };
 
 export default SetGroupForm;

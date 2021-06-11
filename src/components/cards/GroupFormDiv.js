@@ -8,20 +8,19 @@ import SetGroupForm from '../forms/SetGroupForm';
 
 const GroupFormDiv = ({
   workout,
-  setWorkout,
   localGroupArr,
   setLocalGroupArr
 }) => (
   <div className='form-group-listing'>
     <div className='form-listing-wrapper'>
-    { workout.groupArr.map((group, key) => <SetGroupForm
-        key={group.id}
+    { localGroupArr.map((group, key) => <SetGroupForm
+        key={key}
         index={key}
         group={group}
         localGroupArr={localGroupArr}
         setLocalGroupArr={setLocalGroupArr}
-        workout={workout}
-        setWorkout={setWorkout} />)}
+        workoutId={workout.id}
+      />)}
     </div>
   </div>
 );

@@ -30,9 +30,6 @@ const WorkoutForm = ({
   });
 
   const [localGroupArr, setLocalGroupArr] = useState([]);
-  useEffect(() => {
-    setLocalGroupArr(workout.groupArr);
-  }, [workout.groupArr]);
 
   const { id } = useParams();
 
@@ -43,6 +40,23 @@ const WorkoutForm = ({
     }));
   };
 
+  const addGroupClick = () => {
+    // Sequence starts at 1 for readability if needed
+    const sequence = localGroupArr.length + 1;
+    const tempArr = [...localGroupArr];
+    const blankSetGroupObj = {
+      comment: '',
+      id: '',
+      repetitions: '',
+      sequence,
+      title: '',
+      workout_id: workout.id,
+      setArr: []
+    };
+    tempArr.push(blankSetGroupObj);
+    setLocalGroupArr(tempArr);
+  };
+
   const handleSubmit = ((e) => {
     e.preventDefault();
   });
@@ -51,6 +65,7 @@ const WorkoutForm = ({
     if (id) {
       const index = getWorkoutIndex(workoutProp, id);
       setWorkout(workoutProp[index]);
+      setLocalGroupArr(workoutProp[index].groupArr);
     }
   }, []);
 
@@ -82,6 +97,7 @@ const WorkoutForm = ({
               <option value='true'>Meters</option>
               <option value='false'>Yards</option>
             </Input>
+            <div className='add-set-group-icon' onClick={addGroupClick}>Add Set Group<i className='fas fa-plus'></i></div>
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
