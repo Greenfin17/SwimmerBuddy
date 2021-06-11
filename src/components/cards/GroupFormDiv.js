@@ -9,7 +9,8 @@ import SetGroupForm from '../forms/SetGroupForm';
 const GroupFormDiv = ({
   workout,
   localGroupArr,
-  setLocalGroupArr
+  setLocalGroupArr,
+  removeGroup
 }) => (
   <div className='form-group-listing'>
     <div className='form-listing-wrapper'>
@@ -20,6 +21,7 @@ const GroupFormDiv = ({
         localGroupArr={localGroupArr}
         setLocalGroupArr={setLocalGroupArr}
         workoutId={workout.id}
+        removeGroup={removeGroup}
       />)}
     </div>
   </div>
@@ -29,7 +31,8 @@ GroupFormDiv.propTypes = {
   workout: PropTypes.object,
   setWorkout: PropTypes.func,
   localGroupArr: PropTypes.array,
-  setLocalGroupArr: PropTypes.func
+  setLocalGroupArr: PropTypes.func,
+  removeGroup: PropTypes.func
 };
 
 export default GroupFormDiv;

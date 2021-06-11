@@ -41,8 +41,7 @@ const WorkoutForm = ({
   };
 
   const addGroupClick = () => {
-    // Sequence starts at 1 for readability if needed
-    const sequence = localGroupArr.length + 1;
+    const sequence = localGroupArr.length;
     const tempArr = [...localGroupArr];
     const blankSetGroupObj = {
       comment: '',
@@ -55,6 +54,13 @@ const WorkoutForm = ({
     };
     tempArr.push(blankSetGroupObj);
     setLocalGroupArr(tempArr);
+  };
+
+  const removeGroup = (index) => {
+    const tempWorkout = { ...workout };
+    tempWorkout.groupArr.splice(index, 1);
+    setWorkout(tempWorkout);
+    setLocalGroupArr(tempWorkout.groupArr);
   };
 
   const handleSubmit = ((e) => {
@@ -106,7 +112,8 @@ const WorkoutForm = ({
             localGroupArr={localGroupArr}
             setLocalGroupArr={setLocalGroupArr}
             handleSubmit={handleSubmit}
-            handleInputChange={handleInputChange}/>
+            handleInputChange={handleInputChange}
+            removeGroup={removeGroup}/>
         </div>
       </Form>
     </div>

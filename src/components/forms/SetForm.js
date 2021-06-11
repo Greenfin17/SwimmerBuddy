@@ -11,7 +11,9 @@ const SetForm = ({
   set,
   index,
   localGroup,
-  setLocalGroup
+  setLocalGroup,
+  deleteSet,
+  trigger
 }) => {
   const [localSet, setLocalSet] = useState({
     comment: '',
@@ -29,6 +31,11 @@ const SetForm = ({
     }));
   };
 
+  const removeSetClick = () => {
+    deleteSet(index);
+    console.warn(localSet);
+  };
+
   // Update parent component localGroup hook
   useEffect(() => {
     const groupObj = { ...localGroup };
@@ -38,7 +45,7 @@ const SetForm = ({
 
   useEffect(() => {
     setLocalSet(set);
-  }, []);
+  }, [trigger]);
 
   return (
     <div className='row'>
@@ -63,10 +70,13 @@ const SetForm = ({
           name='comment' value={localSet.comment || ''} onChange={handleInputChange}
           placeholder='' />
       </div>
-      <div className='col-2'>
+      <div className='col-1'>
         <Input type='text' className='form-control' aria-describedby='Set Interval'
           name='interval' value={localSet.interval || ''} onChange={handleInputChange}
           placeholder='' />
+      </div>
+      <div className='col-1'>
+        <span className='remove-set-icon'><i onClick={removeSetClick} className='fas fa-trash '></i></span>
       </div>
     </div>
   );
@@ -76,7 +86,9 @@ SetForm.propTypes = {
   set: PropTypes.object,
   index: PropTypes.number,
   localGroup: PropTypes.object,
-  setLocalGroup: PropTypes.func
+  setLocalGroup: PropTypes.func,
+  deleteSet: PropTypes.func,
+  trigger: PropTypes.bool
 };
 
 export default SetForm;
