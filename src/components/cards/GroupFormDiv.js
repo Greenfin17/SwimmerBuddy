@@ -1,41 +1,50 @@
 // GroupFormDiv.js
 // Displays groups and sets in the workout form
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import GroupFormCard from './GroupFormCard';
 import SetGroupForm from '../forms/SetGroupForm';
+import { getGroups } from '../../helpers/data/groupData';
 
 const GroupFormDiv = ({
-  workout,
+  workoutId,
   localGroupArr,
   setLocalGroupArr,
   removeGroup,
   triggerGroup,
   deletedSets,
   setDeletedSets
-}) => (
-  <div className='form-group-listing'>
-    <div className='form-listing-wrapper'>
-    { localGroupArr.map((group, key) => <SetGroupForm
-        key={key}
-        index={key}
-        group={group}
-        localGroupArr={localGroupArr}
-        setLocalGroupArr={setLocalGroupArr}
-        workoutId={workout.id}
-        removeGroup={removeGroup}
-        triggerGroup={triggerGroup}
-        deletedSets={deletedSets}
-        setDeletedSets={setDeletedSets}
-      />)}
+}) => {
+  useEffect(() => {
+    getGroups(workoutId).then((groupArr) => {
+      console.warn('group-form-div');
+      setLocalGroupArr(groupArr);
+    });
+  }, []);
+
+  return (
+    <div className='form-group-listing'>
+      <div className='form-listing-wrapper'>
+      { localGroupArr.map((group, key) => <SetGroupForm
+          key={key}
+          index={key}
+          groupId={group.id}
+          localGroupArr={localGroupArr}
+          setLocalGroupArr={setLocalGroupArr}
+          workoutId={workoutId}
+          removeGroup={removeGroup}
+          triggerGroup={triggerGroup}
+          deletedSets={deletedSets}
+          setDeletedSets={setDeletedSets}
+        />)}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 GroupFormDiv.propTypes = {
-  workout: PropTypes.object,
-  setWorkout: PropTypes.func,
+  workoutId: PropTypes.string,
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func,
   removeGroup: PropTypes.func,

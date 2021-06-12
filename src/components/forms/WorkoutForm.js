@@ -4,23 +4,21 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Form, FormGroup,
   Label, Input,
   Button,
 } from 'reactstrap';
 import GroupFormDiv from '../cards/GroupFormDiv';
-import { getFullUserWorkouts, getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
+// import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
-import { updateWorkout } from '../../helpers/data/workoutData';
+import { getSingleWorkout, updateWorkout } from '../../helpers/data/workoutData';
 
 const WorkoutForm = ({
   user,
-  userWorkouts,
-  setUserWorkouts,
   submitted,
-  setSubmitted
+  setSubmitted,
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -39,7 +37,7 @@ const WorkoutForm = ({
   const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
-  const history = useHistory();
+  // const history = useHistory();
 
   const { id } = useParams();
 
@@ -79,7 +77,6 @@ const WorkoutForm = ({
     tempGroupArr.splice(index, 1);
     setLocalGroupArr(tempGroupArr);
     setTriggerGroup(!triggerGroup);
-    console.warn(deletedGroups);
   };
   const handleSubmit = ((e) => {
     e.preventDefault();
@@ -96,17 +93,16 @@ const WorkoutForm = ({
     // use the copy as updating the hook takes too long.
     setWorkout(tempWorkoutObj);
     updateWorkout(workout.id, tempWorkoutObj).then(() => {
-      getFullUserWorkouts(user.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
+      setSubmitted(!submitted);
     });
-    history.push('/workouts');
-    setSubmitted(!submitted);
   });
 
   useEffect(() => {
     if (id) {
-      const index = getWorkoutIndex(userWorkouts, id);
-      setWorkout(userWorkouts[index]);
-      setLocalGroupArr(userWorkouts[index].groupArr);
+      getSingleWorkout(id).then((workoutObj) => {
+        setWorkout(workoutObj);
+        console.warn('workout-form');
+      });
     }
   }, []);
 
@@ -142,7 +138,7 @@ const WorkoutForm = ({
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
-          <GroupFormDiv workout={workout}
+          <GroupFormDiv workoutId={id}
             setWorkout={setWorkout}
             localGroupArr={localGroupArr}
             setLocalGroupArr={setLocalGroupArr}
@@ -160,8 +156,6 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  userWorkouts: PropTypes.array,
-  setUserWorkouts: PropTypes.func,
   submitted: PropTypes.bool,
   setSubmitted: PropTypes.func
 };

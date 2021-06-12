@@ -28,6 +28,15 @@ const cloneSetData = (refArr, copyArr) => {
     refArr.push(tempSet);
   });
 };
+const getSingleSet = (setId) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/set/${setId}.json`)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
 
 const getSets = (groupId) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/set.json?orderBy="group_id"&equalTo="${groupId}"`)
@@ -47,7 +56,8 @@ const deleteSetND = (setId) => new Promise((resolve, reject) => {
 });
 
 export {
-  getSets, cmpSets,
+  getSets, getSingleSet,
+  cmpSets,
   cloneSetData,
   setArrDistance,
   deleteSetND

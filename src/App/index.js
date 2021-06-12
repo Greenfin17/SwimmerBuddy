@@ -34,8 +34,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // getFullUserWorkouts(firebase.auth().currentUser.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
     console.warn(user);
+    if (user) {
+      getFullUserWorkouts(user.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
+    }
   }, [submitted]);
 
   return (

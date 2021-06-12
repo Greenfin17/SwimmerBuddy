@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 import {
   Input
 } from 'reactstrap';
+import { getSingleSet } from '../../helpers/data/setData';
 
 const SetForm = ({
   set,
   index,
-  localGroup,
-  setLocalGroup,
   deleteSet,
   trigger
 }) => {
@@ -36,15 +35,8 @@ const SetForm = ({
     console.warn(localSet);
   };
 
-  // Update parent component localGroup hook
   useEffect(() => {
-    const groupObj = { ...localGroup };
-    groupObj.setArr[index] = { ...localSet };
-    setLocalGroup(groupObj);
-  }, [localSet]);
-
-  useEffect(() => {
-    setLocalSet(set);
+    getSingleSet(set.id).then((setObj) => setLocalSet(setObj));
   }, [trigger]);
 
   return (
@@ -85,8 +77,6 @@ const SetForm = ({
 SetForm.propTypes = {
   set: PropTypes.object,
   index: PropTypes.number,
-  localGroup: PropTypes.object,
-  setLocalGroup: PropTypes.func,
   deleteSet: PropTypes.func,
   trigger: PropTypes.bool
 };
