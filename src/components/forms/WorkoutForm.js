@@ -11,7 +11,9 @@ import {
   Button,
 } from 'reactstrap';
 import GroupFormDiv from '../cards/GroupFormDiv';
-import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
+import { getFullUserWorkouts, getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
+import { deleteSetND, getSets } from '../../helpers/data/setData';
+import { updateWorkout } from '../../helpers/data/workoutData';
 
 const WorkoutForm = ({
   user,

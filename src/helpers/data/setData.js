@@ -21,6 +21,14 @@ const setArrDistance = (setArr) => {
   return totalDistance;
 };
 
+const cloneSetData = (refArr, copyArr) => {
+  copyArr.forEach((set) => {
+    let tempSet = {};
+    tempSet = { ...set };
+    refArr.push(tempSet);
+  });
+};
+
 const getSets = (groupId) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/set.json?orderBy="group_id"&equalTo="${groupId}"`)
     .then((response) => {
@@ -31,7 +39,16 @@ const getSets = (groupId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+// Delete set, return no data
+const deleteSetND = (setId) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/set/${setId}.json`)
+    .then(() => resolve('deleted'))
+    .catch((error) => reject(error));
+});
+
 export {
   getSets, cmpSets,
-  setArrDistance
+  cloneSetData,
+  setArrDistance,
+  deleteSetND
 };
