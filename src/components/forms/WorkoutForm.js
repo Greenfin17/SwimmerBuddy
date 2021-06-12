@@ -30,6 +30,10 @@ const WorkoutForm = ({
   });
 
   const [localGroupArr, setLocalGroupArr] = useState([]);
+  // trigger re-render on click for deleting group
+  const [triggerGroup, setTriggerGroup] = useState(false);
+  const [deletedGroups, setDeletedGroups] = useState([]);
+  const [deletedSets, setDeletedSets] = useState([]);
 
   const { id } = useParams();
 
@@ -57,10 +61,19 @@ const WorkoutForm = ({
   };
 
   const removeGroup = (index) => {
-    const tempWorkout = { ...workout };
-    tempWorkout.groupArr.splice(index, 1);
-    setWorkout(tempWorkout);
-    setLocalGroupArr(tempWorkout.groupArr);
+    const tempGroupArr = [...localGroupArr];
+    const groupId = localGroupArr[index].id;
+    // Save to list of deleted groups if it has an id
+    // i.e. it was not just added on this form.
+    if (groupId) {
+      const tempDeletedGroups = [...deletedGroups];
+      tempDeletedGroups.push(groupId);
+      setDeletedGroups(tempDeletedGroups);
+    }
+    tempGroupArr.splice(index, 1);
+    setLocalGroupArr(tempGroupArr);
+    setTriggerGroup(!triggerGroup);
+    console.warn(deletedGroups);
   };
 
   const handleSubmit = ((e) => {
@@ -113,7 +126,10 @@ const WorkoutForm = ({
             setLocalGroupArr={setLocalGroupArr}
             handleSubmit={handleSubmit}
             handleInputChange={handleInputChange}
-            removeGroup={removeGroup}/>
+            removeGroup={removeGroup}
+            triggerGroup={triggerGroup}
+            deletedSets={deletedSets}
+            setDeletedSets={setDeletedSets} />
         </div>
       </Form>
     </div>

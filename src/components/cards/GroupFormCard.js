@@ -35,8 +35,8 @@ const GroupFormCard = ({
       </div>
       { group.setArr.map((set) => <div key={set.id} className='set-data row' >
           <div className='col-4'>{set.distance} x {set.repetitions} {set.stroke}</div>
-          <div className='col-6'>{set.comment}</div>
-          <div className='col-2 set-interval'>{set.interval}</div>
+          <div className='col-5'>{set.comment}</div>
+          <div className='col-3 set-interval'>{set.interval}</div>
         </div>)}
         <Button className="btn btn-info btn-sm"
           onClick={handleEditClick} >Edit SetGroup</Button>

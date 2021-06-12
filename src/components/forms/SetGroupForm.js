@@ -14,7 +14,10 @@ const SetGroupForm = ({
   localGroupArr,
   setLocalGroupArr,
   workoutId,
-  removeGroup
+  removeGroup,
+  triggerGroup,
+  deletedSets,
+  setDeletedSets
 }) => {
   const [localGroup, setLocalGroup] = useState({
     comment: '',
@@ -30,12 +33,22 @@ const SetGroupForm = ({
 
   const deleteSet = (setIndex) => {
     const tempLocalGroup = { ...localGroup };
+    const setId = localGroup.setArr[setIndex].id;
+    console.warn(setId);
+    // save id of deleted sets for deletion
+    // newly added sets have no id
+    if (setId) {
+      const tempDeletedSets = [...deletedSets];
+      tempDeletedSets.push(setId);
+      setDeletedSets(tempDeletedSets);
+    }
     tempLocalGroup.setArr.splice(setIndex, 1);
     setLocalGroup(tempLocalGroup);
     setTrigger(!trigger);
   };
 
   const handleRemoveGroupClick = () => {
+    console.warn(index);
     removeGroup(index);
   };
 
@@ -71,13 +84,13 @@ const SetGroupForm = ({
 
   useEffect(() => {
     setLocalGroup(group);
-  }, []);
+  }, [triggerGroup]);
 
   return (
     <div className='set-group-form-container'>
       <FormGroup className='set-localGroup-form-group'>
         <div className='row'>
-          <div className='col-2'>
+          <div className='col-3'>
             <Label for='set-localGroup-title'>Set Group Title</Label>
             <Input type='text' className='form-control' aria-describedby='Set Group Title'
               name='title' value={localGroup.title || ''} onChange={handleInputChange}
@@ -124,7 +137,10 @@ SetGroupForm.propTypes = {
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func,
   workoutId: PropTypes.string,
-  removeGroup: PropTypes.func
+  removeGroup: PropTypes.func,
+  triggerGroup: PropTypes.bool,
+  deletedSets: PropTypes.array,
+  setDeletedSets: PropTypes.func
 };
 
 export default SetGroupForm;
