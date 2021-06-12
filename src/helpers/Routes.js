@@ -22,6 +22,7 @@ AuthedRoute.propTypes = {
 const Routes = ({
   user,
   userWorkouts,
+  setUserWorkouts,
   submitted,
   setSubmitted
 }) => (
@@ -38,7 +39,8 @@ const Routes = ({
         user={user}
         component={() => <WorkoutForm
           user={user}
-          workoutProp={userWorkouts}
+          userWorkouts={userWorkouts}
+          setUserWorkouts={setUserWorkouts}
           submitted={submitted}
           setSubmitted={setSubmitted}
       />}
@@ -53,6 +55,7 @@ const Routes = ({
 Routes.propTypes = {
   user: PropTypes.any,
   userWorkouts: PropTypes.array,
+  setUserWorkouts: PropTypes.func,
   submitted: PropTypes.bool,
   setSubmitted: PropTypes.func
 };

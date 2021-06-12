@@ -44,7 +44,8 @@ function App() {
         <NavBar user={user} />
         <Routes
           user={user}
-          userWorkouts = {userWorkouts}
+          userWorkouts={userWorkouts}
+          setUserWorkouts={setUserWorkouts}
           submitted={submitted}
           setSubmitted={setSubmitted}/>
       </Router>

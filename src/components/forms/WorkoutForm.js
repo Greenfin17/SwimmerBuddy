@@ -17,7 +17,8 @@ import { updateWorkout } from '../../helpers/data/workoutData';
 
 const WorkoutForm = ({
   user,
-  workoutProp,
+  userWorkouts,
+  setUserWorkouts,
   submitted,
   setSubmitted
 }) => {
@@ -103,9 +104,9 @@ const WorkoutForm = ({
 
   useEffect(() => {
     if (id) {
-      const index = getWorkoutIndex(workoutProp, id);
-      setWorkout(workoutProp[index]);
-      setLocalGroupArr(workoutProp[index].groupArr);
+      const index = getWorkoutIndex(userWorkouts, id);
+      setWorkout(userWorkouts[index]);
+      setLocalGroupArr(userWorkouts[index].groupArr);
     }
   }, []);
 
@@ -159,7 +160,8 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  workoutProp: PropTypes.array,
+  userWorkouts: PropTypes.array,
+  setUserWorkouts: PropTypes.func,
   submitted: PropTypes.bool,
   setSubmitted: PropTypes.func
 };
