@@ -78,9 +78,23 @@ const WorkoutForm = ({
     setTriggerGroup(!triggerGroup);
     console.warn(deletedGroups);
   };
-
-  const handleSubmit = (() => {
-    console.warn('submit');
+  const handleSubmit = ((e) => {
+    e.preventDefault();
+    deletedSets.forEach((setId) => deleteSetND(setId));
+    deletedGroups.forEach((groupId) => {
+      getSets(groupId).then((setArr) => {
+        setArr.forEach((set) => deleteSetND(set.id));
+      });
+    });
+    const tempWorkoutObj = { ...workout };
+    // remove groupArr as the data has changed
+    // and is stored separately in the database
+    delete tempWorkoutObj.groupArr;
+    // use the copy as updating the hook takes too long.
+    setWorkout(tempWorkoutObj);
+    updateWorkout(workout.id, tempWorkoutObj).then(() => {
+      getFullUserWorkouts(user.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
+    });
     history.push('/workouts');
     setSubmitted(!submitted);
   });
