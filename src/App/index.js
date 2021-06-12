@@ -9,6 +9,7 @@ import Routes from '../helpers/Routes';
 function App() {
   const [user, setUser] = useState(null);
   const [userWorkouts, setUserWorkouts] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -32,13 +33,20 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    // getFullUserWorkouts(firebase.auth().currentUser.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
+    console.warn(user);
+  }, [submitted]);
+
   return (
     <div className='App'>
       <Router>
         <NavBar user={user} />
         <Routes
           user={user}
-          userWorkouts = {userWorkouts} />
+          userWorkouts = {userWorkouts}
+          submitted={submitted}
+          setSubmitted={setSubmitted}/>
       </Router>
     </div>
   );

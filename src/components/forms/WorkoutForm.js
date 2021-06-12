@@ -4,7 +4,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   Form, FormGroup,
   Label, Input,
@@ -15,7 +15,9 @@ import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
   user,
-  workoutProp
+  workoutProp,
+  submitted,
+  setSubmitted
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -34,6 +36,7 @@ const WorkoutForm = ({
   const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
+  const history = useHistory();
 
   const { id } = useParams();
 
@@ -76,8 +79,10 @@ const WorkoutForm = ({
     console.warn(deletedGroups);
   };
 
-  const handleSubmit = ((e) => {
-    e.preventDefault();
+  const handleSubmit = (() => {
+    console.warn('submit');
+    history.push('/workouts');
+    setSubmitted(!submitted);
   });
 
   useEffect(() => {
@@ -138,7 +143,9 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  workoutProp: PropTypes.array
+  workoutProp: PropTypes.array,
+  submitted: PropTypes.bool,
+  setSubmitted: PropTypes.func
 };
 
 export default WorkoutForm;

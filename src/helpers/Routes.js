@@ -16,12 +16,14 @@ const AuthedRoute = ({ component: Component, user, ...rest }) => {
 
 AuthedRoute.propTypes = {
   component: PropTypes.func,
-  user: PropTypes.any
+  user: PropTypes.any,
 };
 
 const Routes = ({
   user,
-  userWorkouts
+  userWorkouts,
+  submitted,
+  setSubmitted
 }) => (
   <div>
     <Switch>
@@ -37,6 +39,8 @@ const Routes = ({
         component={() => <WorkoutForm
           user={user}
           workoutProp={userWorkouts}
+          submitted={submitted}
+          setSubmitted={setSubmitted}
       />}
       />
       <Route path='*'
@@ -48,7 +52,9 @@ const Routes = ({
 
 Routes.propTypes = {
   user: PropTypes.any,
-  userWorkouts: PropTypes.array
+  userWorkouts: PropTypes.array,
+  submitted: PropTypes.bool,
+  setSubmitted: PropTypes.func
 };
 
 export default Routes;
