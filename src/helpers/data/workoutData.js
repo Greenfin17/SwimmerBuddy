@@ -25,6 +25,17 @@ const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const updateWorkout = (workoutId, workoutObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/workout/${workoutId}.json`, workoutObj)
+    .then((response) => {
+      if (response) {
+        resolve(response.data);
+      } else resolve('');
+    })
+    .catch((error) => reject(error));
+});
+
 export {
-  getSingleWorkout, getUserWorkouts
+  getSingleWorkout, getUserWorkouts,
+  updateWorkout
 };
