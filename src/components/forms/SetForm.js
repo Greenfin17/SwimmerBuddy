@@ -16,9 +16,10 @@ const SetForm = ({
   localGroup,
   localSetArr,
   localGroupArr,
-  setLocalGroupArr
-  /*
+  setLocalGroupArr,
   trigger,
+  setTrigger
+  /*
   setFormSetArr
   */
 }) => {
@@ -40,6 +41,7 @@ const SetForm = ({
 
   const removeSetClick = () => {
     deleteSet(index);
+    setTrigger(!trigger);
   };
 
   // send data back to base form
@@ -102,6 +104,7 @@ SetForm.propTypes = {
   groupIndex: PropTypes.number,
   deleteSet: PropTypes.func,
   trigger: PropTypes.bool,
+  setTrigger: PropTypes.func,
   localGroup: PropTypes.object,
   localSetArr: PropTypes.array,
   localGroupArr: PropTypes.array,

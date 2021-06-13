@@ -32,7 +32,6 @@ const SetGroupForm = ({
   // trigger re-render for local hooks downstream
   const [trigger, setTrigger] = useState(false);
   const [localSetArr, setLocalSetArr] = useState([]);
-  const [localSetDataArr, setLocalSetDataArr] = useState([]);
 
   const deleteSet = (setIndex) => {
     const tempLocalGroup = { ...localGroup };
@@ -45,6 +44,7 @@ const SetGroupForm = ({
       setDeletedSets(tempDeletedSets);
     }
     tempLocalGroup.setArr.splice(setIndex, 1);
+    console.warn(tempLocalGroup);
     setLocalGroup(tempLocalGroup);
     setTrigger(!trigger);
   };
@@ -76,16 +76,16 @@ const SetGroupForm = ({
     setLocalGroup(tempGroup);
     tempGroupArr[index] = { ...tempGroup };
     setLocalGroupArr(tempGroupArr);
+    setTrigger(!trigger);
   };
 
   // send data back to base form
   useEffect(() => {
     const tempGroupArr = [...localGroupArr];
     const tempGroupObj = { ...localGroup };
-    tempGroupObj.setArr = [...localSetArr];
     tempGroupArr[index] = { ...tempGroupObj };
     setLocalGroupArr(tempGroupArr);
-  }, [localGroup]);
+  }, [localGroup, trigger]);
 
   // render group form - launch set arrays
   useEffect(() => {
@@ -93,7 +93,6 @@ const SetGroupForm = ({
     getSets(groupId).then((setArr) => {
       setArr.sort(cmpSets);
       setLocalSetArr(setArr);
-      setLocalSetDataArr(setArr);
       tmpSetArr = [...setArr];
     }).then(() => getSingleGroup(groupId).then((group) => {
       const tmpGroup = { ...group };
@@ -136,14 +135,14 @@ const SetGroupForm = ({
           <Label className='col-2' for='set-comment'>Comment</Label>
           <Label className='col-3 set-interval' for='set-interval'>Interval</Label>
         </div>
-        { localSetArr.map((set, key) => <SetForm
+        { localGroup.setArr.map((set, key) => <SetForm
           key={key} index={key}
           set={set} groupIndex={index}
           localGroup={localGroup} setLocalGroup={setLocalGroup}
           localGroupArr={localGroupArr} setLocalGroupArr={setLocalGroupArr}
           localSetArr={localSetArr} setLocalSetArr={setLocalSetArr}
-          localSetDataArr={localSetDataArr} setLocalSetDataArr={setLocalSetDataArr}
-          deleteSet={deleteSet} trigger={trigger}
+          deleteSet={deleteSet} trigger={trigger} setTrigger={setTrigger}
+
           />) }
       </FormGroup>
     </div>
