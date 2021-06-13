@@ -33,22 +33,6 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    let mounted = true;
-    console.warn(user);
-    if (user) {
-      getFullUserWorkouts(user.uid).then((workoutsArr) => {
-        if (mounted) {
-          setUserWorkouts(workoutsArr);
-          console.warn(workoutsArr);
-        }
-      });
-    }
-    return function cleanup() {
-      mounted = false;
-    };
-  }, [submitted]);
-
   return (
     <div className='App'>
       <Router>
