@@ -42,8 +42,16 @@ const Routes = ({
           userWorkouts={userWorkouts}
           setUserWorkouts={setUserWorkouts}
           submitted={submitted}
-          setSubmitted={setSubmitted}
-      />}
+          setSubmitted={setSubmitted} />}
+      />
+      <AuthedRoute exact path='/add-workout'
+        user={user}
+        component={() => <WorkoutForm
+          user={user}
+          userWorkouts={userWorkouts}
+          setUserWorkouts={setUserWorkouts}
+          submitted={submitted}
+          setSubmitted={setSubmitted} />}
       />
       <Route path='*'
         component={NotFound}

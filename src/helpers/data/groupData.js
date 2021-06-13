@@ -48,7 +48,7 @@ const addGroup = (groupObj) => new Promise((resolve, reject) => {
     .then((response) => {
       const keyObj = { id: response.data.name };
       axios.patch(`${dbUrl}/group/${response.data.name}.json`, keyObj)
-        .then(() => getSingleGroup(groupObj.id).then((group) => {
+        .then(() => getSingleGroup(keyObj.id).then((group) => {
           resolve(group);
         }));
     }).catch((error) => reject(error));

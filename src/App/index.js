@@ -9,7 +9,6 @@ import Routes from '../helpers/Routes';
 function App() {
   const [user, setUser] = useState(null);
   const [userWorkouts, setUserWorkouts] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -41,8 +40,7 @@ function App() {
           user={user}
           userWorkouts={userWorkouts}
           setUserWorkouts={setUserWorkouts}
-          submitted={submitted}
-          setSubmitted={setSubmitted}/>
+        />
       </Router>
     </div>
   );

@@ -17,8 +17,8 @@ import {
   updateSet, addSet
 } from '../../helpers/data/setData';
 import {
-  getSingleWorkout,
-  updateWorkout,
+  getSingleWorkout, updateWorkout,
+  addWorkout
 } from '../../helpers/data/workoutData';
 import {
   updateGroup, deleteGroupND,
@@ -28,8 +28,6 @@ import { getFullUserWorkouts } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
   user,
-  submitted,
-  setSubmitted,
   setUserWorkouts
 }) => {
   const [workout, setWorkout] = useState({
@@ -91,8 +89,10 @@ const WorkoutForm = ({
     setLocalGroupArr(tempGroupArr);
     setTriggerGroup(!triggerGroup);
   };
+
   const handleSubmit = ((e) => {
     e.preventDefault();
+    // delete removed sets and groups
     deletedSets.forEach((setId) => deleteSetND(setId));
     deletedGroups.forEach((groupId) => {
       getSets(groupId).then((setArr) => {
@@ -100,6 +100,7 @@ const WorkoutForm = ({
         deleteGroupND(groupId);
       });
     });
+    // prepare object for saving
     const tempWorkoutObj = { ...workout };
     // remove groupArr as the data has changed
     // and is stored separately in the database
@@ -107,38 +108,77 @@ const WorkoutForm = ({
     if (mounted) {
       setWorkout(tempWorkoutObj);
     }
-    updateWorkout(workout.id, tempWorkoutObj).then(() => {
-      let sequence = 0;
-      localGroupArr.forEach((groupObj) => {
-        const tempGroupObj = { ...groupObj };
-        delete tempGroupObj.setArr;
-        tempGroupObj.sequence = sequence;
-        sequence += 1;
-        if (tempGroupObj.id) {
-          updateGroup(tempGroupObj.id, tempGroupObj);
-        } else addGroup(tempGroupObj);
-        groupObj.setArr.forEach((setObj) => {
-          const tmpSetObj = { ...setObj };
-          tmpSetObj.sequence = sequence;
-          sequence += 1;
-          if (setObj.id) {
-            updateSet(setObj.id, tmpSetObj);
+    // update if there is an Id
+    if (workout.id) {
+      updateWorkout(workout.id, tempWorkoutObj).then(() => {
+        let groupSequence = 0;
+        let setSequence = 0;
+        let newGroupId = '';
+        localGroupArr.forEach((groupObj) => {
+          // remove setArr from object before saving
+          // add sequence number
+          const tempGroupObj = { ...groupObj };
+          delete tempGroupObj.setArr;
+          tempGroupObj.sequence = groupSequence;
+          groupSequence += 1;
+          if (tempGroupObj.id) {
+            updateGroup(tempGroupObj.id, tempGroupObj);
           } else {
-            tmpSetObj.group_id = groupObj.id;
-            addSet(tmpSetObj);
+            addGroup(tempGroupObj).then((newGroup) => {
+              newGroupId = newGroup.id;
+            });
           }
+          setSequence = 0;
+          groupObj.setArr.forEach((setObj) => {
+            // add sequence number.
+            const tmpSetObj = { ...setObj };
+            tmpSetObj.sequence = setSequence;
+            setSequence += 1;
+            if (setObj.id) {
+              updateSet(setObj.id, tmpSetObj);
+            } else {
+              tmpSetObj.group_id = newGroupId;
+              addSet(tmpSetObj);
+            }
+          });
+        });
+      }).then(() => {
+        getFullUserWorkouts(user.uid).then((workoutsArr) => {
+          setUserWorkouts(workoutsArr);
         });
       });
-    }).then(() => {
-      getFullUserWorkouts(user.uid).then((workoutsArr) => {
-        setUserWorkouts(workoutsArr);
-        console.warn(workoutsArr);
+    // add if there is no id
+    } else {
+      addWorkout(tempWorkoutObj).then((workoutObj) => {
+        let groupSequence = 0;
+        let setSequence = 0;
+        localGroupArr.forEach((groupObj) => {
+          // remove setArr from object before saving
+          // add sequence number
+          const tempGroupObj = { ...groupObj };
+          delete tempGroupObj.setArr;
+          tempGroupObj.sequence = groupSequence;
+          tempGroupObj.workout_id = workoutObj.id;
+          groupSequence += 1;
+          addGroup(tempGroupObj).then((group) => {
+            setSequence = 0;
+            groupObj.setArr.forEach((setObj) => {
+              // add sequence number.
+              const tmpSetObj = { ...setObj };
+              tmpSetObj.sequence = setSequence;
+              tmpSetObj.group_id = group.id;
+              setSequence += 1;
+              addSet(tmpSetObj);
+            });
+          });
+        });
+      }).then(() => {
+        getFullUserWorkouts(user.uid).then((workoutsArr) => {
+          setUserWorkouts(workoutsArr);
+        });
       });
-    });
-    if (mounted) {
-      setSubmitted(!submitted);
-    }
-  });
+    } // if else
+  }); // handleSubmit
 
   useEffect(() => {
     if (id) {
@@ -203,8 +243,6 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  submitted: PropTypes.bool,
-  setSubmitted: PropTypes.func,
   setUserWorkouts: PropTypes.func
 };
 

@@ -34,8 +34,20 @@ const updateWorkout = (workoutId, workoutObj) => new Promise((resolve, reject) =
     })
     .catch((error) => reject(error));
 });
+const addWorkout = (workoutObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/workout.json`, workoutObj)
+    .then((response) => {
+      const keyObj = { id: response.data.name };
+      axios.patch(`${dbUrl}/workout/${response.data.name}.json`, keyObj)
+        .then(() => getSingleWorkout(keyObj.id).then((workout) => {
+          if (workout) {
+            resolve(workout);
+          } else resolve({});
+        }));
+    }).catch((error) => reject(error));
+});
 
 export {
   getSingleWorkout, getUserWorkouts,
-  updateWorkout
+  updateWorkout, addWorkout
 };

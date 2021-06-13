@@ -70,7 +70,7 @@ const addSet = (setObj) => new Promise((resolve, reject) => {
     .then((response) => {
       const keyObj = { id: response.data.name };
       axios.patch(`${dbUrl}/set/${response.data.name}.json`, keyObj)
-        .then(() => getSingleSet(setObj.id).then((set) => {
+        .then(() => getSingleSet(keyObj.id).then((set) => {
           resolve(set);
         }));
     }).catch((error) => reject(error));
