@@ -46,11 +46,17 @@ const SetForm = ({
 
   // send data back to base form
   useEffect(() => {
+    let mounted = true;
     const tempGroupArr = [...localGroupArr];
     const tempGroupObj = { ...localGroup };
     tempGroupObj.setArr = [...localSetArr];
     tempGroupArr[groupIndex].setArr[index] = { ...localSet };
-    setLocalGroupArr(tempGroupArr);
+    if (mounted) {
+      setLocalGroupArr(tempGroupArr);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
   }, [localSet]);
 
   useEffect(() => {

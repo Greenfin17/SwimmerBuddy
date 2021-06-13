@@ -34,10 +34,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.warn(user);
+    let mounted = true;
     if (user) {
-      getFullUserWorkouts(user.uid).then((workoutsArr) => setUserWorkouts(workoutsArr));
+      getFullUserWorkouts(user.uid).then((workoutsArr) => {
+        if (mounted) {
+          setUserWorkouts(workoutsArr);
+        }
+      });
     }
+    return function cleanup() {
+      mounted = false;
+    };
   }, [submitted]);
 
   return (

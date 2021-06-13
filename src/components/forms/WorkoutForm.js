@@ -31,7 +31,7 @@ const WorkoutForm = ({
     title: '',
     groupArr: []
   });
-
+  let mounted = true;
   const [localGroupArr, setLocalGroupArr] = useState([]);
   const [formSetArr, setFormSetArr] = useState([]);
   // trigger re-render on click for deleting group
@@ -92,19 +92,27 @@ const WorkoutForm = ({
     // and is stored separately in the database
     delete tempWorkoutObj.groupArr;
     // use the copy as updating the hook takes too long.
-    setWorkout(tempWorkoutObj);
+    if (mounted) {
+      setWorkout(tempWorkoutObj);
+    }
     updateWorkout(workout.id, tempWorkoutObj).then(() => {
-      setSubmitted(!submitted);
+      if (mounted) {
+        setSubmitted(!submitted);
+      }
     });
   });
 
   useEffect(() => {
     if (id) {
       getSingleWorkout(id).then((workoutObj) => {
-        setWorkout(workoutObj);
-        console.warn('workout-form');
+        if (mounted) {
+          setWorkout(workoutObj);
+        }
       });
     }
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
 
   return (

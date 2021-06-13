@@ -19,21 +19,28 @@ const GroupFormDiv = ({
   setDeletedSets
 }) => {
   useEffect(() => {
-    const tmpGroupArr = [];
-    getGroups(workoutId).then((groupArr) => {
-      let i = 0;
-      let tmpGroupObj = {};
-      // add SetArr for each set group
-      groupArr.forEach((group) => {
-        tmpGroupObj = { ...group };
-        tmpGroupObj.setArr = [];
-        tmpGroupArr.push(tmpGroupObj);
-        i += 1;
-        if (i === groupArr.length) {
-          setLocalGroupArr(tmpGroupArr);
-        }
+    let mounted = true;
+    if (mounted) {
+      const tmpGroupArr = [];
+      getGroups(workoutId).then((groupArr) => {
+        let i = 0;
+        let tmpGroupObj = {};
+        // add SetArr for each set group
+        groupArr.forEach((group) => {
+          tmpGroupObj = { ...group };
+          tmpGroupObj.setArr = [];
+          tmpGroupArr.push(tmpGroupObj);
+          i += 1;
+          if (i === groupArr.length) {
+            setLocalGroupArr(tmpGroupArr);
+          }
+        });
       });
-    });
+    }
+    return function cleanup() {
+      mounted = false;
+      return mounted;
+    };
   }, []);
 
   return (

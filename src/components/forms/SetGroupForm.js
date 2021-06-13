@@ -44,7 +44,7 @@ const SetGroupForm = ({
       setDeletedSets(tempDeletedSets);
     }
     tempLocalGroup.setArr.splice(setIndex, 1);
-    console.warn(tempLocalGroup);
+    // localGroupArray is updated in useEffect
     setLocalGroup(tempLocalGroup);
     setTrigger(!trigger);
   };
@@ -81,24 +81,40 @@ const SetGroupForm = ({
 
   // send data back to base form
   useEffect(() => {
+    let mounted = true;
     const tempGroupArr = [...localGroupArr];
     const tempGroupObj = { ...localGroup };
     tempGroupArr[index] = { ...tempGroupObj };
-    setLocalGroupArr(tempGroupArr);
+    if (mounted) {
+      setLocalGroupArr(tempGroupArr);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
   }, [localGroup, trigger]);
 
   // render group form - launch set arrays
   useEffect(() => {
-    let tmpSetArr = [];
-    getSets(groupId).then((setArr) => {
-      setArr.sort(cmpSets);
-      setLocalSetArr(setArr);
-      tmpSetArr = [...setArr];
-    }).then(() => getSingleGroup(groupId).then((group) => {
-      const tmpGroup = { ...group };
-      tmpGroup.setArr = [...tmpSetArr];
-      setLocalGroup(tmpGroup);
-    }));
+    let mounted = true;
+    if (groupId) {
+      let tmpSetArr = [];
+      getSets(groupId).then((setArr) => {
+        setArr.sort(cmpSets);
+        if (mounted) {
+          setLocalSetArr(setArr);
+          tmpSetArr = [...setArr];
+        }
+      }).then(() => getSingleGroup(groupId).then((group) => {
+        const tmpGroup = { ...group };
+        tmpGroup.setArr = [...tmpSetArr];
+        if (mounted) {
+          setLocalGroup(tmpGroup);
+        }
+      }));
+    }
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
 
   return (
