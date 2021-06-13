@@ -11,15 +11,28 @@ const GroupFormDiv = ({
   workoutId,
   localGroupArr,
   setLocalGroupArr,
+  formSetArr,
+  setFormSetArr,
   removeGroup,
   triggerGroup,
   deletedSets,
   setDeletedSets
 }) => {
   useEffect(() => {
+    const tmpGroupArr = [];
     getGroups(workoutId).then((groupArr) => {
-      console.warn('group-form-div');
-      setLocalGroupArr(groupArr);
+      let i = 0;
+      let tmpGroupObj = {};
+      // add SetArr for each set group
+      groupArr.forEach((group) => {
+        tmpGroupObj = { ...group };
+        tmpGroupObj.setArr = [];
+        tmpGroupArr.push(tmpGroupObj);
+        i += 1;
+        if (i === groupArr.length) {
+          setLocalGroupArr(tmpGroupArr);
+        }
+      });
     });
   }, []);
 
@@ -32,6 +45,8 @@ const GroupFormDiv = ({
           groupId={group.id}
           localGroupArr={localGroupArr}
           setLocalGroupArr={setLocalGroupArr}
+          formSetArr={formSetArr}
+          setFormSetArr={setFormSetArr}
           workoutId={workoutId}
           removeGroup={removeGroup}
           triggerGroup={triggerGroup}
@@ -47,6 +62,8 @@ GroupFormDiv.propTypes = {
   workoutId: PropTypes.string,
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func,
+  formSetArr: PropTypes.array,
+  setFormSetArr: PropTypes.func,
   removeGroup: PropTypes.func,
   triggerGroup: PropTypes.bool,
   deletedSets: PropTypes.array,

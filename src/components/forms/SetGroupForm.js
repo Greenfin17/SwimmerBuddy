@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import SetForm from './SetForm';
 import { getSingleGroup } from '../../helpers/data/groupData';
-import { getSets } from '../../helpers/data/setData';
+import { getSets, cmpSets } from '../../helpers/data/setData';
 
 const SetGroupForm = ({
   index,
@@ -32,6 +32,7 @@ const SetGroupForm = ({
   // trigger re-render for local hooks downstream
   const [trigger, setTrigger] = useState(false);
   const [localSetArr, setLocalSetArr] = useState([]);
+  const [localSetDataArr, setLocalSetDataArr] = useState([]);
 
   const deleteSet = (setIndex) => {
     const tempLocalGroup = { ...localGroup };
@@ -69,6 +70,7 @@ const SetGroupForm = ({
       repetitions: '',
       sequence,
       group_id: groupId,
+      setArr: []
     };
     tempGroup.setArr.push(blankSetObj);
     setLocalGroup(tempGroup);
@@ -76,13 +78,28 @@ const SetGroupForm = ({
     setLocalGroupArr(tempGroupArr);
   };
 
+  // send data back to base form
   useEffect(() => {
-    getSingleGroup(groupId).then((group) => {
-      setLocalGroup(group);
-    })
-      .then((getSets(groupId).then((setArr) => {
-        setLocalSetArr(setArr);
-      })));
+    const tempGroupArr = [...localGroupArr];
+    const tempGroupObj = { ...localGroup };
+    tempGroupObj.setArr = [...localSetArr];
+    tempGroupArr[index] = { ...tempGroupObj };
+    setLocalGroupArr(tempGroupArr);
+  }, [localGroup]);
+
+  // render group form - launch set arrays
+  useEffect(() => {
+    let tmpSetArr = [];
+    getSets(groupId).then((setArr) => {
+      setArr.sort(cmpSets);
+      setLocalSetArr(setArr);
+      setLocalSetDataArr(setArr);
+      tmpSetArr = [...setArr];
+    }).then(() => getSingleGroup(groupId).then((group) => {
+      const tmpGroup = { ...group };
+      tmpGroup.setArr = [...tmpSetArr];
+      setLocalGroup(tmpGroup);
+    }));
   }, []);
 
   return (
@@ -121,8 +138,11 @@ const SetGroupForm = ({
         </div>
         { localSetArr.map((set, key) => <SetForm
           key={key} index={key}
-          set={set}
+          set={set} groupIndex={index}
           localGroup={localGroup} setLocalGroup={setLocalGroup}
+          localGroupArr={localGroupArr} setLocalGroupArr={setLocalGroupArr}
+          localSetArr={localSetArr} setLocalSetArr={setLocalSetArr}
+          localSetDataArr={localSetDataArr} setLocalSetDataArr={setLocalSetDataArr}
           deleteSet={deleteSet} trigger={trigger}
           />) }
       </FormGroup>
@@ -135,6 +155,8 @@ SetGroupForm.propTypes = {
   groupId: PropTypes.string,
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func,
+  localSetGroupArr: PropTypes.array,
+  setLocalSetGroupArr: PropTypes.func,
   workoutId: PropTypes.string,
   removeGroup: PropTypes.func,
   deletedSets: PropTypes.array,

@@ -6,13 +6,21 @@ import PropTypes from 'prop-types';
 import {
   Input
 } from 'reactstrap';
-import { getSingleSet } from '../../helpers/data/setData';
+// import { getSingleSet } from '../../helpers/data/setData';
 
 const SetForm = ({
   set,
   index,
+  groupIndex,
   deleteSet,
-  trigger
+  localGroup,
+  localSetArr,
+  localGroupArr,
+  setLocalGroupArr
+  /*
+  trigger,
+  setFormSetArr
+  */
 }) => {
   const [localSet, setLocalSet] = useState({
     comment: '',
@@ -32,13 +40,27 @@ const SetForm = ({
 
   const removeSetClick = () => {
     deleteSet(index);
-    console.warn(localSet);
   };
 
+  // send data back to base form
   useEffect(() => {
-    getSingleSet(set.id).then((setObj) => setLocalSet(setObj));
-  }, [trigger]);
+    const tempGroupArr = [...localGroupArr];
+    const tempGroupObj = { ...localGroup };
+    tempGroupObj.setArr = [...localSetArr];
+    tempGroupArr[groupIndex].setArr[index] = { ...localSet };
+    setLocalGroupArr(tempGroupArr);
+  }, [localSet]);
 
+  useEffect(() => {
+    /*
+    const tmpGroup = { ...localGroup };
+    tmpGroup.setArr = [...local]
+    console.warn(tmpGroup)
+    // const tempSetArr = [];
+    // const tmpSetObj = { ...localSet };
+    */
+    setLocalSet(set);
+  }, []);
   return (
     <div className='row'>
       <div className='col-1 set-distance'>
@@ -77,8 +99,13 @@ const SetForm = ({
 SetForm.propTypes = {
   set: PropTypes.object,
   index: PropTypes.number,
+  groupIndex: PropTypes.number,
   deleteSet: PropTypes.func,
-  trigger: PropTypes.bool
+  trigger: PropTypes.bool,
+  localGroup: PropTypes.object,
+  localSetArr: PropTypes.array,
+  localGroupArr: PropTypes.array,
+  setLocalGroupArr: PropTypes.func
 };
 
 export default SetForm;

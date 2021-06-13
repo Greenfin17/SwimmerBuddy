@@ -33,6 +33,7 @@ const WorkoutForm = ({
   });
 
   const [localGroupArr, setLocalGroupArr] = useState([]);
+  const [formSetArr, setFormSetArr] = useState([]);
   // trigger re-render on click for deleting group
   const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
@@ -142,8 +143,8 @@ const WorkoutForm = ({
             setWorkout={setWorkout}
             localGroupArr={localGroupArr}
             setLocalGroupArr={setLocalGroupArr}
-            handleSubmit={handleSubmit}
-            handleInputChange={handleInputChange}
+            formSetArr={formSetArr}
+            setFormSetArr={setFormSetArr}
             removeGroup={removeGroup}
             triggerGroup={triggerGroup}
             deletedSets={deletedSets}
