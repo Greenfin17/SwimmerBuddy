@@ -65,11 +65,13 @@ const getSingleWorkoutSetsLocal = (workoutArr, workoutId) => {
 };
 
 const getWorkoutIndex = (workoutArr, workoutId) => {
-  let returnVal = '';
-  for (let i = 0; i < workoutArr.length; i += 1) {
-    if (workoutArr[i].id === workoutId) {
-      returnVal = i;
-      break;
+  let returnVal = '-1';
+  if (workoutArr) {
+    for (let i = 0; i < workoutArr.length; i += 1) {
+      if (workoutArr[i].id === workoutId) {
+        returnVal = i;
+        break;
+      }
     }
   }
   return returnVal;
@@ -81,6 +83,7 @@ const getFullUserWorkouts = (uid) => new Promise((resolve, reject) => {
     workoutArr.forEach((workout) => {
       const midArr = [];
       getGroups(workout.id).then((groupArr) => {
+        groupArr.sort(cmpGroups);
         groupArr.forEach((group) => getSets(group.id).then((setArr) => {
           setArr.sort(cmpSets);
           const groupObj = {

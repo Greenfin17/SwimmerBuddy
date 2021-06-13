@@ -16,16 +16,21 @@ import {
   getSets, deleteSetND,
   updateSet, addSet
 } from '../../helpers/data/setData';
-import { getSingleWorkout, updateWorkout } from '../../helpers/data/workoutData';
+import {
+  getSingleWorkout,
+  updateWorkout,
+} from '../../helpers/data/workoutData';
 import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
+import { getFullUserWorkouts } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
   user,
   submitted,
   setSubmitted,
+  setUserWorkouts
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -119,11 +124,15 @@ const WorkoutForm = ({
           if (setObj.id) {
             updateSet(setObj.id, tmpSetObj);
           } else {
-            console.warn(setObj);
             tmpSetObj.group_id = groupObj.id;
             addSet(tmpSetObj);
           }
         });
+      });
+    }).then(() => {
+      getFullUserWorkouts(user.uid).then((workoutsArr) => {
+        setUserWorkouts(workoutsArr);
+        console.warn(workoutsArr);
       });
     });
     if (mounted) {
@@ -195,7 +204,8 @@ const WorkoutForm = ({
 WorkoutForm.propTypes = {
   user: PropTypes.any,
   submitted: PropTypes.bool,
-  setSubmitted: PropTypes.func
+  setSubmitted: PropTypes.func,
+  setUserWorkouts: PropTypes.func
 };
 
 export default WorkoutForm;

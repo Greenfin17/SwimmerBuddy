@@ -8,7 +8,9 @@ import TitleBox from '../components/TitleBox';
 
 const WorkoutsView = ({
   user,
-  userWorkouts
+  userWorkouts,
+  setUserWorkouts,
+  getFullUserWorkouts
 }) => (
   <>
     <TitleBox heading1='Workouts' />
@@ -17,6 +19,8 @@ const WorkoutsView = ({
         key={workout.id}
         user={user}
         workout={workout}
+        setUserWorkouts={setUserWorkouts}
+        getFullUserWorkouts={getFullUserWorkouts}
         />)
       }
     </div>
@@ -25,7 +29,9 @@ const WorkoutsView = ({
 
 WorkoutsView.propTypes = {
   user: PropTypes.any,
-  userWorkouts: PropTypes.array
+  userWorkouts: PropTypes.array,
+  setUserWorkouts: PropTypes.func,
+  getFullUserWorkouts: PropTypes.func
 };
 
 export default WorkoutsView;
