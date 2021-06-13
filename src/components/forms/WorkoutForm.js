@@ -12,8 +12,15 @@ import {
 } from 'reactstrap';
 import GroupFormDiv from '../cards/GroupFormDiv';
 // import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
-import { deleteSetND, getSets } from '../../helpers/data/setData';
+import {
+  getSets, deleteSetND,
+  updateSet, addSet
+} from '../../helpers/data/setData';
 import { getSingleWorkout, updateWorkout } from '../../helpers/data/workoutData';
+import {
+  updateGroup, deleteGroupND,
+  addGroup
+} from '../../helpers/data/groupData';
 
 const WorkoutForm = ({
   user,
@@ -85,21 +92,43 @@ const WorkoutForm = ({
     deletedGroups.forEach((groupId) => {
       getSets(groupId).then((setArr) => {
         setArr.forEach((set) => deleteSetND(set.id));
+        deleteGroupND(groupId);
       });
     });
     const tempWorkoutObj = { ...workout };
     // remove groupArr as the data has changed
     // and is stored separately in the database
     delete tempWorkoutObj.groupArr;
-    // use the copy as updating the hook takes too long.
     if (mounted) {
       setWorkout(tempWorkoutObj);
     }
     updateWorkout(workout.id, tempWorkoutObj).then(() => {
-      if (mounted) {
-        setSubmitted(!submitted);
-      }
+      let sequence = 0;
+      localGroupArr.forEach((groupObj) => {
+        const tempGroupObj = { ...groupObj };
+        delete tempGroupObj.setArr;
+        tempGroupObj.sequence = sequence;
+        sequence += 1;
+        if (tempGroupObj.id) {
+          updateGroup(tempGroupObj.id, tempGroupObj);
+        } else addGroup(tempGroupObj);
+        groupObj.setArr.forEach((setObj) => {
+          const tmpSetObj = { ...setObj };
+          tmpSetObj.sequence = sequence;
+          sequence += 1;
+          if (setObj.id) {
+            updateSet(setObj.id, tmpSetObj);
+          } else {
+            console.warn(setObj);
+            tmpSetObj.group_id = groupObj.id;
+            addSet(tmpSetObj);
+          }
+        });
+      });
     });
+    if (mounted) {
+      setSubmitted(!submitted);
+    }
   });
 
   useEffect(() => {

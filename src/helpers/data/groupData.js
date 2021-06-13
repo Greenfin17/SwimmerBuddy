@@ -26,8 +26,39 @@ const getSingleGroup = (workoutId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+// Delete set, return no data
+const deleteGroupND = (groupId) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/group/${groupId}.json`)
+    .then(() => resolve('deleted'))
+    .catch((error) => reject(error));
+});
+
+const updateGroup = (groupId, groupObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/group/${groupId}.json`, groupObj)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
+
+const addGroup = (groupObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/group.json`, groupObj)
+    .then((response) => {
+      const keyObj = { id: response.data.name };
+      axios.patch(`${dbUrl}/group/${response.data.name}.json`, keyObj)
+        .then(() => getSingleGroup(groupObj.id).then((group) => {
+          resolve(group);
+        }));
+    }).catch((error) => reject(error));
+});
+
 export {
   cmpGroups,
   getGroups,
-  getSingleGroup
+  getSingleGroup,
+  deleteGroupND,
+  updateGroup,
+  addGroup
 };

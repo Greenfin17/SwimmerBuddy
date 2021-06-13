@@ -55,10 +55,33 @@ const deleteSetND = (setId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const updateSet = (setId, setObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/set/${setId}.json`, setObj)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
+
+const addSet = (setObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/set.json`, setObj)
+    .then((response) => {
+      const keyObj = { id: response.data.name };
+      axios.patch(`${dbUrl}/set/${response.data.name}.json`, keyObj)
+        .then(() => getSingleSet(setObj.id).then((set) => {
+          resolve(set);
+        }));
+    }).catch((error) => reject(error));
+});
+
 export {
   getSets, getSingleSet,
   cmpSets,
   cloneSetData,
   setArrDistance,
-  deleteSetND
+  deleteSetND,
+  updateSet,
+  addSet
 };
