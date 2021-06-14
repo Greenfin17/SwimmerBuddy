@@ -70,17 +70,17 @@ const SetForm = ({
     setLocalSet(set);
   }, []);
   return (
-    <div className='row'>
+    <div className='row set-input'>
       <div className='col-1 set-distance'>
         <Input type='text' className='form-control' aria-describedby='Set Group Title'
           name='distance' value={localSet.distance || ''} onChange={handleInputChange}
-          placeholder='100/200 etc' />
+        />
       </div>
       <div className='col-1 set-multiplier'> x </div>
       <div className='col-1'>
         <Input type='text' className='form-control' aria-describedby='Set Repetitions'
           name='repetitions' value={localSet.repetitions || ''} onChange={handleInputChange}
-          placeholder='' />
+        />
       </div>
       <div className='col-3'>
         <Input type='text' className='form-control' aria-describedby='Set Stroke'
@@ -92,12 +92,12 @@ const SetForm = ({
           name='comment' value={localSet.comment || ''} onChange={handleInputChange}
           placeholder='' />
       </div>
-      <div className='col-1'>
-        <Input type='text' className='form-control' aria-describedby='Set Interval'
+      <div className='col-1 col-set-interval'>
+        <Input type='text' className='form-control set-interval' aria-describedby='Set Interval'
           name='interval' value={localSet.interval || ''} onChange={handleInputChange}
           placeholder='' />
       </div>
-      <div className='col-1'>
+      <div className='col-1 col-set-trash'>
         <span className='remove-set-icon'><i onClick={removeSetClick} className='fas fa-trash '></i></span>
       </div>
     </div>

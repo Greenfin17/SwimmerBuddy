@@ -47,7 +47,17 @@ const addWorkout = (workoutObj) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const deleteWorkout = (uid, workoutId) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/workout/${workoutId}.json`)
+    .then(() => getUserWorkouts(uid).then((workoutArr) => {
+      if (workoutArr) {
+        resolve(workoutArr);
+      } else resolve([]);
+    }))
+    .catch((error) => reject(error));
+});
+
 export {
   getSingleWorkout, getUserWorkouts,
-  updateWorkout, addWorkout
+  updateWorkout, addWorkout, deleteWorkout
 };

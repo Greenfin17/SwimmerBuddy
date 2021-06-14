@@ -18,13 +18,12 @@ import {
 } from '../../helpers/data/setData';
 import {
   getSingleWorkout, updateWorkout,
-  addWorkout
+  addWorkout, getUserWorkouts
 } from '../../helpers/data/workoutData';
 import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
-import { getFullUserWorkouts } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
   user,
@@ -146,7 +145,7 @@ const WorkoutForm = ({
           });
         });
       }).then(() => {
-        getFullUserWorkouts(user.uid).then((workoutsArr) => {
+        getUserWorkouts(user.uid).then((workoutsArr) => {
           setUserWorkouts(workoutsArr);
         });
       });

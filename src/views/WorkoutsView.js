@@ -11,6 +11,7 @@ import TitleBox from '../components/TitleBox';
 const WorkoutsView = ({
   user,
   userWorkouts,
+  setUserWorkouts
 }) => {
   const history = useHistory();
 
@@ -21,7 +22,7 @@ const WorkoutsView = ({
   return (
   <>
     <TitleBox heading1='Workouts' />
-    <div className='button-container'>
+    <div className='view-button-container'>
       <Button className='btn btn-info add-workout'
       onClick={handleAddClick} >Add Workout</Button>
     </div>
@@ -30,6 +31,7 @@ const WorkoutsView = ({
         key={workout.id}
         workout={workout}
         user={user}
+        setUserWorkouts={setUserWorkouts}
         />)
       }
     </div>
@@ -41,7 +43,6 @@ WorkoutsView.propTypes = {
   user: PropTypes.any,
   userWorkouts: PropTypes.array,
   setUserWorkouts: PropTypes.func,
-  getFullUserWorkouts: PropTypes.func
 };
 
 export default WorkoutsView;

@@ -9,12 +9,15 @@ import {
   CardTitle, CardSubtitle,
   Button
 } from 'reactstrap';
-import { getGroups } from '../../helpers/data/groupData';
+import { deleteGroupND, getGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
+import { deleteSetND, getSets } from '../../helpers/data/setData';
+import { deleteWorkout } from '../../helpers/data/workoutData';
 
 const WorkoutCard = ({
   user,
-  workout
+  workout,
+  setUserWorkouts
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const history = useHistory();
@@ -27,6 +30,20 @@ const WorkoutCard = ({
 
   const handleDeleteClick = () => {
     console.warn('click-delete');
+    groupArr.forEach((groupObj) => {
+      getSets(groupObj.id).then((setArr) => {
+        setArr.forEach((setObj) => {
+          deleteSetND(setObj.id);
+        });
+      });
+      deleteGroupND(groupObj.id);
+    });
+    console.warn(workout, user.uid);
+    if (workout) {
+      deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
+        setUserWorkouts(workoutsArr);
+      });
+    }
   };
   /*
   const distanceFunc = (workoutObj) => {
@@ -72,10 +89,12 @@ const WorkoutCard = ({
           <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>
           { groupArr && groupArr.map((group) => <GroupCardDiv key={group.id}
             id={group.id} group={group} />)}
-          <Button className="btn btn-info"
-            onClick={handleEditClick} >Edit Workout</Button>
-          <Button className="btn btn-danger"
-            onClick={handleDeleteClick}>Delete Workout</Button>
+          <div className='card-btn-container'>
+            <Button className="btn btn-info"
+              onClick={handleEditClick} >Edit Workout</Button>
+            <Button className="btn btn-danger"
+              onClick={handleDeleteClick}>Delete Workout</Button>
+          </div>
         </CardBody>
       </Card>
     </>
@@ -84,7 +103,8 @@ const WorkoutCard = ({
 
 WorkoutCard.propTypes = {
   user: PropTypes.any,
-  workout: PropTypes.object
+  workout: PropTypes.object,
+  setUserWorkouts: PropTypes.func
 };
 
 export default WorkoutCard;

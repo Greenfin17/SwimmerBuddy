@@ -33,7 +33,8 @@ const Routes = ({
         user={user}
         component={() => <WorkoutsView
           user={user}
-          userWorkouts={userWorkouts} />}
+          userWorkouts={userWorkouts}
+          setUserWorkouts={setUserWorkouts} />}
       />
       <AuthedRoute exact path='/edit-workout/:id'
         user={user}

@@ -28,9 +28,8 @@
   .set-data {
     width: 100%;
   }
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
+  .card-btn-container {
+    display: flex;
+    justify-content: space-between;
+  }
 }

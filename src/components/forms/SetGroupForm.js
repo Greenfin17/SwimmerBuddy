@@ -122,10 +122,9 @@ const SetGroupForm = ({
       <FormGroup className='set-localGroup-form-group'>
         <div className='row'>
           <div className='col-3'>
-            <Label for='set-localGroup-title'>Set Group Title</Label>
+            <Label for='set-local Group-title'>Set Group Title</Label>
             <Input type='text' className='form-control' aria-describedby='Set Group Title'
-              name='title' value={localGroup.title || ''} onChange={handleInputChange}
-              placeholder='Warm / Main Set etc' />
+              name='title' value={localGroup.title || ''} onChange={handleInputChange} />
           </div>
           <div className='col-1'>
             <Label for='set-localGroup-title'>Reps</Label>
@@ -138,7 +137,7 @@ const SetGroupForm = ({
               <span className='add-set-icon' onClick={addSetClick}>Add Set<i className='fas fa-plus'></i></span>
             <Input type='text' className='form-control' aria-describedby='Workout Description'
               name='comment' value={localGroup.comment || ''} onChange={handleInputChange}
-              placeholder='Workout Description' />
+            />
           </div>
           <div className='col-1 remove-group'>
             <span className='remove-group-span'><i onClick={handleRemoveGroupClick} className='fas fa-trash '></i></span>
@@ -149,7 +148,7 @@ const SetGroupForm = ({
           <Label className='col-2 set-reps' for='set-repetitions'>Reps</Label>
           <Label className='col-3' for='set-stroke'>Stroke</Label>
           <Label className='col-2' for='set-comment'>Comment</Label>
-          <Label className='col-3 set-interval' for='set-interval'>Interval</Label>
+          <Label className='col-3 set-interval-label' for='set-interval'>Interval</Label>
         </div>
         { localGroup.setArr.map((set, key) => <SetForm
           key={key} index={key}
