@@ -4,7 +4,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   Form, FormGroup,
   Label, Input,
@@ -28,7 +28,9 @@ import { getFullUserWorkouts } from '../../helpers/data/workoutGroupSetData';
 
 const WorkoutForm = ({
   user,
-  setUserWorkouts
+  setUserWorkouts,
+  triggerSubmit,
+  setTriggerSubmit
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -48,7 +50,7 @@ const WorkoutForm = ({
   const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
-  // const history = useHistory();
+  const history = useHistory();
 
   const { id } = useParams();
 
@@ -92,6 +94,7 @@ const WorkoutForm = ({
 
   const handleSubmit = ((e) => {
     e.preventDefault();
+    // retain workout id for new workouts history push
     // delete removed sets and groups
     deletedSets.forEach((setId) => deleteSetND(setId));
     deletedGroups.forEach((groupId) => {
@@ -173,9 +176,8 @@ const WorkoutForm = ({
           });
         });
       }).then(() => {
-        getFullUserWorkouts(user.uid).then((workoutsArr) => {
-          setUserWorkouts(workoutsArr);
-        });
+        setTriggerSubmit(!triggerSubmit);
+        history.push('/workouts');
       });
     } // if else
   }); // handleSubmit
@@ -243,7 +245,9 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  setUserWorkouts: PropTypes.func
+  setUserWorkouts: PropTypes.func,
+  triggerSubmit: PropTypes.bool,
+  setTriggerSubmit: PropTypes.func
 };
 
 export default WorkoutForm;

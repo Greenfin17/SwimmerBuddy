@@ -23,8 +23,8 @@ const Routes = ({
   user,
   userWorkouts,
   setUserWorkouts,
-  submitted,
-  setSubmitted
+  triggerSubmit,
+  setTriggerSubmit
 }) => (
   <div>
     <Switch>
@@ -41,8 +41,8 @@ const Routes = ({
           user={user}
           userWorkouts={userWorkouts}
           setUserWorkouts={setUserWorkouts}
-          submitted={submitted}
-          setSubmitted={setSubmitted} />}
+          triggerSubmit={triggerSubmit}
+          setTriggerSubmit={setTriggerSubmit} />}
       />
       <AuthedRoute exact path='/add-workout'
         user={user}
@@ -50,8 +50,8 @@ const Routes = ({
           user={user}
           userWorkouts={userWorkouts}
           setUserWorkouts={setUserWorkouts}
-          submitted={submitted}
-          setSubmitted={setSubmitted} />}
+          triggerSubmit={triggerSubmit}
+          setTriggerSubmit={setTriggerSubmit} />}
       />
       <Route path='*'
         component={NotFound}
@@ -64,8 +64,8 @@ Routes.propTypes = {
   user: PropTypes.any,
   userWorkouts: PropTypes.array,
   setUserWorkouts: PropTypes.func,
-  submitted: PropTypes.bool,
-  setSubmitted: PropTypes.func
+  triggerSubmit: PropTypes.bool,
+  setTriggerSubmit: PropTypes.func
 };
 
 export default Routes;

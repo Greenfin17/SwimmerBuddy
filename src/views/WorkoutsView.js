@@ -11,8 +11,6 @@ import TitleBox from '../components/TitleBox';
 const WorkoutsView = ({
   user,
   userWorkouts,
-  setUserWorkouts,
-  getFullUserWorkouts
 }) => {
   const history = useHistory();
 
@@ -30,10 +28,8 @@ const WorkoutsView = ({
     <div className='workout-cards-container'>
       { user && userWorkouts.map((workout) => <WorkoutCard
         key={workout.id}
-        user={user}
         workout={workout}
-        setUserWorkouts={setUserWorkouts}
-        getFullUserWorkouts={getFullUserWorkouts}
+        user={user}
         />)
       }
     </div>

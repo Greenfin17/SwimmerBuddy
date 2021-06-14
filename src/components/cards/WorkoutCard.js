@@ -1,7 +1,7 @@
 // WorkoutCard.js
 // Display individual workout on a card
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -9,20 +9,26 @@ import {
   CardTitle, CardSubtitle,
   Button
 } from 'reactstrap';
+import { getGroups } from '../../helpers/data/groupData';
+import GroupCardDiv from './GroupCardDiv';
 
 const WorkoutCard = ({
   user,
-  workout,
+  workout
 }) => {
+  const [groupArr, setGroupArr] = useState([]);
   const history = useHistory();
+  let mounted = true;
   const handleEditClick = () => {
-    history.push(`/edit-workout/${workout.id}`);
+    if (workout && workout.id) {
+      history.push(`/edit-workout/${workout.id}`);
+    }
   };
 
   const handleDeleteClick = () => {
     console.warn('click-delete');
   };
-
+  /*
   const distanceFunc = (workoutObj) => {
     let returnVal = 0;
     let reps = 0;
@@ -40,7 +46,21 @@ const WorkoutCard = ({
     }
     return returnVal;
   };
+
   const totalDistance = distanceFunc(workout);
+  */
+  useEffect(() => {
+    if (workout && workout.id) {
+      getGroups(workout.id).then((respGroupArr) => {
+        if (mounted) {
+          setGroupArr(respGroupArr);
+        }
+      });
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <>
@@ -48,20 +68,10 @@ const WorkoutCard = ({
         <CardBody className='workout-card-body' >
           <CardTitle tag='h5'><div className='workout-heading row'>
             <div className='workout-title col-8'>{workout.title}</div>
-            <div className='col-4'>Distance: {totalDistance}</div></div></CardTitle>
+            <div className='col-4'>Distance: </div></div></CardTitle>
           <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>
-          { workout.groupArr.map((group) => <div key={group.id} className='group-data'>
-            <div className='row group-header'>
-              <div className='col-4 group-title'>
-                {group.title}</div>
-              <div className='col-3 group-repetitions'>x {group.repetitions}</div>
-              <div className='col-5 interval-header'>Interval</div>
-            </div>
-              { group.setArr.map((set) => <div key={set.id} className='set-data row' >
-                  <div className='col-4'>{set.distance} x {set.repetitions} {set.stroke}</div>
-                  <div className='col-6'>{set.comment}</div>
-                  <div className='col-2 set-interval'>{set.interval}</div></div>)} </div>)}
-          <hr />
+          { groupArr && groupArr.map((group) => <GroupCardDiv key={group.id}
+            id={group.id} group={group} />)}
           <Button className="btn btn-info"
             onClick={handleEditClick} >Edit Workout</Button>
           <Button className="btn btn-danger"
@@ -74,7 +84,7 @@ const WorkoutCard = ({
 
 WorkoutCard.propTypes = {
   user: PropTypes.any,
-  workout: PropTypes.object,
+  workout: PropTypes.object
 };
 
 export default WorkoutCard;
