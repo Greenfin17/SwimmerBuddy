@@ -29,7 +29,6 @@ const WorkoutCard = ({
   };
 
   const handleDeleteClick = () => {
-    console.warn('click-delete');
     groupArr.forEach((groupObj) => {
       getSets(groupObj.id).then((setArr) => {
         setArr.forEach((setObj) => {
@@ -38,7 +37,6 @@ const WorkoutCard = ({
       });
       deleteGroupND(groupObj.id);
     });
-    console.warn(workout, user.uid);
     if (workout) {
       deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
         setUserWorkouts(workoutsArr);

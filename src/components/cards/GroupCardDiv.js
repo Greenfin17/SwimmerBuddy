@@ -9,9 +9,25 @@ const GroupCardDiv = ({
   group
 }) => {
   const [setArr, setSetArr] = useState([]);
-  let mounted = true;
+  const [reloaded, setReloaded] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+    if (setArr.length === 0 && group) {
+      getSets(group.id).then((sets) => {
+        if (mounted) {
+          setSetArr(sets);
+        }
+      });
+    }
+    setReloaded(true);
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [(reloaded === false)]);
+
+  useEffect(() => {
+    let mounted = true;
     if (group) {
       getSets(group.id).then((sets) => {
         if (mounted) {
