@@ -13,8 +13,6 @@ const SetForm = ({
   index,
   groupIndex,
   deleteSet,
-  localGroup,
-  localSetArr,
   localGroupArr,
   setLocalGroupArr,
   trigger,
@@ -48,8 +46,6 @@ const SetForm = ({
   useEffect(() => {
     let mounted = true;
     const tempGroupArr = [...localGroupArr];
-    const tempGroupObj = { ...localGroup };
-    tempGroupObj.setArr = [...localSetArr];
     tempGroupArr[groupIndex].setArr[index] = { ...localSet };
     if (mounted) {
       setLocalGroupArr(tempGroupArr);
@@ -111,8 +107,6 @@ SetForm.propTypes = {
   deleteSet: PropTypes.func,
   trigger: PropTypes.bool,
   setTrigger: PropTypes.func,
-  localGroup: PropTypes.object,
-  localSetArr: PropTypes.array,
   localGroupArr: PropTypes.array,
   setLocalGroupArr: PropTypes.func
 };

@@ -31,7 +31,6 @@ const SetGroupForm = ({
   });
   // trigger re-render for local hooks downstream
   const [trigger, setTrigger] = useState(false);
-  const [localSetArr, setLocalSetArr] = useState([]);
 
   const deleteSet = (setIndex) => {
     const tempLocalGroup = { ...localGroup };
@@ -43,8 +42,11 @@ const SetGroupForm = ({
       tempDeletedSets.push(setId);
       setDeletedSets(tempDeletedSets);
     }
+    console.warn(setIndex);
     tempLocalGroup.setArr.splice(setIndex, 1);
     // localGroupArray is updated in useEffect
+    // update display
+    // save data to form
     setLocalGroup(tempLocalGroup);
     setTrigger(!trigger);
   };
@@ -100,10 +102,7 @@ const SetGroupForm = ({
       let tmpSetArr = [];
       getSets(groupId).then((setArr) => {
         setArr.sort(cmpSets);
-        if (mounted) {
-          setLocalSetArr(setArr);
-          tmpSetArr = [...setArr];
-        }
+        tmpSetArr = [...setArr];
       }).then(() => getSingleGroup(groupId).then((group) => {
         const tmpGroup = { ...group };
         tmpGroup.setArr = [...tmpSetArr];
@@ -155,7 +154,6 @@ const SetGroupForm = ({
           set={set} groupIndex={index}
           localGroup={localGroup} setLocalGroup={setLocalGroup}
           localGroupArr={localGroupArr} setLocalGroupArr={setLocalGroupArr}
-          localSetArr={localSetArr} setLocalSetArr={setLocalSetArr}
           deleteSet={deleteSet} trigger={trigger} setTrigger={setTrigger}
 
           />) }

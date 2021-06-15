@@ -18,7 +18,7 @@ import {
 } from '../../helpers/data/setData';
 import {
   getSingleWorkout, updateWorkout,
-  addWorkout, getUserWorkouts
+  addWorkout
 } from '../../helpers/data/workoutData';
 import {
   updateGroup, deleteGroupND,
@@ -26,8 +26,7 @@ import {
 } from '../../helpers/data/groupData';
 
 const WorkoutForm = ({
-  user,
-  setUserWorkouts
+  user
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -41,7 +40,6 @@ const WorkoutForm = ({
     groupArr: []
   });
   const [localGroupArr, setLocalGroupArr] = useState([]);
-  const [formSetArr, setFormSetArr] = useState([]);
   // trigger re-render on click for deleting group
   const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
@@ -145,10 +143,7 @@ const WorkoutForm = ({
           } // else addGroup
         });
       }).then(() => {
-        getUserWorkouts(user.uid).then((workoutsArr) => {
-          setUserWorkouts(workoutsArr);
-          history.push('/workouts');
-        });
+        history.push('/workouts');
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -176,10 +171,7 @@ const WorkoutForm = ({
           });
         });
       }).then(() => {
-        getUserWorkouts(user.uid).then((workoutsArr) => {
-          setUserWorkouts(workoutsArr);
-          history.push('/workouts');
-        });
+        history.push('/workouts');
       });
     } // if else
   }); // handleSubmit
@@ -231,13 +223,9 @@ const WorkoutForm = ({
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
           <GroupFormDiv workoutId={id}
-            setWorkout={setWorkout}
             localGroupArr={localGroupArr}
             setLocalGroupArr={setLocalGroupArr}
-            formSetArr={formSetArr}
-            setFormSetArr={setFormSetArr}
             removeGroup={removeGroup}
-            triggerGroup={triggerGroup}
             deletedSets={deletedSets}
             setDeletedSets={setDeletedSets} />
         </div>
@@ -247,8 +235,7 @@ const WorkoutForm = ({
 };
 
 WorkoutForm.propTypes = {
-  user: PropTypes.any,
-  setUserWorkouts: PropTypes.func
+  user: PropTypes.any
 };
 
 export default WorkoutForm;

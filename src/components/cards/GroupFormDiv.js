@@ -5,16 +5,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import GroupFormCard from './GroupFormCard';
 import SetGroupForm from '../forms/SetGroupForm';
-import { getGroups } from '../../helpers/data/groupData';
+import { getGroups, cmpGroups } from '../../helpers/data/groupData';
 
 const GroupFormDiv = ({
   workoutId,
   localGroupArr,
   setLocalGroupArr,
-  formSetArr,
-  setFormSetArr,
   removeGroup,
-  triggerGroup,
   deletedSets,
   setDeletedSets
 }) => {
@@ -25,6 +22,7 @@ const GroupFormDiv = ({
       getGroups(workoutId).then((groupArr) => {
         let i = 0;
         let tmpGroupObj = {};
+        groupArr.sort(cmpGroups);
         // add SetArr for each set group
         groupArr.forEach((group) => {
           tmpGroupObj = { ...group };
@@ -50,13 +48,10 @@ const GroupFormDiv = ({
           key={key}
           index={key}
           groupId={group.id}
+          workoutId={workoutId}
           localGroupArr={localGroupArr}
           setLocalGroupArr={setLocalGroupArr}
-          formSetArr={formSetArr}
-          setFormSetArr={setFormSetArr}
-          workoutId={workoutId}
           removeGroup={removeGroup}
-          triggerGroup={triggerGroup}
           deletedSets={deletedSets}
           setDeletedSets={setDeletedSets}
         />)}
