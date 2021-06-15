@@ -20,8 +20,10 @@ const addUser = (userObj) => new Promise((resolve, reject) => {
     .then((response) => {
       const keyObj = { id: response.data.name };
       axios.patch(`${dbUrl}/user/${response.data.name}.json`, keyObj)
-        .then(() => getUser(userObj.uid).then((user) => {
-          resolve(user);
+        .then(() => getUser(keyObj.uid).then((user) => {
+          if (user) {
+            resolve(user);
+          } else resolve({});
         }));
     }).catch((error) => reject(error));
 });

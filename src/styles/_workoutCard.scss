@@ -1,0 +1,35 @@
+// _workouts.scss
+
+.workout-cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  
+  .workout-card {
+    width: 30rem;
+  }
+
+  .group-data {
+    margin: 0 0 .3rem 0;
+  }
+
+  .group-title, .group-repetitions, .interval-header {
+    font-weight: 600;
+  }
+
+  .set-interval {
+    text-align: right;
+  }
+
+  .interval-header {
+    text-align: right;
+  }
+
+  .set-data {
+    width: 100%;
+  }
+  .card-btn-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}

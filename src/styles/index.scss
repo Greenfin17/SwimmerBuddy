@@ -1,12 +1,18 @@
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import 'variables';
 @import 'navbar';
+@import 'home';
+@import 'workoutView';
+@import 'workoutCard';
+@import 'workoutForm';
+@import 'workoutFormCard';
 
 body {
   background-color: $favColor;
   background-image: $favBackground;
   background-repeat: no-repeat;
-  background-position: 38% 35%;
+  background-position: 28% 42%;
+  margin: 0;
 }
 
 h1, h2 { 

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import firebase from 'firebase';
 import NavBar from '../components/NavBar';
-import TitleBox from '../components/TitleBox';
 import { addUser, getUser } from '../helpers/data/userData';
+import Routes from '../helpers/Routes';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,9 +33,10 @@ function App() {
     <div className='App'>
       <Router>
         <NavBar user={user} />
-        <TitleBox />
+        <Routes
+          user={user}
+        />
       </Router>
-
     </div>
   );
 }

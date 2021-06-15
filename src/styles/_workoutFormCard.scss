@@ -1,0 +1,51 @@
+
+.workout-form {
+  .form-group-data {
+    margin: .4rem 0 .3rem 0;
+  }
+
+  .form-group-title, .group-repetitions, .interval-header {
+    font-weight: 600;
+  }
+
+  .set-interval, interval-header {
+    text-align: right;
+  }
+
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8 {
+    padding: 0;
+  }
+  .set-distance {
+    padding: 0 .3rem 0 0;
+  }
+  .set-reps {
+    padding: 0 0 0 .3rem;
+  }
+
+  .set-distance {
+    max-width: 20%;
+    flex: 0 0 10%;
+  }
+  .set-multiplier {
+    max-width: 3%;
+    text-align: center;
+  }
+
+  .add-set-icon {
+    margin: 0 0 0 2rem;
+    cursor: pointer;
+  }
+
+  .add-set-icon i {
+    margin: 0 0 0 5px;
+  }
+
+  .remove-set-icon {
+    cursor: pointer;
+  }
+
+  .remove-set-icon i {
+    margin: 3px 5px 0 8px;
+    padding: 8px 0 0 0;
+  }
+}

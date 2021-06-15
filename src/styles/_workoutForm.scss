@@ -1,0 +1,40 @@
+// _workoutForm.scss
+
+.workout-form {
+  width: 90%;
+  margin: auto;
+  
+  .form-group-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    background: #efefef;
+  }
+
+  .workout-form-group {
+    margin: 1rem 0 0;
+    flex-basis: 35%;
+    min-width: 200px;
+  }
+  .form-listing-wrapper {
+    margin: 1rem .1rem 0;
+  }
+  .form-group-listing {
+    flex-basis: 55%;
+    min-width: 500px;
+  }
+
+  .add-set-group-icon {
+    margin: .5rem 0 .5rem;
+    cursor: pointer;
+  }
+
+  .add-set-group-icon i {
+    margin: .5rem .2rem .5rem 1rem;
+  }
+
+  .remove-group i {
+    cursor: pointer;
+    padding: 3rem 0 0 1rem;
+  }
+}
