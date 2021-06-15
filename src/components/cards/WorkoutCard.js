@@ -9,7 +9,7 @@ import {
   CardTitle, CardSubtitle,
   Button
 } from 'reactstrap';
-import { deleteGroupND, getGroups } from '../../helpers/data/groupData';
+import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
 import { deleteWorkout } from '../../helpers/data/workoutData';
@@ -20,6 +20,8 @@ const WorkoutCard = ({
   setUserWorkouts
 }) => {
   const [groupArr, setGroupArr] = useState([]);
+  const [groupDistanceArr, setGroupDistanceArr] = useState([]);
+  const [totalDistance, setTotalDistance] = useState(0);
   const history = useHistory();
   let mounted = true;
   const handleEditClick = () => {
@@ -43,30 +45,26 @@ const WorkoutCard = ({
       });
     }
   };
-  /*
-  const distanceFunc = (workoutObj) => {
-    let returnVal = 0;
-    let reps = 0;
-    let groupTotal = 0;
-    if (workoutObj) {
-      workoutObj.groupArr.forEach((unit) => {
-        reps = Number(unit.repetitions);
-        groupTotal = unit.groupDistance;
-        if (Number.isInteger(reps)) {
-          groupTotal *= reps;
-        }
-        returnVal += groupTotal;
-        groupTotal = 0;
-      });
-    }
-    return returnVal;
-  };
 
-  const totalDistance = distanceFunc(workout);
-  */
+  useEffect(() => {
+    const tmpArr = [];
+    // create empty array for child groups to
+    // populate their distances
+    groupArr.forEach(() => tmpArr.push(''));
+  }, [groupArr]);
+
+  useEffect(() => {
+    let tmpTotalDistance = 0;
+    groupDistanceArr.forEach((distance) => {
+      tmpTotalDistance += distance;
+    });
+    setTotalDistance(tmpTotalDistance);
+  }, [groupDistanceArr]);
+
   useEffect(() => {
     if (workout && workout.id) {
       getGroups(workout.id).then((respGroupArr) => {
+        respGroupArr.sort(cmpGroups);
         if (mounted) {
           setGroupArr(respGroupArr);
         }
@@ -83,10 +81,13 @@ const WorkoutCard = ({
         <CardBody className='workout-card-body' >
           <CardTitle tag='h5'><div className='workout-heading row'>
             <div className='workout-title col-8'>{workout.title}</div>
-            <div className='col-4'>Distance: </div></div></CardTitle>
+            <div className='col-4'>{totalDistance}
+              { workout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
           <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>
-          { groupArr && groupArr.map((group) => <GroupCardDiv key={group.id}
-            id={group.id} group={group} />)}
+          { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
+            index={index} id={group.id} group={group}
+            groupDistanceArr={groupDistanceArr}
+            setGroupDistanceArr={setGroupDistanceArr} />)}
           <div className='card-btn-container'>
             <Button className="btn btn-info"
               onClick={handleEditClick} >Edit Workout</Button>

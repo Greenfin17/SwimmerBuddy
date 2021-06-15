@@ -1,11 +1,12 @@
 // Routes.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import WorkoutsView from '../views/WorkoutsView';
 import WorkoutForm from '../components/forms/WorkoutForm';
+import { getUserWorkouts } from './data/workoutData';
 
 const AuthedRoute = ({ component: Component, user, ...rest }) => {
   const routeChecker = (values) => (user
@@ -21,52 +22,57 @@ AuthedRoute.propTypes = {
 
 const Routes = ({
   user,
-  userWorkouts,
-  setUserWorkouts,
-  triggerSubmit,
-  setTriggerSubmit
-}) => (
-  <div>
-    <Switch>
-      <Route exact path='/' component={() => <Home user={user} />} />
-      <AuthedRoute exact path='/workouts'
-        user={user}
-        component={() => <WorkoutsView
+}) => {
+  const [userWorkouts, setUserWorkouts] = useState([]);
+  useEffect(() => {
+    let mounted = true;
+    if (user) {
+      getUserWorkouts(user.uid).then((workoutsArr) => {
+        if (mounted) {
+          setUserWorkouts(workoutsArr);
+        }
+      });
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
+  return (
+    <div>
+      <Switch>
+        <Route exact path='/' component={() => <Home user={user} />} />
+        <AuthedRoute exact path='/workouts'
           user={user}
-          userWorkouts={userWorkouts}
-          setUserWorkouts={setUserWorkouts} />}
-      />
-      <AuthedRoute exact path='/edit-workout/:id'
-        user={user}
-        component={() => <WorkoutForm
+          component={() => <WorkoutsView
+            user={user}
+            userWorkouts={userWorkouts}
+            setUserWorkouts={setUserWorkouts} />}
+        />
+        <AuthedRoute exact path='/edit-workout/:id'
           user={user}
-          userWorkouts={userWorkouts}
-          setUserWorkouts={setUserWorkouts}
-          triggerSubmit={triggerSubmit}
-          setTriggerSubmit={setTriggerSubmit} />}
-      />
-      <AuthedRoute exact path='/add-workout'
-        user={user}
-        component={() => <WorkoutForm
+          component={() => <WorkoutForm
+            user={user}
+            userWorkouts={userWorkouts}
+            setUserWorkouts={setUserWorkouts} />}
+        />
+        <AuthedRoute exact path='/add-workout'
           user={user}
-          userWorkouts={userWorkouts}
-          setUserWorkouts={setUserWorkouts}
-          triggerSubmit={triggerSubmit}
-          setTriggerSubmit={setTriggerSubmit} />}
-      />
-      <Route path='*'
-        component={NotFound}
-      />
-    </Switch>
-  </div>
-);
+          component={() => <WorkoutForm
+            user={user}
+            userWorkouts={userWorkouts}
+            setUserWorkouts={setUserWorkouts} />}
+        />
+        <Route path='*'
+          component={NotFound}
+        />
+      </Switch>
+    </div>
+  );
+};
 
 Routes.propTypes = {
   user: PropTypes.any,
-  userWorkouts: PropTypes.array,
-  setUserWorkouts: PropTypes.func,
-  triggerSubmit: PropTypes.bool,
-  setTriggerSubmit: PropTypes.func
 };
 
 export default Routes;

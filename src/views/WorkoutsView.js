@@ -1,23 +1,37 @@
 // Workouts.js
 // View of workouts
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
+import { getUserWorkouts } from '../helpers/data/workoutData';
 
 const WorkoutsView = ({
-  user,
-  userWorkouts,
-  setUserWorkouts
+  user
 }) => {
   const history = useHistory();
+  const [userWorkouts, setUserWorkouts] = useState([]);
 
   const handleAddClick = () => {
     history.push('/add-workout');
   };
+
+  useEffect(() => {
+    let mounted = true;
+    if (user) {
+      getUserWorkouts(user.uid).then((workoutsArr) => {
+        if (mounted) {
+          setUserWorkouts(workoutsArr);
+        }
+      });
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
 
   return (
   <>
@@ -40,9 +54,7 @@ const WorkoutsView = ({
 };
 
 WorkoutsView.propTypes = {
-  user: PropTypes.any,
-  userWorkouts: PropTypes.array,
-  setUserWorkouts: PropTypes.func,
+  user: PropTypes.any
 };
 
 export default WorkoutsView;

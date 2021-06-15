@@ -2,34 +2,39 @@
 // Breaking up card into components to allow update on hook array updates.
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getSets } from '../../helpers/data/setData';
+import { getSets, setArrDistance, cmpSets } from '../../helpers/data/setData';
 
 const GroupCardDiv = ({
   id,
-  group
+  group,
+  index,
+  groupDistanceArr,
+  setGroupDistanceArr,
 }) => {
   const [setArr, setSetArr] = useState([]);
-  const [reloaded, setReloaded] = useState(false);
 
+  // calculate workout total distance
   useEffect(() => {
     let mounted = true;
-    if (setArr.length === 0 && group) {
-      getSets(group.id).then((sets) => {
-        if (mounted) {
-          setSetArr(sets);
-        }
-      });
+    if (group) {
+      const tmpGroupDistance = setArrDistance(setArr);
+      const tmpGroupDistanceArr = [...groupDistanceArr];
+      tmpGroupDistanceArr[index] = tmpGroupDistance * group.repetitions;
+      if (mounted) {
+        setGroupDistanceArr(tmpGroupDistanceArr);
+      }
     }
-    setReloaded(true);
     return function cleanup() {
       mounted = false;
     };
-  }, [(reloaded === false)]);
+  }, [setArr]);
 
   useEffect(() => {
     let mounted = true;
     if (group) {
       getSets(group.id).then((sets) => {
+        // put sets in order
+        sets.sort(cmpSets);
         if (mounted) {
           setSetArr(sets);
         }
@@ -58,7 +63,10 @@ const GroupCardDiv = ({
 
 GroupCardDiv.propTypes = {
   id: PropTypes.string,
-  group: PropTypes.object
+  group: PropTypes.object,
+  index: PropTypes.number,
+  groupDistanceArr: PropTypes.array,
+  setGroupDistanceArr: PropTypes.func
 };
 
 export default GroupCardDiv;
