@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import WorkoutsView from '../views/WorkoutsView';
-import CollectionsView from '../views/CollectionsView';
 import WorkoutForm from '../components/forms/WorkoutForm';
+import CollectionsView from '../views/CollectionsView';
+import CollectionForm from '../components/forms/CollectionForm';
 
 const AuthedRoute = ({ component: Component, user, ...rest }) => {
   const routeChecker = (values) => (user
@@ -29,6 +30,11 @@ const Routes = ({
       <AuthedRoute exact path='/collections'
         user={user}
         component={() => <CollectionsView
+          user={user} />}
+      />
+      <AuthedRoute exact path='/edit-collection/:id'
+        user={user}
+        component={() => <CollectionForm
           user={user} />}
       />
       <AuthedRoute exact path='/workouts'

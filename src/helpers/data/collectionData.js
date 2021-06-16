@@ -16,4 +16,16 @@ const getCollections = (uid) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default getCollections;
+const getSingleCollection = (id) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/collection/${id}.json`)
+    .then((response) => {
+      if (response.data) {
+        resolve(response.data);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
+
+export {
+  getCollections, getSingleCollection
+};

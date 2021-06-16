@@ -56,14 +56,6 @@ const SetForm = ({
   }, [localSet]);
 
   useEffect(() => {
-    /*
-    const tmpGroup = { ...localGroup };
-    tmpGroup.setArr = [...local]
-    console.warn(tmpGroup)
-    // const tempSetArr = [];
-    // const tmpSetObj = { ...localSet };
-    */
-    console.warn(index);
     setLocalSet(set);
   }, [trigger]);
   return (

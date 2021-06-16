@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TitleBox from '../components/TitleBox';
 import CollectionCard from '../components/cards/CollectionCard';
-import getCollections from '../helpers/data/collectionData';
+import { getCollections } from '../helpers/data/collectionData';
 
 const CollectionsView = ({
   user
@@ -13,7 +13,6 @@ const CollectionsView = ({
 
   useEffect(() => {
     let mounted = true;
-    console.warn(user.uid);
     getCollections(user.uid).then((respArr) => {
       if (mounted) {
         setCollectionArray(respArr);
@@ -28,9 +27,9 @@ const CollectionsView = ({
     <div className='collections-view'>
       <TitleBox heading1='Collections' />
       <div className='collection-cards-container'>
-        { collectionArray.map((response) => <CollectionCard
-          key={response.id}
-          collection={response} />) }
+        { collectionArray.map((collectionObj) => <CollectionCard
+          key={collectionObj.id}
+          collection={collectionObj} />) }
       </div>
     </div>
   );
