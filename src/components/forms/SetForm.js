@@ -16,7 +16,7 @@ const SetForm = ({
   localGroupArr,
   setLocalGroupArr,
   trigger,
-  setTrigger
+  setTrigger,
   /*
   setFormSetArr
   */
@@ -63,8 +63,9 @@ const SetForm = ({
     // const tempSetArr = [];
     // const tmpSetObj = { ...localSet };
     */
+    console.warn(index);
     setLocalSet(set);
-  }, []);
+  }, [trigger]);
   return (
     <div className='row set-input'>
       <div className='col-1 set-distance'>
@@ -101,14 +102,15 @@ const SetForm = ({
 };
 
 SetForm.propTypes = {
-  set: PropTypes.object,
   index: PropTypes.number,
   groupIndex: PropTypes.number,
   deleteSet: PropTypes.func,
   trigger: PropTypes.bool,
   setTrigger: PropTypes.func,
   localGroupArr: PropTypes.array,
-  setLocalGroupArr: PropTypes.func
+  setLocalGroupArr: PropTypes.func,
+  set: PropTypes.object
+
 };
 
 export default SetForm;

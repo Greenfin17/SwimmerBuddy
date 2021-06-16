@@ -88,12 +88,12 @@ const WorkoutCard = ({
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
-          <div className='card-btn-container'>
-            <Button className="btn btn-info"
-              onClick={handleEditClick} >Edit Workout</Button>
-            <Button className="btn btn-danger"
-              onClick={handleDeleteClick}>Delete Workout</Button>
-          </div>
+            <div className='card-btn-container'>
+              <Button className="btn btn-info"
+                onClick={handleEditClick} >Edit Workout</Button>
+              <Button className="btn btn-danger"
+                onClick={handleDeleteClick}>Delete Workout</Button>
+            </div>
         </CardBody>
       </Card>
     </>

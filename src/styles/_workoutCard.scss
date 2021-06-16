@@ -7,8 +7,14 @@
   
   .workout-card {
     width: 30rem;
+    margin: 5px 0;
   }
-
+  .card-btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 10px 0;
+  }
+  
   .group-data {
     margin: 0 0 .3rem 0;
   }
@@ -27,9 +33,5 @@
 
   .set-data {
     width: 100%;
-  }
-  .card-btn-container {
-    display: flex;
-    justify-content: space-between;
   }
 }

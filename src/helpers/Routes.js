@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import WorkoutsView from '../views/WorkoutsView';
+import CollectionsView from '../views/CollectionsView';
 import WorkoutForm from '../components/forms/WorkoutForm';
 
 const AuthedRoute = ({ component: Component, user, ...rest }) => {
@@ -25,6 +26,11 @@ const Routes = ({
   <div>
     <Switch>
       <Route exact path='/' component={() => <Home user={user} />} />
+      <AuthedRoute exact path='/collections'
+        user={user}
+        component={() => <CollectionsView
+          user={user} />}
+      />
       <AuthedRoute exact path='/workouts'
         user={user}
         component={() => <WorkoutsView

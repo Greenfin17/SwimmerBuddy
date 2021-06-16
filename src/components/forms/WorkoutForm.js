@@ -40,8 +40,6 @@ const WorkoutForm = ({
     groupArr: []
   });
   const [localGroupArr, setLocalGroupArr] = useState([]);
-  // trigger re-render on click for deleting group
-  const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
   const history = useHistory();
@@ -83,7 +81,6 @@ const WorkoutForm = ({
     }
     tempGroupArr.splice(index, 1);
     setLocalGroupArr(tempGroupArr);
-    setTriggerGroup(!triggerGroup);
   };
 
   const handleSubmit = ((e) => {
@@ -143,7 +140,11 @@ const WorkoutForm = ({
           } // else addGroup
         });
       }).then(() => {
-        history.push('/workouts');
+        const submitHistory = () => {
+          history.push('/workouts');
+        };
+        // delay for Firebase writing
+        setTimeout(submitHistory, 500);
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -227,7 +228,8 @@ const WorkoutForm = ({
             setLocalGroupArr={setLocalGroupArr}
             removeGroup={removeGroup}
             deletedSets={deletedSets}
-            setDeletedSets={setDeletedSets} />
+            setDeletedSets={setDeletedSets}
+            />
         </div>
       </Form>
     </div>

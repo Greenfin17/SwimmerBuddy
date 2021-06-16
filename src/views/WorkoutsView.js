@@ -34,7 +34,7 @@ const WorkoutsView = ({
   }, []);
 
   return (
-  <>
+  <div className='workouts-view'>
     <TitleBox heading1='Workouts' />
     <div className='view-button-container'>
       <Button className='btn btn-info add-workout'
@@ -49,7 +49,7 @@ const WorkoutsView = ({
         />)
       }
     </div>
-  </>
+  </div>
   );
 };
 
