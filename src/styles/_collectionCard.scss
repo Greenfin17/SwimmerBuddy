@@ -6,7 +6,12 @@
   justify-content: space-evenly;
   
   .collection-card {
-    width: 30rem;
+    width: 25rem;
     margin: 5px 0;
+  }
+  .card-btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin: .5rem 1rem 1rem;
   }
 }

@@ -7,9 +7,12 @@ import {
   Card, CardBody,
   CardTitle, Button
 } from 'reactstrap';
+import { deleteCollection } from '../../helpers/data/collectionData';
 
 const CollectionCard = ({
-  collection
+  user,
+  collection,
+  setCollectionArray
 }) => {
   const history = useHistory();
   const handleEditClick = () => {
@@ -19,7 +22,12 @@ const CollectionCard = ({
   };
 
   const handleDeleteClick = () => {
-    console.warn('delete-collection');
+    if (collection && collection.id) {
+      deleteCollection(user.uid, collection.id).then((respCollectionArr) => {
+        setCollectionArray(respCollectionArr);
+        history.push('/collections');
+      });
+    }
   };
 
   return (
@@ -43,7 +51,9 @@ const CollectionCard = ({
 };
 
 CollectionCard.propTypes = {
-  collection: PropTypes.object
+  user: PropTypes.any,
+  collection: PropTypes.object,
+  setCollectionArray: PropTypes.func
 };
 
 export default CollectionCard;

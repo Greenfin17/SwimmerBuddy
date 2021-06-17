@@ -1,0 +1,19 @@
+// _collectonForm.scss
+
+.collection-form-container {
+  display: flex;
+  justify-content: center;
+
+  .collection-form {
+    width: 30rem;
+    background: #efefef;
+  }
+
+  .collection-form-group {
+    margin: 1rem;
+  }
+
+  .btn-submit-collection {
+    margin: 1rem;
+  }
+}

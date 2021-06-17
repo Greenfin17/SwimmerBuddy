@@ -37,6 +37,11 @@ const Routes = ({
         component={() => <CollectionForm
           user={user} />}
       />
+      <AuthedRoute exact path='/add-collection'
+        user={user}
+        component={() => <CollectionForm
+          user={user} />}
+      />
       <AuthedRoute exact path='/workouts'
         user={user}
         component={() => <WorkoutsView

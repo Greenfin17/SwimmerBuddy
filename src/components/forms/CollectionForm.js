@@ -2,13 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import {
   Form, FormGroup,
   Label, Input,
+  Button
 } from 'reactstrap';
-import { getSingleCollection } from '../../helpers/data/collectionData';
+import {
+  getSingleCollection,
+  addCollection,
+  updateCollection
+} from '../../helpers/data/collectionData';
 
 const CollectionForm = ({
   user,
@@ -18,6 +23,7 @@ const CollectionForm = ({
     description: '',
     title: ''
   });
+  const history = useHistory();
 
   const { id } = useParams();
 
@@ -28,12 +34,23 @@ const CollectionForm = ({
     }));
   };
 
+  const handleSubmit = () => {
+    if (id) {
+      updateCollection(id, collection).then(() => {
+        history.push('/collections');
+      });
+    } else {
+      addCollection(collection).then(() => {
+        history.push('/collections');
+      });
+    }
+  };
+
   useEffect(() => {
     let mounted = true;
     if (id) {
       getSingleCollection(id).then((respObj) => {
         if (mounted) {
-          console.warn(respObj);
           setCollection(respObj);
         }
       });
@@ -44,7 +61,7 @@ const CollectionForm = ({
   }, []);
 
   return (
-    <div className='form-container'>
+    <div className='form-container collection-form-container'>
       <Form className='collection-form mb-4'>
         <div className='form-group-container'>
           <FormGroup className='collection-form-group'>
@@ -56,6 +73,8 @@ const CollectionForm = ({
             <Input type='text' className='form-control' aria-describedby='Workout Description'
               name='description' value={collection.description || ''} onChange={handleInputChange}
               placeholder='Workout Description' />
+            <Button className='btn btn-info btn-submit-collection'
+              onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
          </div>
       </Form>
