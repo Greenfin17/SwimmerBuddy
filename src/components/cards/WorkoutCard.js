@@ -12,7 +12,7 @@ import {
 import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
-import { deleteWorkout } from '../../helpers/data/workoutData';
+import { deleteWorkout, getSingleWorkout } from '../../helpers/data/workoutData';
 
 const WorkoutCard = ({
   user,
@@ -20,6 +20,7 @@ const WorkoutCard = ({
   setUserWorkouts
 }) => {
   const [groupArr, setGroupArr] = useState([]);
+  const [localWorkout, setLocalWorkout] = useState({});
   const [groupDistanceArr, setGroupDistanceArr] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const history = useHistory();
@@ -64,6 +65,9 @@ const WorkoutCard = ({
   useEffect(() => {
     console.warn(workout);
     if (workout && workout.id) {
+      getSingleWorkout(workout.id).then((workoutObj) => {
+        setLocalWorkout(workoutObj);
+      });
       getGroups(workout.id).then((respGroupArr) => {
         respGroupArr.sort(cmpGroups);
         if (mounted) {
@@ -81,7 +85,7 @@ const WorkoutCard = ({
       <Card className='workout-card'>
         <CardBody className='workout-card-body' >
           <CardTitle tag='h5'><div className='workout-heading row'>
-            <div className='workout-title col-8'>{workout.title}</div>
+            <div className='workout-title col-8'>{localWorkout.title}</div>
             <div className='col-4'>{totalDistance}
               { workout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
           <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>

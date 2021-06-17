@@ -22,12 +22,15 @@ const getCollectionWorkouts = (collectionId) => new Promise((resolve, reject) =>
   axios.get(`${dbUrl}/workout_collection.json?orderBy="collection_id"&equalTo="${collectionId}"`)
     .then((response) => {
       const responseArr = Object.values(response.data);
-      responseArr.forEach((joinObj) => {
-        getSingleWorkout(joinObj.workout_id).then((workoutObj) => {
-          workoutArr.push(workoutObj);
-        });
+      Promise.all([
+        responseArr.forEach((joinObj) => {
+          getSingleWorkout(joinObj.workout_id).then((workoutObj) => {
+            workoutArr.push(workoutObj);
+          });
+        })]).then(() => {
+        console.warn(workoutArr);
+        resolve(workoutArr);
       });
-      resolve(workoutArr);
     })
     .catch((error) => reject(error));
 });

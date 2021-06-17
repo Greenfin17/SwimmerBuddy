@@ -8,13 +8,15 @@ import {
 } from 'reactstrap';
 import TitleBox from '../components/TitleBox';
 import WorkoutCard from '../components/cards/WorkoutCard';
-import { getCollectionWorkoutJoins } from '../helpers/data/workoutCollectionData';
+import { getCollectionWorkouts } from '../helpers/data/workoutCollectionData';
+import { getSingleCollection } from '../helpers/data/collectionData';
 // import { getSingleWorkout } from '../helpers/data/workoutData';
 
 const CollectionWorkoutsView = ({
   user
 }) => {
   const [collectionWorkouts, setCollectionWorkouts] = useState([]);
+  const [collection, setCollection] = useState({});
   const history = useHistory();
 
   const { id } = useParams();
@@ -24,21 +26,20 @@ const CollectionWorkoutsView = ({
   };
 
   useEffect(() => {
-    getCollectionWorkoutJoins(id).then((joinArr) => {
-      const tmpArr = [];
-      let tmpObj = {};
-      joinArr.forEach((join) => {
-        tmpObj = { id: join.workout_id };
-        tmpArr.push(tmpObj);
-      });
-      setCollectionWorkouts(tmpArr);
-      console.warn(collectionWorkouts);
+    // retrieving collection title
+    getSingleCollection(id).then((collectionObj) => {
+      setCollection(collectionObj);
     });
-  }, []);
+
+    // getting the collection workouts
+    getCollectionWorkouts(id).then((workoutsArr) => {
+      setCollectionWorkouts(workoutsArr);
+    });
+  }, [collectionWorkouts.length]);
 
   return (
     <div className='workouts-view'>
-    <TitleBox heading1='Workouts' />
+    <TitleBox heading1={collection.title} />
     <div className='view-button-container'>
       <Button className='btn btn-info add-workout'
       onClick={handleAddClick} >Add Workout</Button>
