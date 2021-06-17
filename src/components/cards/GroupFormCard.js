@@ -18,7 +18,6 @@ const GroupFormCard = ({
 
   const handleDeleteClick = (e) => {
     e.preventDefault();
-    console.warn(workoutId);
   };
   const handleEditClick = (e) => {
     e.preventDefault();

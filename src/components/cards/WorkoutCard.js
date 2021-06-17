@@ -62,6 +62,7 @@ const WorkoutCard = ({
   }, [groupDistanceArr]);
 
   useEffect(() => {
+    console.warn(workout);
     if (workout && workout.id) {
       getGroups(workout.id).then((respGroupArr) => {
         respGroupArr.sort(cmpGroups);
