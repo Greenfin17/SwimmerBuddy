@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import TitleBox from '../components/TitleBox';
 import WorkoutCard from '../components/cards/WorkoutCard';
-import { getCollectionWorkouts } from '../helpers/data/workoutCollectionData';
+import { getCollectionWorkoutJoins } from '../helpers/data/workoutCollectionData';
 import { getSingleCollection } from '../helpers/data/collectionData';
 // import { getSingleWorkout } from '../helpers/data/workoutData';
 
@@ -30,12 +30,19 @@ const CollectionWorkoutsView = ({
     getSingleCollection(id).then((collectionObj) => {
       setCollection(collectionObj);
     });
+    const tmpArr = [];
+    getCollectionWorkoutJoins(id).then((joinArr) => {
+      joinArr.forEach((join) => {
+        const tmpObj = {
+          id: join.workout_id
+        };
+        tmpArr.push(tmpObj);
+      });
+      setCollectionWorkouts(tmpArr);
+    });
 
     // getting the collection workouts
-    getCollectionWorkouts(id).then((workoutsArr) => {
-      setCollectionWorkouts(workoutsArr);
-    });
-  }, [collectionWorkouts.length]);
+  }, []);
 
   return (
     <div className='workouts-view'>
