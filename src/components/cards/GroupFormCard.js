@@ -10,7 +10,6 @@ import SetGroupForm from '../forms/SetGroupForm';
 
 const GroupFormCard = ({
   group,
-  workoutId,
   handleInputChange
 }) => {
   // const history = useHistory();
@@ -49,7 +48,6 @@ const GroupFormCard = ({
 
 GroupFormCard.propTypes = {
   group: PropTypes.object,
-  workoutId: PropTypes.string,
   handleInputChange: PropTypes.func,
 };
 

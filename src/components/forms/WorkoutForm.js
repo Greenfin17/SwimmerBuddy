@@ -24,6 +24,7 @@ import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
+import { getWorkoutCollectionsArr } from '../../helpers/data/workoutCollectionData';
 
 const WorkoutForm = ({
   user
@@ -42,6 +43,7 @@ const WorkoutForm = ({
   const [localGroupArr, setLocalGroupArr] = useState([]);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
+  const [collectionsArr, setCollectionsArr] = useState([]);
   const history = useHistory();
 
   const { id } = useParams();
@@ -51,6 +53,14 @@ const WorkoutForm = ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
+  };
+
+  const handleCheckboxChange = (e, index) => {
+    const tmpArr = [...collectionsArr];
+    tmpArr[index].checked = e.target.checked;
+    console.warn(index);
+    console.warn(tmpArr);
+    setCollectionsArr(tmpArr);
   };
 
   const addGroupClick = () => {
@@ -185,6 +195,9 @@ const WorkoutForm = ({
           setWorkout(workoutObj);
         }
       });
+      getWorkoutCollectionsArr(user.uid, id).then((responseArr) => {
+        setCollectionsArr(responseArr);
+      });
     }
     return function cleanup() {
       mounted = false;
@@ -219,6 +232,18 @@ const WorkoutForm = ({
               <option value='true'>Meters</option>
               <option value='false'>Yards</option>
             </Input>
+            <Label for='checkbox-container'>Add to Collection(s)</Label>
+            <div className='checkbox-container'>
+              <ul className='collection-ul'>
+                { collectionsArr.map((collection, index) => <li key={collection.id}><div
+                  className='form-check' key={collection.id} >
+                  <Input type='checkbox' className='form-check-input' aria-describedby='Add to Collecton)'
+                    name='checked' value={collection.id} key={index}
+                    onChange={(e) => handleCheckboxChange(e, index)} checked={collection.checked} />
+                  <Label for='collection_id'>{collection.title}</Label>
+                </div> </li>)}
+              </ul>
+            </div>
             <div className='add-set-group-icon' onClick={addGroupClick}>Add Set Group<i className='fas fa-plus'></i></div>
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>

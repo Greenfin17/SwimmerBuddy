@@ -31,7 +31,6 @@ const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
     .then((response) => {
       const workoutArr = Object.values(response.data);
       if (response.data) {
-        console.warn(workoutArr);
         resolve(workoutArr);
       } else resolve([]);
     }).catch((error) => reject(error));

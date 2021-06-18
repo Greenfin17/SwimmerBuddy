@@ -63,7 +63,6 @@ const WorkoutCard = ({
   }, [groupDistanceArr]);
 
   useEffect(() => {
-    console.warn(workout);
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
         setLocalWorkout(workoutObj);
