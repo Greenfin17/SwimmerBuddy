@@ -66,7 +66,31 @@ const getWorkoutCollectionsArr = (uid, workoutId) => new Promise((resolve, rejec
     }).catch((error) => reject(error));
 });
 
+const updateWorkoutCollection = (joinId, joinObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/workout_collections/${joinId}.json`, joinObj)
+    .then((response) => {
+      if (response) {
+        resolve(response.data);
+      } else resolve('');
+    })
+    .catch((error) => reject(error));
+});
+
+const addWorkoutCollection = (uid, joinObj) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/workout_collection.json`, joinObj)
+    .then((response) => {
+      const keyObj = { id: response.data.name };
+      axios.patch(`${dbUrl}/workout_collection/${response.data.name}.json`, keyObj)
+        .then(() => getCollections(uid).then((collectionArr) => {
+          if (collectionArr) {
+            resolve(collectionArr);
+          } else resolve({});
+        }));
+    }).catch((error) => reject(error));
+});
+
 export {
   getCollectionWorkouts, getCollectionWorkoutJoins,
-  getWorkoutCollectionJoins, getWorkoutCollectionsArr
+  getWorkoutCollectionJoins, getWorkoutCollectionsArr,
+  updateWorkoutCollection, addWorkoutCollection
 };
