@@ -24,7 +24,8 @@ import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
-import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsArr } from '../../helpers/data/workoutCollectionData';
+import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsCheckedArr } from '../../helpers/data/workoutCollectionData';
+import { getCollections } from '../../helpers/data/collectionData';
 // import deepCopy from '../../helpers/data/deepCopy';
 
 const WorkoutForm = ({
@@ -94,7 +95,7 @@ const WorkoutForm = ({
     setLocalGroupArr(tempGroupArr);
   };
 
-  const saveCollectionChoices = () => {
+  const saveCollectionChoices = (workoutId) => {
     for (let i = 0; i < initialCollectionsArr.length; i += 1) {
       if (initialCollectionsArr[i].checked === true && collectionsArr && collectionsArr[i].checked === false) {
         deleteWorkoutCollection(collectionsArr[i].join_id);
@@ -104,6 +105,9 @@ const WorkoutForm = ({
           collection_id: collectionsArr[i].id,
           workout_id: id
         };
+        if (workoutId) {
+          tmpObj.workout_id = workoutId;
+        }
         addWorkoutCollection(user.uid, tmpObj);
       }
     }
@@ -111,7 +115,6 @@ const WorkoutForm = ({
 
   const handleSubmit = ((e) => {
     e.preventDefault();
-    saveCollectionChoices();
     // retain workout id for new workouts history push
     // delete removed sets and groups
     deletedSets.forEach((setId) => deleteSetND(setId));
@@ -167,6 +170,7 @@ const WorkoutForm = ({
           } // else addGroup
         });
       }).then(() => {
+        saveCollectionChoices();
         const submitHistory = () => {
           history.push('/workouts');
         };
@@ -198,8 +202,13 @@ const WorkoutForm = ({
             });
           });
         });
+        saveCollectionChoices(workoutObj.id);
       }).then(() => {
-        history.push('/workouts');
+        const submitHistory = () => {
+          history.push('/workouts');
+        };
+        // delay for Firebase writing
+        setTimeout(submitHistory, 500);
       });
     } // if else
   }); // handleSubmit
@@ -212,12 +221,22 @@ const WorkoutForm = ({
           setWorkout(workoutObj);
         }
       });
-      getWorkoutCollectionsArr(user.uid, id).then((responseArr) => {
+      getWorkoutCollectionsCheckedArr(user.uid, id).then((responseArr) => {
         setCollectionsArr(responseArr);
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
           const tmpObj = { checked: false };
           tmpObj.checked = responseArr[i].checked;
+          tmpArr.push(tmpObj);
+        }
+        setInitialCollectionsArr(tmpArr);
+      });
+    } else {
+      getCollections(user.uid).then((responseArr) => {
+        setCollectionsArr(responseArr);
+        const tmpArr = [];
+        for (let i = 0; i < responseArr.length; i += 1) {
+          const tmpObj = { checked: false };
           tmpArr.push(tmpObj);
         }
         setInitialCollectionsArr(tmpArr);

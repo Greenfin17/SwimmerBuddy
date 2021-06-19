@@ -27,7 +27,6 @@ const CollectionCard = ({
     if (collection && collection.id) {
       getCollectionWorkoutJoins(collection.id).then((joinArr) => {
         joinArr.forEach((join) => {
-          console.warn(join);
           deleteJoinND(join.id);
         });
       });
