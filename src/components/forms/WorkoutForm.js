@@ -25,7 +25,6 @@ import {
   addGroup
 } from '../../helpers/data/groupData';
 import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsCheckedArr } from '../../helpers/data/workoutCollectionData';
-import { getCollections } from '../../helpers/data/collectionData';
 // import deepCopy from '../../helpers/data/deepCopy';
 
 const WorkoutForm = ({
@@ -62,7 +61,6 @@ const WorkoutForm = ({
     const tmpArr = [...collectionsArr];
     tmpArr[index].checked = e.target.checked;
     setCollectionsArr(tmpArr);
-    console.warn(initialCollectionsArr);
   };
 
   const addGroupClick = () => {
@@ -232,7 +230,7 @@ const WorkoutForm = ({
         setInitialCollectionsArr(tmpArr);
       });
     } else {
-      getCollections(user.uid).then((responseArr) => {
+      getWorkoutCollectionsCheckedArr(user.uid, id).then((responseArr) => {
         setCollectionsArr(responseArr);
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
