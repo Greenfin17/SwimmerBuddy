@@ -13,6 +13,7 @@ import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupDat
 import GroupCardDiv from './GroupCardDiv';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
 import { deleteWorkout, getSingleWorkout } from '../../helpers/data/workoutData';
+import { deleteJoinND, getWorkoutCollectionJoins } from '../../helpers/data/workoutCollectionData';
 
 const WorkoutCard = ({
   user,
@@ -42,6 +43,11 @@ const WorkoutCard = ({
     });
     if (workout) {
       deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
+        getWorkoutCollectionJoins(workout.id).then((joinArr) => {
+          joinArr.forEach((join) => {
+            deleteJoinND(join.id);
+          });
+        });
         setUserWorkouts(workoutsArr);
       });
     }

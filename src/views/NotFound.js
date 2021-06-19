@@ -1,9 +1,10 @@
 // NotFound.js
 
 import React from 'react';
+import TitleBox from '../components/TitleBox';
 
 const NotFound = () => (
-  <h3>Page Not Found</h3>
+    <TitleBox heading1='Page Not Found' />
 );
 
 export default NotFound;
