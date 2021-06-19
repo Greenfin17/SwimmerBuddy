@@ -52,7 +52,7 @@ const getCollectionWorkouts = (collectionId) => new Promise((resolve, reject) =>
     .catch((error) => reject(error));
 });
 
-const getWorkoutCollectionsArr = (uid, workoutId) => new Promise((resolve, reject) => {
+const getWorkoutCollectionsCheckedArr = (uid, workoutId) => new Promise((resolve, reject) => {
   Promise.all([getCollections(uid), getWorkoutCollectionJoins(workoutId)])
     .then(([collections, joins]) => {
       const workoutCollectionsArr = collections.map((collection) => {
@@ -112,7 +112,7 @@ const deleteWorkoutCollection = (joinId, workoutId) => new Promise((resolve, rej
 
 export {
   getCollectionWorkouts, getCollectionWorkoutJoins,
-  getWorkoutCollectionJoins, getWorkoutCollectionsArr,
+  getWorkoutCollectionJoins, getWorkoutCollectionsCheckedArr,
   updateWorkoutCollection, addWorkoutCollection,
   deleteWorkoutCollection, deleteJoinND
 };
