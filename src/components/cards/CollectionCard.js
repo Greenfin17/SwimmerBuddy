@@ -8,6 +8,7 @@ import {
   CardTitle, Button
 } from 'reactstrap';
 import { deleteCollection } from '../../helpers/data/collectionData';
+import { deleteJoinND, getCollectionWorkoutJoins } from '../../helpers/data/workoutCollectionData';
 
 const CollectionCard = ({
   user,
@@ -24,6 +25,12 @@ const CollectionCard = ({
 
   const handleDeleteClick = () => {
     if (collection && collection.id) {
+      getCollectionWorkoutJoins(collection.id).then((joinArr) => {
+        joinArr.forEach((join) => {
+          console.warn(join);
+          deleteJoinND(join.id);
+        });
+      });
       deleteCollection(user.uid, collection.id).then((respCollectionArr) => {
         setCollectionArray(respCollectionArr);
         history.push('/collections');
@@ -44,7 +51,8 @@ const CollectionCard = ({
           <CardTitle tag='h5'>
               <div className='collection-title '>{collection.title}</div>
           </CardTitle>
-          <div className='collection-title col-8'>{collection.description}</div>
+          <div className='collection-description'>{collection.description}</div>
+          <div className='collection-card-instructions'>Click to view workouts</div>
         </CardBody>
         <hr />
         <div className='card-btn-container'>

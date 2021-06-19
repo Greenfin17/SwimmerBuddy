@@ -1,4 +1,4 @@
-// EditWorkouView
+// WorkoutForm.js
 
 import React, {
   useState, useEffect,
@@ -24,7 +24,8 @@ import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
-import { getWorkoutCollectionsArr } from '../../helpers/data/workoutCollectionData';
+import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsArr } from '../../helpers/data/workoutCollectionData';
+// import deepCopy from '../../helpers/data/deepCopy';
 
 const WorkoutForm = ({
   user
@@ -44,6 +45,7 @@ const WorkoutForm = ({
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
   const [collectionsArr, setCollectionsArr] = useState([]);
+  const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
   const history = useHistory();
 
   const { id } = useParams();
@@ -58,9 +60,8 @@ const WorkoutForm = ({
   const handleCheckboxChange = (e, index) => {
     const tmpArr = [...collectionsArr];
     tmpArr[index].checked = e.target.checked;
-    console.warn(index);
-    console.warn(tmpArr);
     setCollectionsArr(tmpArr);
+    console.warn(initialCollectionsArr);
   };
 
   const addGroupClick = () => {
@@ -93,8 +94,24 @@ const WorkoutForm = ({
     setLocalGroupArr(tempGroupArr);
   };
 
+  const saveCollectionChoices = () => {
+    for (let i = 0; i < initialCollectionsArr.length; i += 1) {
+      if (initialCollectionsArr[i].checked === true && collectionsArr && collectionsArr[i].checked === false) {
+        deleteWorkoutCollection(collectionsArr[i].join_id);
+      } else if (!initialCollectionsArr[i].checked && collectionsArr && collectionsArr[i].checked === true) {
+        const tmpObj = {
+          author_uid: collectionsArr[i].author_uid,
+          collection_id: collectionsArr[i].id,
+          workout_id: id
+        };
+        addWorkoutCollection(user.uid, tmpObj);
+      }
+    }
+  };
+
   const handleSubmit = ((e) => {
     e.preventDefault();
+    saveCollectionChoices();
     // retain workout id for new workouts history push
     // delete removed sets and groups
     deletedSets.forEach((setId) => deleteSetND(setId));
@@ -197,6 +214,13 @@ const WorkoutForm = ({
       });
       getWorkoutCollectionsArr(user.uid, id).then((responseArr) => {
         setCollectionsArr(responseArr);
+        const tmpArr = [];
+        for (let i = 0; i < responseArr.length; i += 1) {
+          const tmpObj = { checked: false };
+          tmpObj.checked = responseArr[i].checked;
+          tmpArr.push(tmpObj);
+        }
+        setInitialCollectionsArr(tmpArr);
       });
     }
     return function cleanup() {

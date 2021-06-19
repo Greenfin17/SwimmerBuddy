@@ -74,7 +74,7 @@ const CollectionForm = ({
               name='description' value={collection.description || ''} onChange={handleInputChange}
               placeholder='Workout Description' />
             <Button className='btn btn-info btn-submit-collection'
-              onClick={handleSubmit}>Submit Workout</Button>
+              onClick={handleSubmit}>Submit Collection</Button>
           </FormGroup>
          </div>
       </Form>

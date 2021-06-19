@@ -28,6 +28,14 @@ const getWorkoutCollectionJoins = (workoutId) => new Promise((resolve, reject) =
     })
     .catch((error) => reject(error));
 });
+
+// delete join, return no data
+const deleteJoinND = (joinId) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/workout_collection/${joinId}.json`)
+    .then(() => resolve(null))
+    .catch((error) => reject(error));
+});
+
 const getCollectionWorkouts = (collectionId) => new Promise((resolve, reject) => {
   const workoutArr = [];
   axios.get(`${dbUrl}/workout_collection.json?orderBy="collection_id"&equalTo="${collectionId}"`)
@@ -49,16 +57,19 @@ const getWorkoutCollectionsArr = (uid, workoutId) => new Promise((resolve, rejec
     .then(([collections, joins]) => {
       const workoutCollectionsArr = collections.map((collection) => {
         let checked = false;
+        let joinId = '';
         // for loop to allow break statement
         for (let i = 0; i < joins.length; i += 1) {
           if (joins[i].collection_id === collection.id) {
             checked = true;
+            joinId = joins[i].id;
             break;
           }
         }
         const tmpObj = {
           ...collection,
-          checked
+          checked,
+          join_id: joinId
         };
         return tmpObj;
       });
@@ -89,8 +100,19 @@ const addWorkoutCollection = (uid, joinObj) => new Promise((resolve, reject) => 
     }).catch((error) => reject(error));
 });
 
+const deleteWorkoutCollection = (joinId, workoutId) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/workout_collection/${joinId}.json`)
+    .then(() => getWorkoutCollectionJoins(workoutId).then((collectionArr) => {
+      if (collectionArr) {
+        resolve(collectionArr);
+      } else resolve({});
+    }))
+    .catch((error) => reject(error));
+});
+
 export {
   getCollectionWorkouts, getCollectionWorkoutJoins,
   getWorkoutCollectionJoins, getWorkoutCollectionsArr,
-  updateWorkoutCollection, addWorkoutCollection
+  updateWorkoutCollection, addWorkoutCollection,
+  deleteWorkoutCollection, deleteJoinND
 };
