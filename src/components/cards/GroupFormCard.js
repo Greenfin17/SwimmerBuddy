@@ -10,7 +10,6 @@ import SetGroupForm from '../forms/SetGroupForm';
 
 const GroupFormCard = ({
   group,
-  workoutId,
   handleInputChange
 }) => {
   // const history = useHistory();
@@ -18,7 +17,6 @@ const GroupFormCard = ({
 
   const handleDeleteClick = (e) => {
     e.preventDefault();
-    console.warn(workoutId);
   };
   const handleEditClick = (e) => {
     e.preventDefault();
@@ -50,7 +48,6 @@ const GroupFormCard = ({
 
 GroupFormCard.propTypes = {
   group: PropTypes.object,
-  workoutId: PropTypes.string,
   handleInputChange: PropTypes.func,
 };
 

@@ -6,6 +6,9 @@ import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import WorkoutsView from '../views/WorkoutsView';
 import WorkoutForm from '../components/forms/WorkoutForm';
+import CollectionsView from '../views/CollectionsView';
+import CollectionWorkoutsView from '../views/CollectionWorkoutsView';
+import CollectionForm from '../components/forms/CollectionForm';
 
 const AuthedRoute = ({ component: Component, user, ...rest }) => {
   const routeChecker = (values) => (user
@@ -25,6 +28,26 @@ const Routes = ({
   <div>
     <Switch>
       <Route exact path='/' component={() => <Home user={user} />} />
+      <AuthedRoute exact path='/collections'
+        user={user}
+        component={() => <CollectionsView
+          user={user} />}
+      />
+      <AuthedRoute exact path='/edit-collection/:id'
+        user={user}
+        component={() => <CollectionForm
+          user={user} />}
+      />
+      <AuthedRoute exact path='/collection-workouts/:id'
+        user={user}
+        component={() => <CollectionWorkoutsView
+          user={user} />}
+      />
+      <AuthedRoute exact path='/add-collection'
+        user={user}
+        component={() => <CollectionForm
+          user={user} />}
+      />
       <AuthedRoute exact path='/workouts'
         user={user}
         component={() => <WorkoutsView

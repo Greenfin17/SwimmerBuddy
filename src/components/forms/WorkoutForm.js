@@ -1,4 +1,4 @@
-// EditWorkouView
+// WorkoutForm.js
 
 import React, {
   useState, useEffect,
@@ -24,6 +24,8 @@ import {
   updateGroup, deleteGroupND,
   addGroup
 } from '../../helpers/data/groupData';
+import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsArr } from '../../helpers/data/workoutCollectionData';
+// import deepCopy from '../../helpers/data/deepCopy';
 
 const WorkoutForm = ({
   user
@@ -40,10 +42,10 @@ const WorkoutForm = ({
     groupArr: []
   });
   const [localGroupArr, setLocalGroupArr] = useState([]);
-  // trigger re-render on click for deleting group
-  const [triggerGroup, setTriggerGroup] = useState(false);
   const [deletedGroups, setDeletedGroups] = useState([]);
   const [deletedSets, setDeletedSets] = useState([]);
+  const [collectionsArr, setCollectionsArr] = useState([]);
+  const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
   const history = useHistory();
 
   const { id } = useParams();
@@ -53,6 +55,13 @@ const WorkoutForm = ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
+  };
+
+  const handleCheckboxChange = (e, index) => {
+    const tmpArr = [...collectionsArr];
+    tmpArr[index].checked = e.target.checked;
+    setCollectionsArr(tmpArr);
+    console.warn(initialCollectionsArr);
   };
 
   const addGroupClick = () => {
@@ -83,11 +92,26 @@ const WorkoutForm = ({
     }
     tempGroupArr.splice(index, 1);
     setLocalGroupArr(tempGroupArr);
-    setTriggerGroup(!triggerGroup);
+  };
+
+  const saveCollectionChoices = () => {
+    for (let i = 0; i < initialCollectionsArr.length; i += 1) {
+      if (initialCollectionsArr[i].checked === true && collectionsArr && collectionsArr[i].checked === false) {
+        deleteWorkoutCollection(collectionsArr[i].join_id);
+      } else if (!initialCollectionsArr[i].checked && collectionsArr && collectionsArr[i].checked === true) {
+        const tmpObj = {
+          author_uid: collectionsArr[i].author_uid,
+          collection_id: collectionsArr[i].id,
+          workout_id: id
+        };
+        addWorkoutCollection(user.uid, tmpObj);
+      }
+    }
   };
 
   const handleSubmit = ((e) => {
     e.preventDefault();
+    saveCollectionChoices();
     // retain workout id for new workouts history push
     // delete removed sets and groups
     deletedSets.forEach((setId) => deleteSetND(setId));
@@ -143,7 +167,11 @@ const WorkoutForm = ({
           } // else addGroup
         });
       }).then(() => {
-        history.push('/workouts');
+        const submitHistory = () => {
+          history.push('/workouts');
+        };
+        // delay for Firebase writing
+        setTimeout(submitHistory, 500);
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -184,6 +212,16 @@ const WorkoutForm = ({
           setWorkout(workoutObj);
         }
       });
+      getWorkoutCollectionsArr(user.uid, id).then((responseArr) => {
+        setCollectionsArr(responseArr);
+        const tmpArr = [];
+        for (let i = 0; i < responseArr.length; i += 1) {
+          const tmpObj = { checked: false };
+          tmpObj.checked = responseArr[i].checked;
+          tmpArr.push(tmpObj);
+        }
+        setInitialCollectionsArr(tmpArr);
+      });
     }
     return function cleanup() {
       mounted = false;
@@ -218,6 +256,18 @@ const WorkoutForm = ({
               <option value='true'>Meters</option>
               <option value='false'>Yards</option>
             </Input>
+            <Label for='checkbox-container'>Add to Collection(s)</Label>
+            <div className='checkbox-container'>
+              <ul className='collection-ul'>
+                { collectionsArr.map((collection, index) => <li key={collection.id}><div
+                  className='form-check' key={collection.id} >
+                  <Input type='checkbox' className='form-check-input' aria-describedby='Add to Collecton)'
+                    name='checked' value={collection.id} key={index}
+                    onChange={(e) => handleCheckboxChange(e, index)} checked={collection.checked} />
+                  <Label for='collection_id'>{collection.title}</Label>
+                </div> </li>)}
+              </ul>
+            </div>
             <div className='add-set-group-icon' onClick={addGroupClick}>Add Set Group<i className='fas fa-plus'></i></div>
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
@@ -227,7 +277,8 @@ const WorkoutForm = ({
             setLocalGroupArr={setLocalGroupArr}
             removeGroup={removeGroup}
             deletedSets={deletedSets}
-            setDeletedSets={setDeletedSets} />
+            setDeletedSets={setDeletedSets}
+            />
         </div>
       </Form>
     </div>

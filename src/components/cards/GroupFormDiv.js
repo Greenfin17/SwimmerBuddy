@@ -13,7 +13,7 @@ const GroupFormDiv = ({
   setLocalGroupArr,
   removeGroup,
   deletedSets,
-  setDeletedSets
+  setDeletedSets,
 }) => {
   useEffect(() => {
     let mounted = true;
@@ -67,7 +67,6 @@ GroupFormDiv.propTypes = {
   formSetArr: PropTypes.array,
   setFormSetArr: PropTypes.func,
   removeGroup: PropTypes.func,
-  triggerGroup: PropTypes.bool,
   deletedSets: PropTypes.array,
   setDeletedSets: PropTypes.func
 };

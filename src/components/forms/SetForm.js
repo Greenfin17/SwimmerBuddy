@@ -16,7 +16,7 @@ const SetForm = ({
   localGroupArr,
   setLocalGroupArr,
   trigger,
-  setTrigger
+  setTrigger,
   /*
   setFormSetArr
   */
@@ -56,15 +56,8 @@ const SetForm = ({
   }, [localSet]);
 
   useEffect(() => {
-    /*
-    const tmpGroup = { ...localGroup };
-    tmpGroup.setArr = [...local]
-    console.warn(tmpGroup)
-    // const tempSetArr = [];
-    // const tmpSetObj = { ...localSet };
-    */
     setLocalSet(set);
-  }, []);
+  }, [trigger]);
   return (
     <div className='row set-input'>
       <div className='col-1 set-distance'>
@@ -101,14 +94,15 @@ const SetForm = ({
 };
 
 SetForm.propTypes = {
-  set: PropTypes.object,
   index: PropTypes.number,
   groupIndex: PropTypes.number,
   deleteSet: PropTypes.func,
   trigger: PropTypes.bool,
   setTrigger: PropTypes.func,
   localGroupArr: PropTypes.array,
-  setLocalGroupArr: PropTypes.func
+  setLocalGroupArr: PropTypes.func,
+  set: PropTypes.object
+
 };
 
 export default SetForm;

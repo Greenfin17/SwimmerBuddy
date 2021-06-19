@@ -37,4 +37,31 @@
     cursor: pointer;
     padding: 3rem 0 0 1rem;
   }
+
+  label {
+    margin: .3rem 0 .1rem .5rem;
+  }
+
+  .set-interval {
+    padding: 0 .2rem 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-inline-start: .2rem;
+  }
+
+  div.checkbox-container {
+    max-height: 8rem;
+    width: 95%;
+    margin: 5px 0 5px;
+    overflow: auto;
+    text-align: left;
+    background-color: white;
+    border-radius: 5px;
+  }
+  
+  .form-check-input {
+    margin-top: .8rem;
+  }
 }

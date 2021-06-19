@@ -15,6 +15,17 @@ const getSingleWorkout = (workoutId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const getWorkouts = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/workout.json`)
+    .then((response) => {
+      const workoutArr = Object.values(response.data);
+      if (response.data) {
+        resolve(workoutArr);
+      } else resolve({});
+    })
+    .catch((error) => reject(error));
+});
+
 const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/workout.json?orderBy="author_uid"&equalTo="${uid}"`)
     .then((response) => {
@@ -58,6 +69,6 @@ const deleteWorkout = (uid, workoutId) => new Promise((resolve, reject) => {
 });
 
 export {
-  getSingleWorkout, getUserWorkouts,
-  updateWorkout, addWorkout, deleteWorkout
+  getSingleWorkout, getWorkouts, getUserWorkouts,
+  updateWorkout, addWorkout, deleteWorkout,
 };

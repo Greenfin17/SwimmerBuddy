@@ -1,6 +1,6 @@
 // SetGroupForm.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   FormGroup,
@@ -18,7 +18,7 @@ const SetGroupForm = ({
   workoutId,
   removeGroup,
   deletedSets,
-  setDeletedSets
+  setDeletedSets,
 }) => {
   const [localGroup, setLocalGroup] = useState({
     comment: '',
@@ -42,17 +42,19 @@ const SetGroupForm = ({
       tempDeletedSets.push(setId);
       setDeletedSets(tempDeletedSets);
     }
-    console.warn(setIndex);
     tempLocalGroup.setArr.splice(setIndex, 1);
     // localGroupArray is updated in useEffect
     // update display
     // save data to form
     setLocalGroup(tempLocalGroup);
+    // trigger re-render
     setTrigger(!trigger);
   };
 
   const handleRemoveGroupClick = () => {
     removeGroup(index);
+    // trigger re-render
+    setTrigger(!trigger);
   };
 
   const handleInputChange = (e) => {
@@ -94,6 +96,16 @@ const SetGroupForm = ({
       mounted = false;
     };
   }, [localGroup, trigger]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      setLocalGroup(localGroupArr[index]);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [trigger]);
 
   // render group form - launch set arrays
   useEffect(() => {
@@ -144,10 +156,10 @@ const SetGroupForm = ({
         </div>
         <div className='row'>
           <Label className='col-2 set-distance' for='set-distance'>Distance</Label>
-          <Label className='col-2 set-reps' for='set-repetitions'>Reps</Label>
+          <Label className='col-1 set-reps' for='set-repetitions'>Reps</Label>
           <Label className='col-3' for='set-stroke'>Stroke</Label>
-          <Label className='col-2' for='set-comment'>Comment</Label>
-          <Label className='col-3 set-interval-label' for='set-interval'>Interval</Label>
+          <Label className='col-3' for='set-comment'>Comment</Label>
+          <Label className='col-2 set-interval-label' for='set-interval'>Interval</Label>
         </div>
         { localGroup.setArr.map((set, key) => <SetForm
           key={key} index={key}
@@ -155,7 +167,6 @@ const SetGroupForm = ({
           localGroup={localGroup} setLocalGroup={setLocalGroup}
           localGroupArr={localGroupArr} setLocalGroupArr={setLocalGroupArr}
           deleteSet={deleteSet} trigger={trigger} setTrigger={setTrigger}
-
           />) }
       </FormGroup>
     </div>
@@ -172,7 +183,9 @@ SetGroupForm.propTypes = {
   workoutId: PropTypes.string,
   removeGroup: PropTypes.func,
   deletedSets: PropTypes.array,
-  setDeletedSets: PropTypes.func
+  setDeletedSets: PropTypes.func,
+  triggerGroup: PropTypes.bool,
+  setTriggerGroup: PropTypes.func
 };
 
 export default SetGroupForm;
