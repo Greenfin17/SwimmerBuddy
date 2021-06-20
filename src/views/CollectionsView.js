@@ -37,7 +37,7 @@ const CollectionsView = ({
         <Button className='btn btn-info add-collection'
         onClick={handleAddClick} >Add Collection</Button>
       </div>
-      <div className='collection-cards-container'>
+      <div className='card-container collection-cards-container'>
         { collectionArray.map((collectionObj) => <CollectionCard
           key={collectionObj.id}
           user={user}

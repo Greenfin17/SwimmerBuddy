@@ -11,7 +11,7 @@
 @import 'collectionForm';
 
 body {
-  background-color: $favColor;
+  background-color: $favColor !important;
   background-image: $favBackground;
   background-repeat: no-repeat;
   margin: 0;
