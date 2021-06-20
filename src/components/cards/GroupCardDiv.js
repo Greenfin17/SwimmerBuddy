@@ -48,9 +48,10 @@ const GroupCardDiv = ({
   return (
     <div className='group-data' id={`group-data-${id}`}>
       <div className='row group-header'>
-        <div className='col-4 group-title'>{group.title}</div>
-        <div className='col-3 group-repetitions'>x {group.repetitions}</div>
-        <div className='col-5 interval-header'>Interval</div>
+        <div className='col-3 group-title'>{group.title}</div>
+        <div className='col-1 group-repetitions'>x {group.repetitions}</div>
+        <div className='col-5 group-repetitions'>{group.comment}</div>
+        <div className='col-3 interval-header'>Interval</div>
         { setArr?.map((set) => <div key={set.id} className='set-data row' >
           <div className='col-4'>{set.distance} x {set.repetitions} {set.stroke}</div>
           <div className='col-6'>{set.comment}</div>
