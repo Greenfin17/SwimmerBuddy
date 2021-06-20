@@ -7,12 +7,21 @@
   
   .workout-card {
     width: 30rem;
-    margin: 5px 0;
+    margin: .5rem .2rem;
   }
+
+  .card-body {
+    padding: 1.25rem .75rem 1.25rem;
+  }
+
   .card-btn-container {
     display: flex;
     justify-content: space-between;
     margin: 20px 0 10px 0;
+  }
+
+  .row .group-header {
+    margin: 0;
   }
   
   .group-data {

@@ -40,7 +40,7 @@ const WorkoutsView = ({
       <Button className='btn btn-info add-workout'
       onClick={handleAddClick} >Add Workout</Button>
     </div>
-    <div className='workout-cards-container'>
+    <div className='card-container workout-cards-container'>
       { user && userWorkouts.map((workout) => <WorkoutCard
         key={workout.id}
         workout={workout}
