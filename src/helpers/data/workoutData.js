@@ -36,6 +36,16 @@ const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const getPublicWorkouts = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/workout.json?orderBy="public"&equalTo="true"`)
+    .then((response) => {
+      const workoutArr = Object.values(response.data);
+      if (response.data) {
+        resolve(workoutArr);
+      } else resolve([]);
+    }).catch((error) => reject(error));
+});
+
 const updateWorkout = (workoutId, workoutObj) => new Promise((resolve, reject) => {
   axios.patch(`${dbUrl}/workout/${workoutId}.json`, workoutObj)
     .then((response) => {
@@ -71,4 +81,5 @@ const deleteWorkout = (uid, workoutId) => new Promise((resolve, reject) => {
 export {
   getSingleWorkout, getWorkouts, getUserWorkouts,
   updateWorkout, addWorkout, deleteWorkout,
+  getPublicWorkouts
 };
