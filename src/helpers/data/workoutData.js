@@ -37,7 +37,7 @@ const getUserWorkouts = (uid) => new Promise((resolve, reject) => {
 });
 
 const getPublicWorkouts = () => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/workout.json?orderBy="public"&equalTo="true"`)
+  axios.get(`${dbUrl}/workout.json?orderBy="public"&equalTo=true`)
     .then((response) => {
       const workoutArr = Object.values(response.data);
       if (response.data) {

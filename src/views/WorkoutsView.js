@@ -44,10 +44,12 @@ const WorkoutsView = ({
   return (
   <div className='workouts-view'>
     <TitleBox heading1='Workouts' />
-    <div className='view-button-container'>
-      <Button className='btn btn-info add-workout'
-      onClick={handleAddClick} >Add Workout</Button>
-    </div>
+    { user
+      && <div className='view-button-container'>
+        <Button className='btn btn-info add-workout'
+        onClick={handleAddClick} >Add Workout</Button>
+      </div>
+    }
     <div className='card-container workout-cards-container'>
       { userWorkouts.map((workout) => <WorkoutCard
         key={workout.id}

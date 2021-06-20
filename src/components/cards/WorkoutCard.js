@@ -14,6 +14,7 @@ import GroupCardDiv from './GroupCardDiv';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
 import { deleteWorkout, getSingleWorkout } from '../../helpers/data/workoutData';
 import { deleteJoinND, getWorkoutCollectionJoins } from '../../helpers/data/workoutCollectionData';
+import { getUser } from '../../helpers/data/userData';
 
 const WorkoutCard = ({
   user,
@@ -22,6 +23,7 @@ const WorkoutCard = ({
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
+  const [author, setAuthor] = useState({});
   const [groupDistanceArr, setGroupDistanceArr] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const history = useHistory();
@@ -79,6 +81,11 @@ const WorkoutCard = ({
           setGroupArr(respGroupArr);
         }
       });
+      getUser(workout.author_uid).then((authorArr) => {
+        if (authorArr) {
+          setAuthor(authorArr[0]);
+        }
+      });
     }
     return function cleanup() {
       mounted = false;
@@ -93,18 +100,20 @@ const WorkoutCard = ({
             <div className='workout-title col-8'>{localWorkout.title}</div>
             <div className='col-4'>{totalDistance}
               { workout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
-          <CardSubtitle tag='h6' className='mb-2 text-muted'>{user.fullName}</CardSubtitle>
+          <CardSubtitle tag='h6' className='mb-2 col-4 text-muted'>{author?.fullName}</CardSubtitle>
           { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
         </CardBody>
-        <div className='card-footer mt-auto card-btn-container'>
-          <Button className="btn btn-info"
-            onClick={handleEditClick} >Edit Workout</Button>
-          <Button className="btn btn-danger"
-            onClick={handleDeleteClick}>Delete Workout</Button>
-        </div>
+        { user
+          && <div className='card-footer mt-auto card-btn-container'>
+            <Button className="btn btn-info"
+              onClick={handleEditClick} >Edit Workout</Button>
+            <Button className="btn btn-danger"
+              onClick={handleDeleteClick}>Delete Workout</Button>
+          </div>
+        }
       </Card>
     </>
   );
