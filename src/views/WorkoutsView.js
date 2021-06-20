@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
-import { getUserWorkouts } from '../helpers/data/workoutData';
+import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData';
 
 const WorkoutsView = ({
   user
@@ -27,7 +27,15 @@ const WorkoutsView = ({
           setUserWorkouts(workoutsArr);
         }
       });
+    } else {
+      getPublicWorkouts().then((workoutsArr) => {
+        if (mounted) {
+          console.warn(workoutsArr);
+          setUserWorkouts(workoutsArr);
+        }
+      });
     }
+
     return function cleanup() {
       mounted = false;
     };
@@ -36,12 +44,14 @@ const WorkoutsView = ({
   return (
   <div className='workouts-view'>
     <TitleBox heading1='Workouts' />
-    <div className='view-button-container'>
-      <Button className='btn btn-info add-workout'
-      onClick={handleAddClick} >Add Workout</Button>
-    </div>
+    { user
+      && <div className='view-button-container'>
+        <Button className='btn btn-info add-workout'
+        onClick={handleAddClick} >Add Workout</Button>
+      </div>
+    }
     <div className='card-container workout-cards-container'>
-      { user && userWorkouts.map((workout) => <WorkoutCard
+      { userWorkouts.map((workout) => <WorkoutCard
         key={workout.id}
         workout={workout}
         user={user}

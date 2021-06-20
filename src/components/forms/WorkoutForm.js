@@ -63,6 +63,13 @@ const WorkoutForm = ({
     setCollectionsArr(tmpArr);
   };
 
+  const handlePublicCheckboxChange = (e) => {
+    setWorkout((prevState) => ({
+      ...prevState,
+      public: e.target.checked
+    }));
+  };
+
   const addGroupClick = () => {
     const sequence = localGroupArr.length;
     const tempArr = [...localGroupArr];
@@ -278,7 +285,7 @@ const WorkoutForm = ({
               <ul className='collection-ul'>
                 { collectionsArr.map((collection, index) => <li key={collection.id}><div
                   className='form-check' key={collection.id} >
-                  <Input type='checkbox' className='form-check-input' aria-describedby='Add to Collecton)'
+                  <Input type='checkbox' className='form-check-input' aria-describedby='Add to Collecton'
                     name='checked' value={collection.id} key={index}
                     onChange={(e) => handleCheckboxChange(e, index)} checked={collection.checked} />
                   <Label for='collection_id'>{collection.title}</Label>
@@ -286,6 +293,12 @@ const WorkoutForm = ({
               </ul>
             </div>
             <div className='add-set-group-icon' onClick={addGroupClick}>Add Set Group<i className='fas fa-plus'></i></div>
+            <div className='public-check-box'>
+              <Input type='checkbox' className='form-check-input public-checkbox' aria-describedby='Make Public'
+                name='public' value='true'
+                onChange={handlePublicCheckboxChange} checked={workout.public} />
+              <Label for='public-checkbox'>Make Public</Label>
+            </div>
             <Button className='btn btn-info'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
