@@ -27,7 +27,6 @@ const WorkoutCard = ({
   const [groupDistanceArr, setGroupDistanceArr] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const history = useHistory();
-  let mounted = true;
   const handleEditClick = () => {
     if (workout && workout.id) {
       history.push(`/edit-workout/${workout.id}`);
@@ -56,21 +55,21 @@ const WorkoutCard = ({
   };
 
   useEffect(() => {
-    const tmpArr = [];
-    // create empty array for child groups to
-    // populate their distances
-    groupArr.forEach(() => tmpArr.push(''));
-  }, [groupArr]);
-
-  useEffect(() => {
+    let mounted = true;
     let tmpTotalDistance = 0;
     groupDistanceArr.forEach((distance) => {
       tmpTotalDistance += distance;
     });
-    setTotalDistance(tmpTotalDistance);
+    if (mounted) {
+      setTotalDistance(tmpTotalDistance);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
   }, [groupDistanceArr]);
 
   useEffect(() => {
+    let mounted = true;
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
         setLocalWorkout(workoutObj);
@@ -81,16 +80,24 @@ const WorkoutCard = ({
           setGroupArr(respGroupArr);
         }
       });
-      getUser(workout.author_uid).then((authorArr) => {
-        if (authorArr) {
-          setAuthor(authorArr[0]);
-        }
-      });
     }
     return function cleanup() {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    // needed for author name
+    getUser(localWorkout.author_uid).then((authorArr) => {
+      if (authorArr && mounted) {
+        setAuthor(authorArr[0]);
+      }
+    });
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [localWorkout]);
 
   return (
     <>

@@ -37,7 +37,7 @@ const WorkoutForm = ({
     id: '',
     longcourse: 'true',
     meters: 'true',
-    public: 'false',
+    public: false,
     title: '',
     groupArr: []
   });
