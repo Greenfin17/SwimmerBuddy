@@ -19,7 +19,6 @@
 
 ## MVP
 - The authenticated user can create, read, update and delete workouts.
-- The authenticated user can search workouts.
 
 ## STRETCH
 - The authenticated user can mark their workouts public.
