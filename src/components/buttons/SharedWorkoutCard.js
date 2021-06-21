@@ -117,7 +117,6 @@ const SharedWorkoutCard = ({
   }, []);
 
   useEffect(() => {
-    console.warn(user);
     let mounted = true;
     // needed for author name
     getUser(localWorkout.author_uid).then((authorArr) => {
