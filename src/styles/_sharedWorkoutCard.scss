@@ -1,0 +1,30 @@
+// _shaedWorkoutCard.scss
+
+.shared-workouts-checkbox {
+  padding: 0 .25rem .75rem 1.25rem;
+
+  .collection-checkbox-label {
+    cursor: pointer;
+    color: blue;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-inline-start: .2rem;
+  }
+
+  div.checkbox-container {
+    max-height: 8rem;
+    width: 95%;
+    margin: 5px 0 5px;
+    overflow: auto;
+    text-align: left;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .public-checkbox {
+    position: relative;
+    margin: 0 0 2rem;
+  }
+}

@@ -7,6 +7,8 @@ import {
   Navbar,
   Nav,
   NavItem,
+  UncontrolledDropdown, DropdownToggle,
+  DropdownMenu, DropdownItem
 } from 'reactstrap';
 import LogoutButton from './buttons/LogoutButton';
 import LoginButton from './buttons/LoginButton';
@@ -28,9 +30,19 @@ const NavBar = ({ user }) => {
               <NavItem>
                 { user && <Link className='nav-link' to='/collections'>Collections</Link> }
               </NavItem>
-              <NavItem>
-                <Link className='nav-link' to='/workouts'>Workouts</Link>
-              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Workouts
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  <Link className='nav-link' to='/workouts'>My Workouts</Link>
+                </DropdownItem>
+                <DropdownItem>
+                  <Link className='nav-link' to='/shared-workouts'>Shared Workouts</Link>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             </Nav>
             { !user && <LoginButton /> }
             { user && <LogoutButton /> }

@@ -114,7 +114,7 @@ const WorkoutCard = ({
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
         </CardBody>
-        { user
+        { user && user.uid === localWorkout.author_uid
           && <div className='card-footer mt-auto card-btn-container'>
             <Button className="btn btn-info"
               onClick={handleEditClick} >Edit Workout</Button>
