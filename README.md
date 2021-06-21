@@ -6,6 +6,9 @@
 - The user can search workouts by keywords.
 - The user can add workouts created by other swimmers to their own collections.
 
+## Site Link
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5ce0d99c-0d19-43fa-8dd5-a943ed94daae/deploy-status)](https://app.netlify.com/sites/swimmer-buddy/deploys)
+
 ## User Story
  - When the user opens the home page, the user sees a menu with a workouts link and a login button.
  - The user can view public workouts by clicking the workouts Link. The user can search public workouts.
