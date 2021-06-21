@@ -20,11 +20,9 @@ const SharedWorkoutsView = ({
   };
 
   useEffect(() => {
-    console.warn(user);
     let mounted = true;
     getPublicWorkouts().then((workoutsArr) => {
       if (mounted) {
-        console.warn(workoutsArr);
         setPublicWorkouts(workoutsArr);
       }
     });

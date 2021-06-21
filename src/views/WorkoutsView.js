@@ -30,7 +30,6 @@ const WorkoutsView = ({
     } else {
       getPublicWorkouts().then((workoutsArr) => {
         if (mounted) {
-          console.warn(workoutsArr);
           setUserWorkouts(workoutsArr);
         }
       });

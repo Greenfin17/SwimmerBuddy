@@ -7,30 +7,71 @@ import PropTypes from 'prop-types';
 import {
   Card, CardBody,
   CardTitle, CardSubtitle,
-  Button
+  Button, Input, Label
 } from 'reactstrap';
 import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
 import { deleteSetND, getSets } from '../../helpers/data/setData';
 import { deleteWorkout, getSingleWorkout } from '../../helpers/data/workoutData';
-import { deleteJoinND, getWorkoutCollectionJoins } from '../../helpers/data/workoutCollectionData';
+import {
+  deleteJoinND, getWorkoutCollectionJoins,
+  deleteWorkoutCollection, addWorkoutCollection,
+  getWorkoutCollectionsCheckedArr
+} from '../../helpers/data/workoutCollectionData';
 import { getUser } from '../../helpers/data/userData';
 
 const WorkoutCard = ({
   user,
   workout,
-  setUserWorkouts
+  setUserWorkouts,
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
   const [author, setAuthor] = useState({});
   const [groupDistanceArr, setGroupDistanceArr] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
+  const [collectionsArr, setCollectionsArr] = useState([]);
+  const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
+  const [toggleAddCollections, setToggleAddCollections] = useState(false);
   const history = useHistory();
+
   const handleEditClick = () => {
     if (workout && workout.id) {
       history.push(`/edit-workout/${workout.id}`);
     }
+  };
+
+  const handleCheckboxChange = (e, index) => {
+    const tmpArr = [...collectionsArr];
+    tmpArr[index].checked = e.target.checked;
+    setCollectionsArr(tmpArr);
+  };
+
+  const saveCollectionChoices = (workoutId) => {
+    for (let i = 0; i < initialCollectionsArr.length; i += 1) {
+      if (initialCollectionsArr[i].checked === true && collectionsArr && collectionsArr[i].checked === false) {
+        deleteWorkoutCollection(collectionsArr[i].join_id);
+      } else if (!initialCollectionsArr[i].checked && collectionsArr && collectionsArr[i].checked === true) {
+        const tmpObj = {
+          author_uid: collectionsArr[i].author_uid,
+          collection_id: collectionsArr[i].id,
+          workout_id: workout.id
+        };
+        if (workoutId) {
+          tmpObj.workout_id = workoutId;
+        }
+        addWorkoutCollection(user.uid, tmpObj);
+      }
+    }
+  };
+
+  const handleToggleCollections = () => {
+    setToggleAddCollections(!toggleAddCollections);
+  };
+
+  const handleSubmitChoices = () => {
+    saveCollectionChoices();
+    setToggleAddCollections(!toggleAddCollections);
   };
 
   const handleDeleteClick = () => {
@@ -53,6 +94,27 @@ const WorkoutCard = ({
       });
     }
   };
+
+  useEffect(() => {
+    let mounted = true;
+    if (user && workout && mounted) {
+      getWorkoutCollectionsCheckedArr(user.uid, workout.id).then((responseArr) => {
+        if (mounted) {
+          setCollectionsArr(responseArr);
+        }
+        const tmpArr = [];
+        for (let i = 0; i < responseArr.length; i += 1) {
+          const tmpObj = { checked: false };
+          tmpObj.checked = responseArr[i].checked;
+          tmpArr.push(tmpObj);
+        }
+        setInitialCollectionsArr(tmpArr);
+      });
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -114,12 +176,37 @@ const WorkoutCard = ({
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
         </CardBody>
-        { user && user.uid === localWorkout.author_uid
+        { user?.uid === localWorkout.author_uid
           && <div className='card-footer mt-auto card-btn-container'>
             <Button className="btn btn-info"
               onClick={handleEditClick} >Edit Workout</Button>
             <Button className="btn btn-danger"
               onClick={handleDeleteClick}>Delete Workout</Button>
+          </div>
+        }
+        { user?.uid !== localWorkout.author_uid
+          && <div className='shared-workouts-checkbox'>
+            <div className='collection-checkbox-label'
+              onClick={handleToggleCollections}>
+              Add to Collection(s)</div>
+          { toggleAddCollections
+            && <>
+              <div className='checkbox-container'>
+                <ul className='collection-ul'>
+                  { collectionsArr.map((collection, index) => <li key={collection.id}><div
+                    className='form-check' key={collection.id} >
+                    <Input type='checkbox' className='form-check-input' aria-describedby='Add to Collecton'
+                      name='checked' value={collection.id} key={index}
+                      onChange={(e) => handleCheckboxChange(e, index)} checked={collection.checked} />
+                    <Label for='collection_id'>{collection.title}</Label>
+                  </div> </li>)}
+                </ul>
+              </div>
+              <div className='card-footer mt-auto card-btn-container'>
+                <Button className="btn btn-info"
+                  onClick={handleSubmitChoices}>Submit Choices</Button>
+              </div>
+            </> }
           </div>
         }
       </Card>

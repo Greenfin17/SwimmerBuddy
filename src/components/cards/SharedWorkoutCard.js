@@ -29,6 +29,7 @@ const SharedWorkoutCard = ({
   const [collectionsArr, setCollectionsArr] = useState([]);
   const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
   const [toggleAddCollections, setToggleAddCollections] = useState(false);
+
   const handleCheckboxChange = (e, index) => {
     const tmpArr = [...collectionsArr];
     tmpArr[index].checked = e.target.checked;
@@ -55,11 +56,11 @@ const SharedWorkoutCard = ({
 
   const handleToggleCollections = () => {
     setToggleAddCollections(!toggleAddCollections);
-    console.warn(toggleAddCollections);
   };
 
   const handleSubmitChoices = () => {
     saveCollectionChoices();
+    setToggleAddCollections(!toggleAddCollections);
   };
 
   useEffect(() => {
@@ -90,7 +91,6 @@ const SharedWorkoutCard = ({
           tmpArr.push(tmpObj);
         }
         setInitialCollectionsArr(tmpArr);
-        console.warn(tmpArr);
       });
     }
     return function cleanup() {
