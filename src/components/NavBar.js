@@ -30,7 +30,7 @@ const NavBar = ({ user }) => {
               <NavItem>
                 { user && <Link className='nav-link' to='/collections'>Collections</Link> }
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
+              { user && <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Workouts
               </DropdownToggle>
@@ -42,7 +42,11 @@ const NavBar = ({ user }) => {
                   <Link className='nav-link' to='/shared-workouts'>Shared Workouts</Link>
                 </DropdownItem>
               </DropdownMenu>
-            </UncontrolledDropdown>
+              </UncontrolledDropdown>
+              }
+              <NavItem>
+                { !user && <Link className='nav-link' to='/shared-workouts'>Workouts</Link> }
+              </NavItem>
             </Nav>
             { !user && <LoginButton /> }
             { user && <LogoutButton /> }

@@ -184,7 +184,7 @@ const WorkoutCard = ({
               onClick={handleDeleteClick}>Delete Workout</Button>
           </div>
         }
-        { user?.uid !== localWorkout.author_uid
+        { user && user.uid !== localWorkout.author_uid
           && <div className='shared-workouts-checkbox'>
             <div className='collection-checkbox-label'
               onClick={handleToggleCollections}>
