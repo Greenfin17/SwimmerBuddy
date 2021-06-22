@@ -29,6 +29,10 @@
   .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
     padding: 0 .2rem;
   }
+
+  .workout-total-distance {
+    text-align: right;
+  }
   
   .group-data {
     margin: 0 0 .3rem 0;
@@ -54,5 +58,9 @@
     border-radius: 50%;
     width: 35px;
     margin: 0 5px 0 0;
+  }
+  
+  .author-location {
+    text-align: right;
   }
 }

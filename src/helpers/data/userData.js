@@ -29,7 +29,7 @@ const addUser = (userObj) => new Promise((resolve, reject) => {
 });
 
 const updateUser = (userId, userObj) => new Promise((resolve, reject) => {
-  axios.put(`${dbUrl}./user/${userId}.json`, userObj)
+  axios.patch(`${dbUrl}./user/${userId}.json`, userObj)
     .then(() => getUser(userId).then((user) => {
       resolve(user);
     })).catch((error) => reject(error));

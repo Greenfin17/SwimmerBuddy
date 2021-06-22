@@ -10,6 +10,7 @@ import WorkoutForm from '../components/forms/WorkoutForm';
 import CollectionsView from '../views/CollectionsView';
 import CollectionWorkoutsView from '../views/CollectionWorkoutsView';
 import CollectionForm from '../components/forms/CollectionForm';
+import UserForm from '../components/forms/UserForm';
 
 const AuthedRoute = ({ component: Component, user, ...rest }) => {
   const routeChecker = (values) => (user
@@ -25,6 +26,7 @@ AuthedRoute.propTypes = {
 
 const Routes = ({
   user,
+  setUser
 }) => (
   <div>
     <Switch>
@@ -69,6 +71,12 @@ const Routes = ({
         component={() => <WorkoutForm
           user={user} />}
       />
+      <AuthedRoute exact path='/account'
+        user={user}
+        component={() => <UserForm
+          user={user}
+          setUser={setUser} />}
+      />
       <Route path='*'
         component={NotFound}
       />
@@ -78,6 +86,7 @@ const Routes = ({
 
 Routes.propTypes = {
   user: PropTypes.any,
+  setUser: PropTypes.func
 };
 
 export default Routes;

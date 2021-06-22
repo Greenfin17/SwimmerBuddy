@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import {
   Form, FormGroup,
   Label, Input,
   Button
 } from 'reactstrap';
-import { getUser, updateUser } from '../../helpers/data/userData';
+import { updateUser } from '../../helpers/data/userData';
 
-const UserForm = ({}) => {
+const UserForm = ({
+  user,
+  setUser
+}) => {
   const [localUser, setLocalUser] = useState({});
   const history = useHistory();
 
-  const { id } = useParams();
-
   const handleInputChange = (e) => {
-    setCollection((prevState) => ({
+    setLocalUser((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value ? e.target.value : '',
     }));
   };
 
   const handleSubmit = () => {
-    if (id) {
-      updateUser(id, localUser).then(() => {
-        history.push('/account');
+    if (user.id) {
+      updateUser(user.id, localUser).then(() => {
+        setUser(localUser);
+        history.push('/');
       });
+    }
   };
 
   useEffect(() => {
     let mounted = true;
-    if (id) {
-      getUser(id).then((respObj) => {
-        if (mounted) {
-          setLocalUser(respObj);
-        }
-      });
+    if (mounted) {
+      setLocalUser(user);
     }
     return function cleanup() {
       mounted = false;
@@ -58,8 +58,8 @@ const UserForm = ({}) => {
             <Input type='text' className='form-control' aria-describedby='Collection Description'
               name='location' value={localUser.location || ''} onChange={handleInputChange}
               placeholder='Location'/>
-            <Button className='btn btn-info btn-submit-collection'
-              onClick={handleSubmit}>Submit Collection</Button>
+            <Button className='btn btn-info btn-submit-user'
+              onClick={handleSubmit}>Submit Profile</Button>
           </FormGroup>
          </div>
       </Form>
@@ -67,4 +67,9 @@ const UserForm = ({}) => {
   );
 };
 
-export default CollectionForm;
+UserForm.propTypes = {
+  user: PropTypes.any,
+  setUser: PropTypes.func
+};
+
+export default UserForm;

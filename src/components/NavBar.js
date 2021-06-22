@@ -47,6 +47,9 @@ const NavBar = ({ user }) => {
               <NavItem>
                 { !user && <Link className='nav-link' to='/shared-workouts'>Workouts</Link> }
               </NavItem>
+              <NavItem>
+                { user && <Link className='nav-link' to='/account'>Profile</Link> }
+              </NavItem>
             </Nav>
             { !user && <LoginButton /> }
             { user && <LogoutButton /> }
