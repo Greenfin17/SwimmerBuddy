@@ -8,7 +8,7 @@ const Home = ({ user }) => {
   const title = 'Swimmer Buddy';
   const subTitle = 'Organize your Workouts';
   return (
-    <>
+    <div className='home-page-container'>
     <TitleBox
       heading1={title}
       heading2={subTitle} />
@@ -19,10 +19,10 @@ const Home = ({ user }) => {
     }
     { !user
       && <>
-        <h5>Sign in to view your workouts</h5>
+        <h5 className='home-sign-in'>Sign in to view your workouts</h5>
       </>
     }
-    </>
+    </div>
   );
 };
 

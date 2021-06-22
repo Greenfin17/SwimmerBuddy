@@ -16,11 +16,18 @@ function App() {
           profileImage: authed.photoURL,
           uid: authed.uid,
           username: authed.email.split('@')[0],
+          displayName: '',
+          club: '',
+          location: ''
         };
-        setUser(userInfoObj);
         getUser(authed.uid).then((userResp) => {
           if (userResp.length < 1) {
             addUser(userInfoObj);
+          } else {
+            userInfoObj.displayName = userResp[0].displayName;
+            userInfoObj.club = userResp[0].club;
+            userInfoObj.location = userResp[0].location;
+            setUser(userInfoObj);
           }
         });
       } else if (user || user === null) {
