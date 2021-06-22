@@ -53,7 +53,7 @@ const GroupCardDiv = ({
         <div className='col-5 group-repetitions'>{group.comment}</div>
         <div className='col-3 interval-header'>Interval</div>
         { setArr?.map((set) => <div key={set.id} className='set-data row' >
-          <div className='col-4'>{set.distance} x {set.repetitions} {set.stroke}</div>
+          <div className='col-4'>{set.distance}{ set.distance ? ' x' : '' } {set.repetitions} {set.stroke}</div>
           <div className='col-6'>{set.comment}</div>
           <div className='col-2 set-interval'>{set.interval}</div>
         </div>)}

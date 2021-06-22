@@ -1,29 +1,25 @@
-// WorkoutCard.js
+// Shared WorkoutCard.js
 // Display individual workout on a card
 
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Card, CardBody,
   CardTitle, CardSubtitle,
-  Button, Input, Label
+  Button, Label, Input
 } from 'reactstrap';
-import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupData';
+import { getGroups, cmpGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
-import { deleteSetND, getSets } from '../../helpers/data/setData';
-import { deleteWorkout, getSingleWorkout } from '../../helpers/data/workoutData';
-import {
-  deleteJoinND, getWorkoutCollectionJoins,
-  deleteWorkoutCollection, addWorkoutCollection,
-  getWorkoutCollectionsCheckedArr
-} from '../../helpers/data/workoutCollectionData';
+import { getSingleWorkout } from '../../helpers/data/workoutData';
 import { getUser } from '../../helpers/data/userData';
+import {
+  getWorkoutCollectionsCheckedArr, deleteWorkoutCollection,
+  addWorkoutCollection
+} from '../../helpers/data/workoutCollectionData';
 
-const WorkoutCard = ({
+const SharedWorkoutCard = ({
   user,
-  workout,
-  setUserWorkouts,
+  workout
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
@@ -33,13 +29,6 @@ const WorkoutCard = ({
   const [collectionsArr, setCollectionsArr] = useState([]);
   const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
   const [toggleAddCollections, setToggleAddCollections] = useState(false);
-  const history = useHistory();
-
-  const handleEditClick = () => {
-    if (workout && workout.id) {
-      history.push(`/edit-workout/${workout.id}`);
-    }
-  };
 
   const handleCheckboxChange = (e, index) => {
     const tmpArr = [...collectionsArr];
@@ -74,26 +63,19 @@ const WorkoutCard = ({
     setToggleAddCollections(!toggleAddCollections);
   };
 
-  const handleDeleteClick = () => {
-    groupArr.forEach((groupObj) => {
-      getSets(groupObj.id).then((setArr) => {
-        setArr.forEach((setObj) => {
-          deleteSetND(setObj.id);
-        });
-      });
-      deleteGroupND(groupObj.id);
+  useEffect(() => {
+    let mounted = true;
+    let tmpTotalDistance = 0;
+    groupDistanceArr.forEach((distance) => {
+      tmpTotalDistance += distance;
     });
-    if (workout) {
-      deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
-        getWorkoutCollectionJoins(workout.id).then((joinArr) => {
-          joinArr.forEach((join) => {
-            deleteJoinND(join.id);
-          });
-        });
-        setUserWorkouts(workoutsArr);
-      });
+    if (mounted) {
+      setTotalDistance(tmpTotalDistance);
     }
-  };
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [groupDistanceArr]);
 
   useEffect(() => {
     let mounted = true;
@@ -115,20 +97,6 @@ const WorkoutCard = ({
       mounted = false;
     };
   }, []);
-
-  useEffect(() => {
-    let mounted = true;
-    let tmpTotalDistance = 0;
-    groupDistanceArr.forEach((distance) => {
-      tmpTotalDistance += distance;
-    });
-    if (mounted) {
-      setTotalDistance(tmpTotalDistance);
-    }
-    return function cleanup() {
-      mounted = false;
-    };
-  }, [groupDistanceArr]);
 
   useEffect(() => {
     let mounted = true;
@@ -176,15 +144,7 @@ const WorkoutCard = ({
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
         </CardBody>
-        { user?.uid === localWorkout.author_uid
-          && <div className='card-footer mt-auto card-btn-container'>
-            <Button className="btn btn-info"
-              onClick={handleEditClick} >Edit Workout</Button>
-            <Button className="btn btn-danger"
-              onClick={handleDeleteClick}>Delete Workout</Button>
-          </div>
-        }
-        { user && user.uid !== localWorkout.author_uid
+        { user
           && <div className='shared-workouts-checkbox'>
             <div className='collection-checkbox-label'
               onClick={handleToggleCollections}>
@@ -201,10 +161,10 @@ const WorkoutCard = ({
                     <Label for='collection_id'>{collection.title}</Label>
                   </div> </li>)}
                 </ul>
-              </div>
               <div className='card-footer mt-auto card-btn-container'>
                 <Button className="btn btn-info"
                   onClick={handleSubmitChoices}>Submit Choices</Button>
+              </div>
               </div>
             </> }
           </div>
@@ -214,10 +174,9 @@ const WorkoutCard = ({
   );
 };
 
-WorkoutCard.propTypes = {
+SharedWorkoutCard.propTypes = {
   user: PropTypes.any,
   workout: PropTypes.object,
-  setUserWorkouts: PropTypes.func
 };
 
-export default WorkoutCard;
+export default SharedWorkoutCard;

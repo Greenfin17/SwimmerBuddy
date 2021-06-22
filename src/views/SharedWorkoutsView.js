@@ -7,13 +7,13 @@ import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
-import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData';
+import { getPublicWorkouts } from '../helpers/data/workoutData';
 
-const WorkoutsView = ({
+const SharedWorkoutsView = ({
   user
 }) => {
   const history = useHistory();
-  const [userWorkouts, setUserWorkouts] = useState([]);
+  const [publicWorkouts, setPublicWorkouts] = useState([]);
 
   const handleAddClick = () => {
     history.push('/add-workout');
@@ -21,19 +21,11 @@ const WorkoutsView = ({
 
   useEffect(() => {
     let mounted = true;
-    if (user) {
-      getUserWorkouts(user.uid).then((workoutsArr) => {
-        if (mounted) {
-          setUserWorkouts(workoutsArr);
-        }
-      });
-    } else {
-      getPublicWorkouts().then((workoutsArr) => {
-        if (mounted) {
-          setUserWorkouts(workoutsArr);
-        }
-      });
-    }
+    getPublicWorkouts().then((workoutsArr) => {
+      if (mounted) {
+        setPublicWorkouts(workoutsArr);
+      }
+    });
 
     return function cleanup() {
       mounted = false;
@@ -42,7 +34,7 @@ const WorkoutsView = ({
 
   return (
   <div className='workouts-view'>
-    <TitleBox heading1='Workouts' />
+    <TitleBox heading1='Shared Workouts' />
     { user
       && <div className='view-button-container'>
         <Button className='btn btn-info add-workout'
@@ -50,11 +42,12 @@ const WorkoutsView = ({
       </div>
     }
     <div className='card-container workout-cards-container'>
-      { userWorkouts.map((workout) => <WorkoutCard
+      { publicWorkouts.map((workout) => user?.uid !== workout.author_uid
+        && <WorkoutCard
         key={workout.id}
         workout={workout}
         user={user}
-        setUserWorkouts={setUserWorkouts}
+        setUserWorkouts={setPublicWorkouts}
         />)
       }
     </div>
@@ -62,8 +55,8 @@ const WorkoutsView = ({
   );
 };
 
-WorkoutsView.propTypes = {
+SharedWorkoutsView.propTypes = {
   user: PropTypes.any
 };
 
-export default WorkoutsView;
+export default SharedWorkoutsView;

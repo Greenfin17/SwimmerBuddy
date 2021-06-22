@@ -57,6 +57,7 @@ const CollectionWorkoutsView = ({
         workout={workout}
         user={user}
         setUserWorkouts={setCollectionWorkouts}
+        collectionId={id}
         />)
       }
     </div>

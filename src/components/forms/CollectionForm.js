@@ -68,11 +68,11 @@ const CollectionForm = ({
             <Label for='collection-title'>Collection Title</Label>
             <Input type='text' className='form-control' aria-describedby='Workout Title'
               name='title' value={collection.title || ''} onChange={handleInputChange}
-              placeholder='Enter Workout Title' />
+              placeholder='Enter Collection Title' />
             <Label for='collection-description'>Description</Label>
-            <Input type='text' className='form-control' aria-describedby='Workout Description'
+            <Input type='text' className='form-control' aria-describedby='Collection Description'
               name='description' value={collection.description || ''} onChange={handleInputChange}
-              placeholder='Workout Description' />
+              placeholder='Collection Description' />
             <Button className='btn btn-info btn-submit-collection'
               onClick={handleSubmit}>Submit Collection</Button>
           </FormGroup>

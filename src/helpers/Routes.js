@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Home from '../views/Home';
 import NotFound from '../views/NotFound';
 import WorkoutsView from '../views/WorkoutsView';
+import SharedWorkoutsView from '../views/SharedWorkoutsView';
 import WorkoutForm from '../components/forms/WorkoutForm';
 import CollectionsView from '../views/CollectionsView';
 import CollectionWorkoutsView from '../views/CollectionWorkoutsView';
@@ -51,6 +52,11 @@ const Routes = ({
       <Route exact path='/workouts'
         user={user}
         component={() => <WorkoutsView
+          user={user} />}
+      />
+      <Route exact path='/shared-workouts'
+        user={user}
+        component={() => <SharedWorkoutsView
           user={user} />}
       />
       <AuthedRoute exact path='/edit-workout/:id'
