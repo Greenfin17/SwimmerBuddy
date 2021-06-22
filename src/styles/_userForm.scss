@@ -1,0 +1,19 @@
+// _userForm.scss
+
+.user-form-container {
+  display: flex;
+  justify-content: center;
+
+  .user-form {
+    width: 30rem;
+    background: #efefef;
+  }
+
+  .user-form-group {
+    margin: 1rem;
+  }
+
+  .btn-submit-user {
+    margin: 1rem;
+  }
+}

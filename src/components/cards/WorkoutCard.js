@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {
   Card, CardBody,
   CardTitle, CardSubtitle,
-  Button, Input, Label
+  Button, Input, Label, Spinner
 } from 'reactstrap';
 import { deleteGroupND, getGroups, cmpGroups } from '../../helpers/data/groupData';
 import GroupCardDiv from './GroupCardDiv';
@@ -33,6 +33,7 @@ const WorkoutCard = ({
   const [collectionsArr, setCollectionsArr] = useState([]);
   const [initialCollectionsArr, setInitialCollectionsArr] = useState([]);
   const [toggleAddCollections, setToggleAddCollections] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
 
   const handleEditClick = () => {
@@ -140,6 +141,7 @@ const WorkoutCard = ({
         respGroupArr.sort(cmpGroups);
         if (mounted) {
           setGroupArr(respGroupArr);
+          setLoaded(true);
         }
       });
     }
@@ -167,14 +169,18 @@ const WorkoutCard = ({
         <CardBody className='workout-card-body' >
           <CardTitle tag='h5'><div className='workout-heading row'>
             <div className='workout-title col-8'>{localWorkout.title}</div>
-            <div className='col-4'>{totalDistance}
+            <div className='col-4 workout-total-distance'>{totalDistance}
               { workout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
-          <CardSubtitle tag='h6' className='mb-2 col-4 text-muted'>
-            {author?.fullName}</CardSubtitle>
+          <CardSubtitle tag='h6' className='mb-2 row text-muted'>
+              <div className='col-4 author-name'>{author?.displayName ? author?.displayName : author?.fullName} </div>
+              <div className='col-4 author-club'>{author?.club}</div>
+              <div className='col-4 author-location'>{author?.location}</div>
+            </CardSubtitle>
           { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}
             setGroupDistanceArr={setGroupDistanceArr} />)}
+            { !loaded && <Spinner className='card-spinner' color='primary' /> }
         </CardBody>
         { user?.uid === localWorkout.author_uid
           && <div className='card-footer mt-auto card-btn-container'>

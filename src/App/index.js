@@ -16,11 +16,16 @@ function App() {
           profileImage: authed.photoURL,
           uid: authed.uid,
           username: authed.email.split('@')[0],
+          id: '',
+          displayName: '',
+          club: '',
+          location: ''
         };
-        setUser(userInfoObj);
         getUser(authed.uid).then((userResp) => {
           if (userResp.length < 1) {
             addUser(userInfoObj);
+          } else {
+            setUser(userResp[0]);
           }
         });
       } else if (user || user === null) {
@@ -35,6 +40,7 @@ function App() {
         <NavBar user={user} />
         <Routes
           user={user}
+          setUser={setUser}
         />
       </Router>
     </div>
