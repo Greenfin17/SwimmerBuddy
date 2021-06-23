@@ -8,13 +8,35 @@ import {
   Nav,
   NavItem,
   UncontrolledDropdown, DropdownToggle,
-  DropdownMenu, DropdownItem
+  DropdownMenu, DropdownItem,
+  Input
 } from 'reactstrap';
 import LogoutButton from './buttons/LogoutButton';
 import LoginButton from './buttons/LoginButton';
 
-const NavBar = ({ user }) => {
+const NavBar = ({
+  user,
+  setSearchTerms
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputString, setInputString] = useState({
+    search: ''
+  });
+
+  const handleInputChange = (e) => {
+    setInputString((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSearchClick = () => {
+    setSearchTerms(inputString.search);
+    const tempObj = {
+      search: ''
+    };
+    setInputString(tempObj);
+  };
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -50,6 +72,15 @@ const NavBar = ({ user }) => {
               <NavItem>
                 { user && <Link className='nav-link' to='/account'>Profile</Link> }
               </NavItem>
+              <div className='input-group search-input-group'>
+                <div className='form-outline search-form-outline'>
+                  <Input className='form-control mr-sm-2' type='search' placeholder='Search'
+                    name='search' value={inputString.search} onChange={handleInputChange} />
+                </div>
+                <button type='button' className='btn btn-primary' onClick={handleSearchClick}>
+                  <i className='fas fa-search'></i>
+                </button>
+              </div>
             </Nav>
             { !user && <LoginButton /> }
             { user && <LogoutButton /> }
@@ -60,7 +91,8 @@ const NavBar = ({ user }) => {
 };
 
 NavBar.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  setSearchTerms: PropTypes.func
 };
 
 export default NavBar;

@@ -7,6 +7,7 @@ import Routes from '../helpers/Routes';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [searchTerms, setSearchTerms] = useState('');
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -37,10 +38,12 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <NavBar user={user} />
+        <NavBar user={user}
+          setSearchTerms={setSearchTerms} />
         <Routes
           user={user}
           setUser={setUser}
+          searchTerms={searchTerms}
         />
       </Router>
     </div>

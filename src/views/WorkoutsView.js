@@ -10,14 +10,27 @@ import TitleBox from '../components/TitleBox';
 import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData';
 
 const WorkoutsView = ({
-  user
+  user,
+  searchTerms
 }) => {
   const history = useHistory();
   const [userWorkouts, setUserWorkouts] = useState([]);
+  const [filterCopy, setFilterCopy] = useState([]);
 
   const handleAddClick = () => {
     history.push('/add-workout');
   };
+
+  const searchWorkouts = (workout) => {
+    console.warn(workout.description);
+    workout.description.includes(searchTerms);
+  };
+
+  useEffect(() => {
+    const tmpArr = userWorkouts.filter(searchWorkouts);
+    setFilterCopy(tmpArr);
+    console.warn(filterCopy);
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -63,7 +76,8 @@ const WorkoutsView = ({
 };
 
 WorkoutsView.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  searchTerms: PropTypes.string
 };
 
 export default WorkoutsView;
