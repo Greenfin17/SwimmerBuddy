@@ -24,8 +24,10 @@ const SharedWorkoutsView = ({
 
   // run search when the search terms change, run when userWorkouts is loaded
   useEffect(() => {
-    const tmpArr = publicWorkouts.filter((workout) => searchWorkouts(workout, searchTerms));
-    setFilterCopy(tmpArr);
+    if (searchTerms) {
+      const tmpArr = publicWorkouts.filter((workout) => searchWorkouts(workout, searchTerms));
+      setFilterCopy(tmpArr);
+    }
   }, [searchTerms, publicWorkouts]);
 
   useEffect(() => {

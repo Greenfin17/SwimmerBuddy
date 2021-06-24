@@ -11,9 +11,10 @@ import WorkoutCard from '../components/cards/WorkoutCard';
 import { getCollectionWorkoutJoins } from '../helpers/data/workoutCollectionData';
 import { getSingleCollection } from '../helpers/data/collectionData';
 // import { getSingleWorkout } from '../helpers/data/workoutData';
+// import { getSingleWorkout } from '../helpers/data/workoutData';
 
 const CollectionWorkoutsView = ({
-  user
+  user,
 }) => {
   const [collectionWorkouts, setCollectionWorkouts] = useState([]);
   const [collection, setCollection] = useState({});
@@ -38,16 +39,14 @@ const CollectionWorkoutsView = ({
           id: join.workout_id
         };
         tmpArr.push(tmpObj);
+        if (mounted) {
+          setCollectionWorkouts(tmpArr);
+        }
       });
-      if (mounted) {
-        setCollectionWorkouts(tmpArr);
-      }
     });
     return function cleanup() {
       mounted = false;
     };
-
-    // getting the collection workouts
   }, []);
 
   return (
@@ -72,7 +71,7 @@ const CollectionWorkoutsView = ({
 };
 
 CollectionWorkoutsView.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
 };
 
 export default CollectionWorkoutsView;

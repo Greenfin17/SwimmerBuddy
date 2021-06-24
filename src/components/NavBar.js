@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Collapse,
   NavbarToggler,
@@ -22,6 +22,7 @@ const NavBar = ({
   const [inputString, setInputString] = useState({
     search: ''
   });
+  const location = useLocation();
 
   const handleInputChange = (e) => {
     setInputString((prevState) => ({
@@ -86,7 +87,8 @@ const NavBar = ({
               <NavItem>
                 { user && <Link className='nav-link' to='/account'>Profile</Link> }
               </NavItem>
-              <div className='input-group search-input-group'>
+              { (location.pathname === '/workouts' || location.pathname === '/shared-workouts')
+              && <div className='input-group search-input-group'>
                 <div className='form-outline search-form-outline'>
                   <Input className='form-control mr-sm-2' type='search' placeholder='Search'
                     name='search' value={inputString.search} onChange={handleInputChange}
@@ -96,6 +98,7 @@ const NavBar = ({
                   <i className='fas fa-search'></i>
                 </button>
               </div>
+              }
             </Nav>
             { !user && <LoginButton /> }
             { user && <LogoutButton /> }
