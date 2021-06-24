@@ -26,6 +26,7 @@ const CollectionWorkoutsView = ({
   };
 
   useEffect(() => {
+    let mounted = true;
     // retrieving collection title
     getSingleCollection(id).then((collectionObj) => {
       setCollection(collectionObj);
@@ -38,8 +39,13 @@ const CollectionWorkoutsView = ({
         };
         tmpArr.push(tmpObj);
       });
-      setCollectionWorkouts(tmpArr);
+      if (mounted) {
+        setCollectionWorkouts(tmpArr);
+      }
     });
+    return function cleanup() {
+      mounted = false;
+    };
 
     // getting the collection workouts
   }, []);

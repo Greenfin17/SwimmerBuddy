@@ -8,6 +8,7 @@ import { Button, Spinner } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
 import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData';
+import searchWorkouts from '../helpers/data/search';
 
 const WorkoutsView = ({
   user,
@@ -22,39 +23,9 @@ const WorkoutsView = ({
     history.push('/add-workout');
   };
 
-  const searchWorkouts = (workout) => {
-    const lowerCaseSearchTerms = searchTerms.toLowerCase();
-    let returnVal = workout.description.toLowerCase().includes(lowerCaseSearchTerms);
-    returnVal = returnVal || workout.title.toLowerCase().includes(lowerCaseSearchTerms);
-    returnVal = returnVal || workout.title.toLowerCase().includes(lowerCaseSearchTerms);
-
-    if (searchTerms.toLowerCase().includes('Longcourse'.toLowerCase())) {
-      if (workout.longcourse === 'true') {
-        returnVal = true;
-      } else returnVal = returnVal || false;
-    }
-    if (searchTerms.toLowerCase().includes('Shortcourse'.toLowerCase())) {
-      if (workout.longcourse === 'false') {
-        returnVal = true;
-      } else returnVal = returnVal || false;
-    }
-    if (searchTerms.toLowerCase().includes('Meter'.toLowerCase())) {
-      if (workout.meters === 'true') {
-        returnVal = true;
-      } else returnVal = returnVal || false;
-    }
-    if (searchTerms.toLowerCase().includes('Yard'.toLowerCase())) {
-      if (workout.meters === 'false') {
-        returnVal = true;
-      } else returnVal = returnVal || false;
-    }
-    return returnVal;
-    // return workout.description.includes(searchTerms);
-  };
-
   // run search when the search terms change, run when userWorkouts is loaded
   useEffect(() => {
-    const tmpArr = userWorkouts.filter((workout) => searchWorkouts(workout));
+    const tmpArr = userWorkouts.filter((workout) => searchWorkouts(workout, searchTerms));
     setFilterCopy(tmpArr);
   }, [searchTerms, userWorkouts]);
 

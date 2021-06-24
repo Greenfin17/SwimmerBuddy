@@ -63,7 +63,8 @@ const Routes = ({
       <Route exact path='/shared-workouts'
         user={user}
         component={() => <SharedWorkoutsView
-          user={user} />}
+          user={user}
+          searchTerms={searchTerms}/>}
       />
       <AuthedRoute exact path='/edit-workout/:id'
         user={user}

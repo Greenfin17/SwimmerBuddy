@@ -8,22 +8,38 @@ import { Button } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
 import { getPublicWorkouts } from '../helpers/data/workoutData';
+import searchWorkouts from '../helpers/data/search';
 
 const SharedWorkoutsView = ({
-  user
+  user,
+  searchTerms
 }) => {
   const history = useHistory();
   const [publicWorkouts, setPublicWorkouts] = useState([]);
+  const [filterCopy, setFilterCopy] = useState([]);
 
   const handleAddClick = () => {
     history.push('/add-workout');
   };
+
+  // run search when the search terms change, run when userWorkouts is loaded
+  useEffect(() => {
+    const tmpArr = publicWorkouts.filter((workout) => searchWorkouts(workout, searchTerms));
+    setFilterCopy(tmpArr);
+  }, [searchTerms, publicWorkouts]);
 
   useEffect(() => {
     let mounted = true;
     getPublicWorkouts().then((workoutsArr) => {
       if (mounted) {
         setPublicWorkouts(workoutsArr);
+        const tmpArr = [];
+        workoutsArr.forEach((workout) => {
+          let tmpObj = {};
+          tmpObj = { ...workout };
+          tmpArr.push(tmpObj);
+        });
+        setFilterCopy(tmpArr);
       }
     });
 
@@ -42,7 +58,7 @@ const SharedWorkoutsView = ({
       </div>
     }
     <div className='card-container workout-cards-container'>
-      { publicWorkouts.map((workout) => user?.uid !== workout.author_uid
+      { filterCopy.map((workout) => user?.uid !== workout.author_uid
         && <WorkoutCard
         key={workout.id}
         workout={workout}
@@ -56,7 +72,8 @@ const SharedWorkoutsView = ({
 };
 
 SharedWorkoutsView.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  searchTerms: PropTypes.string
 };
 
 export default SharedWorkoutsView;
