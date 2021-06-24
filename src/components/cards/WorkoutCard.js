@@ -135,7 +135,9 @@ const WorkoutCard = ({
     let mounted = true;
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
-        setLocalWorkout(workoutObj);
+        if (mounted) {
+          setLocalWorkout(workoutObj);
+        }
       });
       getGroups(workout.id).then((respGroupArr) => {
         respGroupArr.sort(cmpGroups);

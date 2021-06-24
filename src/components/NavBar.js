@@ -48,6 +48,10 @@ const NavBar = ({
     setIsOpen(!isOpen);
   };
 
+  const clearSearch = () => {
+    setSearchTerms('');
+  };
+
   return (
     <div>
       <Navbar light expand='md'>
@@ -56,7 +60,8 @@ const NavBar = ({
           <Collapse isOpen={isOpen} navbar>
             <Nav className='mr-auto' navbar>
               <NavItem>
-                { user && <Link className='nav-link' to='/collections'>Collections</Link> }
+                { user && <Link className='nav-link' to='/collections'
+                  onClick={clearSearch}>Collections</Link> }
               </NavItem>
               { user && <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
@@ -64,16 +69,19 @@ const NavBar = ({
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                  <Link className='nav-link' to='/workouts'>My Workouts</Link>
+                  <Link className='nav-link' to='/workouts'
+                  onClick={clearSearch}>My Workouts</Link>
                 </DropdownItem>
                 <DropdownItem>
-                  <Link className='nav-link' to='/shared-workouts'>Shared Workouts</Link>
+                  <Link className='nav-link' to='/shared-workouts'
+                  onClick={clearSearch}>Shared Workouts</Link>
                 </DropdownItem>
               </DropdownMenu>
               </UncontrolledDropdown>
               }
               <NavItem>
-                { !user && <Link className='nav-link' to='/shared-workouts'>Workouts</Link> }
+                { !user && <Link className='nav-link' to='/shared-workouts'
+                  onClick={clearSearch}>Workouts</Link> }
               </NavItem>
               <NavItem>
                 { user && <Link className='nav-link' to='/account'>Profile</Link> }

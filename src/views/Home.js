@@ -1,12 +1,24 @@
 // Home.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TitleBox from '../components/TitleBox';
 
-const Home = ({ user }) => {
+const Home = ({
+  user,
+  searchTerms
+}) => {
   const title = 'Swimmer Buddy';
   const subTitle = 'Organize your Workouts';
+  const history = useHistory();
+
+  useEffect(() => {
+    if (searchTerms.length) {
+      history.push('/workouts');
+    }
+  }, [searchTerms]);
+
   return (
     <div className='home-page-container'>
     <TitleBox
@@ -27,7 +39,8 @@ const Home = ({ user }) => {
 };
 
 Home.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  searchTerms: PropTypes.string
 };
 
 export default Home;

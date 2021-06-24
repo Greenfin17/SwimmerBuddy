@@ -31,6 +31,10 @@ const UserForm = ({
     }
   };
 
+  const handleCancelClick = () => {
+    history.push('/');
+  };
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -58,8 +62,12 @@ const UserForm = ({
             <Input type='text' className='form-control' aria-describedby='Collection Description'
               name='location' value={localUser.location || ''} onChange={handleInputChange}
               placeholder='Location'/>
-            <Button className='btn btn-info btn-submit-user'
-              onClick={handleSubmit}>Submit Profile</Button>
+            <div className='mt-auto card-btn-container'>
+              <Button className='btn btn-info btn-submit-user'
+                onClick={handleSubmit}>Submit Profile</Button>
+              <Button className="btn btn-secondary"
+                onClick={handleCancelClick}>Cancel</Button>
+            </div>
           </FormGroup>
          </div>
       </Form>

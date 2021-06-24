@@ -11,7 +11,7 @@ import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData'
 
 const WorkoutsView = ({
   user,
-  searchTerms
+  searchTerms,
 }) => {
   const history = useHistory();
   const [userWorkouts, setUserWorkouts] = useState([]);
@@ -23,9 +23,10 @@ const WorkoutsView = ({
   };
 
   const searchWorkouts = (workout) => {
-    let returnVal = workout.description.includes(searchTerms);
-    returnVal = returnVal || workout.title.includes(searchTerms);
-    returnVal = returnVal || workout.title.includes(searchTerms);
+    const lowerCaseSearchTerms = searchTerms.toLowerCase();
+    let returnVal = workout.description.toLowerCase().includes(lowerCaseSearchTerms);
+    returnVal = returnVal || workout.title.toLowerCase().includes(lowerCaseSearchTerms);
+    returnVal = returnVal || workout.title.toLowerCase().includes(lowerCaseSearchTerms);
 
     if (searchTerms.toLowerCase().includes('Longcourse'.toLowerCase())) {
       if (workout.longcourse === 'true') {
@@ -81,7 +82,6 @@ const WorkoutsView = ({
         }
       });
     }
-
     return function cleanup() {
       mounted = false;
     };
@@ -112,7 +112,7 @@ const WorkoutsView = ({
 
 WorkoutsView.propTypes = {
   user: PropTypes.any,
-  searchTerms: PropTypes.string
+  searchTerms: PropTypes.string,
 };
 
 export default WorkoutsView;

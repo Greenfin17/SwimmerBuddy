@@ -31,7 +31,9 @@ const Routes = ({
 }) => (
   <div>
     <Switch>
-      <Route exact path='/' component={() => <Home user={user} />} />
+      <Route exact path='/'
+      component={() => <Home user={user}
+      searchTerms={searchTerms}/>} />
       <AuthedRoute exact path='/collections'
         user={user}
         component={() => <CollectionsView
