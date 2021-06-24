@@ -38,6 +38,12 @@ const NavBar = ({
     setInputString(tempObj);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSearchClick();
+    }
+  };
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -75,7 +81,8 @@ const NavBar = ({
               <div className='input-group search-input-group'>
                 <div className='form-outline search-form-outline'>
                   <Input className='form-control mr-sm-2' type='search' placeholder='Search'
-                    name='search' value={inputString.search} onChange={handleInputChange} />
+                    name='search' value={inputString.search} onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}/>
                 </div>
                 <button type='button' className='btn btn-primary' onClick={handleSearchClick}>
                   <i className='fas fa-search'></i>

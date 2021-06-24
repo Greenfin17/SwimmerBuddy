@@ -176,6 +176,9 @@ const WorkoutCard = ({
               <div className='col-4 author-club'>{author?.club}</div>
               <div className='col-4 author-location'>{author?.location}</div>
             </CardSubtitle>
+            <div className='workout-description row'>
+              <p className='col-12'>{localWorkout.description}</p>
+            </div>
           { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}

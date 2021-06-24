@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
 import { getPublicWorkouts, getUserWorkouts } from '../helpers/data/workoutData';
@@ -16,21 +16,46 @@ const WorkoutsView = ({
   const history = useHistory();
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [filterCopy, setFilterCopy] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const handleAddClick = () => {
     history.push('/add-workout');
   };
 
   const searchWorkouts = (workout) => {
-    console.warn(workout.description);
-    workout.description.includes(searchTerms);
+    let returnVal = workout.description.includes(searchTerms);
+    returnVal = returnVal || workout.title.includes(searchTerms);
+    returnVal = returnVal || workout.title.includes(searchTerms);
+
+    if (searchTerms.toLowerCase().includes('Longcourse'.toLowerCase())) {
+      if (workout.longcourse === 'true') {
+        returnVal = true;
+      } else returnVal = returnVal || false;
+    }
+    if (searchTerms.toLowerCase().includes('Shortcourse'.toLowerCase())) {
+      if (workout.longcourse === 'false') {
+        returnVal = true;
+      } else returnVal = returnVal || false;
+    }
+    if (searchTerms.toLowerCase().includes('Meter'.toLowerCase())) {
+      if (workout.meters === 'true') {
+        returnVal = true;
+      } else returnVal = returnVal || false;
+    }
+    if (searchTerms.toLowerCase().includes('Yard'.toLowerCase())) {
+      if (workout.meters === 'false') {
+        returnVal = true;
+      } else returnVal = returnVal || false;
+    }
+    return returnVal;
+    // return workout.description.includes(searchTerms);
   };
 
+  // run search when the search terms change, run when userWorkouts is loaded
   useEffect(() => {
-    const tmpArr = userWorkouts.filter(searchWorkouts);
+    const tmpArr = userWorkouts.filter((workout) => searchWorkouts(workout));
     setFilterCopy(tmpArr);
-    console.warn(filterCopy);
-  });
+  }, [searchTerms, userWorkouts]);
 
   useEffect(() => {
     let mounted = true;
@@ -38,12 +63,21 @@ const WorkoutsView = ({
       getUserWorkouts(user.uid).then((workoutsArr) => {
         if (mounted) {
           setUserWorkouts(workoutsArr);
+          const tmpArr = [];
+          workoutsArr.forEach((workout) => {
+            let tmpObj = {};
+            tmpObj = { ...workout };
+            tmpArr.push(tmpObj);
+          });
+          setFilterCopy(tmpArr);
+          setLoaded(true);
         }
       });
     } else {
       getPublicWorkouts().then((workoutsArr) => {
         if (mounted) {
           setUserWorkouts(workoutsArr);
+          setLoaded(true);
         }
       });
     }
@@ -63,7 +97,8 @@ const WorkoutsView = ({
       </div>
     }
     <div className='card-container workout-cards-container'>
-      { userWorkouts.map((workout) => <WorkoutCard
+      { !loaded && <Spinner className='workout-view-spinner' color='primary' /> }
+      { filterCopy.map((workout) => <WorkoutCard
         key={workout.id}
         workout={workout}
         user={user}
