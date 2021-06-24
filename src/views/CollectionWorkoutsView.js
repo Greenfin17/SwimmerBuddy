@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Button
+  Button, Spinner
 } from 'reactstrap';
 import TitleBox from '../components/TitleBox';
 import WorkoutCard from '../components/cards/WorkoutCard';
@@ -18,6 +18,7 @@ const CollectionWorkoutsView = ({
 }) => {
   const [collectionWorkouts, setCollectionWorkouts] = useState([]);
   const [collection, setCollection] = useState({});
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
 
   const { id } = useParams();
@@ -39,10 +40,11 @@ const CollectionWorkoutsView = ({
           id: join.workout_id
         };
         tmpArr.push(tmpObj);
-        if (mounted) {
-          setCollectionWorkouts(tmpArr);
-        }
       });
+      if (mounted) {
+        setCollectionWorkouts(tmpArr);
+        setLoaded(true);
+      }
     });
     return function cleanup() {
       mounted = false;
@@ -57,6 +59,7 @@ const CollectionWorkoutsView = ({
       onClick={handleAddClick} >Add Workout</Button>
     </div>
     <div className='card-container workout-cards-container'>
+    { !loaded && <Spinner className='collections-view-spinner' color='primary' /> }
       { user && collectionWorkouts.map((workout) => <WorkoutCard
         key={workout.id}
         workout={workout}
