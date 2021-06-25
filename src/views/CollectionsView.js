@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import TitleBox from '../components/TitleBox';
 import CollectionCard from '../components/cards/CollectionCard';
 import { getCollections } from '../helpers/data/collectionData';
@@ -12,6 +12,7 @@ const CollectionsView = ({
   user
 }) => {
   const [collectionArray, setCollectionArray] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
 
   const handleAddClick = () => {
@@ -23,6 +24,7 @@ const CollectionsView = ({
     getCollections(user.uid).then((respArr) => {
       if (mounted) {
         setCollectionArray(respArr);
+        setLoaded(true);
       }
     });
     return function cleanup() {
@@ -38,6 +40,7 @@ const CollectionsView = ({
         onClick={handleAddClick} >Add Collection</Button>
       </div>
       <div className='card-container collection-cards-container'>
+      { !loaded && <Spinner className='workout-view-spinner' color='primary' /> }
         { collectionArray.map((collectionObj) => <CollectionCard
           key={collectionObj.id}
           user={user}

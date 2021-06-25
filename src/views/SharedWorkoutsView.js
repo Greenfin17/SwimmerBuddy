@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import TitleBox from '../components/TitleBox';
 import { getPublicWorkouts } from '../helpers/data/workoutData';
@@ -17,6 +17,7 @@ const SharedWorkoutsView = ({
   const history = useHistory();
   const [publicWorkouts, setPublicWorkouts] = useState([]);
   const [filterCopy, setFilterCopy] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const handleAddClick = () => {
     history.push('/add-workout');
@@ -42,6 +43,7 @@ const SharedWorkoutsView = ({
           tmpArr.push(tmpObj);
         });
         setFilterCopy(tmpArr);
+        setLoaded(true);
       }
     });
 
@@ -60,6 +62,7 @@ const SharedWorkoutsView = ({
       </div>
     }
     <div className='card-container workout-cards-container'>
+      { !loaded && <Spinner className='workout-view-spinner' color='primary' /> }
       { filterCopy.map((workout) => user?.uid !== workout.author_uid
         && <WorkoutCard
         key={workout.id}
