@@ -100,9 +100,7 @@ const WorkoutCard = ({
     let mounted = true;
     if (user && workout && mounted) {
       getWorkoutCollectionsCheckedArr(user.uid, workout.id).then((responseArr) => {
-        if (mounted) {
-          setCollectionsArr(responseArr);
-        }
+        setCollectionsArr(responseArr);
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
           const tmpObj = { checked: false };
@@ -135,7 +133,9 @@ const WorkoutCard = ({
     let mounted = true;
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
-        setLocalWorkout(workoutObj);
+        if (mounted) {
+          setLocalWorkout(workoutObj);
+        }
       });
       getGroups(workout.id).then((respGroupArr) => {
         respGroupArr.sort(cmpGroups);
@@ -170,7 +170,7 @@ const WorkoutCard = ({
           <CardTitle tag='h5'><div className='workout-heading row'>
             <div className='workout-title col-8'>{localWorkout.title}</div>
             <div className='col-4 workout-total-distance'>{totalDistance}
-              { workout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
+              { localWorkout.meters === 'true' ? ' Meters' : ' Yards' }</div></div></CardTitle>
           <CardSubtitle tag='h6' className='mb-2 row text-muted'>
               <div className='col-4 author-name'>{author?.displayName ? author?.displayName : author?.fullName} </div>
               <div className='col-4 author-club'>{author?.club}</div>

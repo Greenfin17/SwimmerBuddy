@@ -1,5 +1,5 @@
-// Workouts.js
-// View of workouts
+// SharedWorkoutsView.js
+// View of shared workouts
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
