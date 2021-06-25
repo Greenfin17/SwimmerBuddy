@@ -297,7 +297,7 @@ const WorkoutForm = ({
                 onChange={handlePublicCheckboxChange} checked={workout.public} />
               <Label for='public-checkbox'>Make Public</Label>
             </div>
-            <Button className='btn btn-info'
+            <Button className='btn btn-info submit-workout'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
           <GroupFormDiv workoutId={id}

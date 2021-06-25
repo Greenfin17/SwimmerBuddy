@@ -87,14 +87,16 @@ const WorkoutCard = ({
       deleteGroupND(groupObj.id);
     });
     if (workout) {
-      deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
-        getWorkoutCollectionJoins(workout.id).then((joinArr) => {
-          joinArr.forEach((join) => {
-            deleteJoinND(join.id);
+      const promiseArr = [];
+      getWorkoutCollectionJoins(workout.id).then((joinArr) => {
+        joinArr.forEach((join) => {
+          promiseArr.push(deleteJoinND(join.id));
+        });
+        Promise.all(promiseArr).then(() => {
+          deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
+            setUserWorkouts(workoutsArr);
+            setTrigger(!trigger);
           });
-        }).then(() => {
-          setUserWorkouts(workoutsArr);
-          setTrigger(!trigger);
         });
       });
     }
@@ -137,7 +139,7 @@ const WorkoutCard = ({
     let mounted = true;
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
-        if (mounted) {
+        if (mounted && workoutObj) {
           setLocalWorkout(workoutObj);
         }
       });

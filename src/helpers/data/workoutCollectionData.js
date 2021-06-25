@@ -32,7 +32,7 @@ const getWorkoutCollectionJoins = (workoutId) => new Promise((resolve, reject) =
 // delete join, return no data
 const deleteJoinND = (joinId) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/workout_collection/${joinId}.json`)
-    .then(() => resolve(null))
+    .then(() => resolve('deleted'))
     .catch((error) => reject(error));
 });
 
