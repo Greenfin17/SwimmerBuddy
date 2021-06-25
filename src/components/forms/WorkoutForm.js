@@ -25,7 +25,6 @@ import {
   addGroup
 } from '../../helpers/data/groupData';
 import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsCheckedArr } from '../../helpers/data/workoutCollectionData';
-// import deepCopy from '../../helpers/data/deepCopy';
 
 const WorkoutForm = ({
   user

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import {
   Input
 } from 'reactstrap';
-// import { getSingleSet } from '../../helpers/data/setData';
 
 const SetForm = ({
   set,
@@ -17,9 +16,6 @@ const SetForm = ({
   setLocalGroupArr,
   trigger,
   setTrigger,
-  /*
-  setFormSetArr
-  */
 }) => {
   const [localSet, setLocalSet] = useState({
     comment: '',

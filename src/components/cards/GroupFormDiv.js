@@ -3,7 +3,6 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import GroupFormCard from './GroupFormCard';
 import SetGroupForm from '../forms/SetGroupForm';
 import { getGroups, cmpGroups } from '../../helpers/data/groupData';
 
