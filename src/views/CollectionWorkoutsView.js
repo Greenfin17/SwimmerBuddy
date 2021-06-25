@@ -18,6 +18,7 @@ const CollectionWorkoutsView = ({
   const [collection, setCollection] = useState({});
   const [loaded, setLoaded] = useState(false);
   const history = useHistory();
+  const [trigger, setTrigger] = useState(false);
 
   const { id } = useParams();
 
@@ -64,6 +65,8 @@ const CollectionWorkoutsView = ({
         user={user}
         setUserWorkouts={setCollectionWorkouts}
         collectionId={id}
+        trigger={trigger}
+        setTrigger={setTrigger}
         />)
       }
     </div>
