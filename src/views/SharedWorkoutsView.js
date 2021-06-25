@@ -1,4 +1,4 @@
-// Workouts.js
+// SharedWorkoutsView.js
 // View of shared workouts
 
 import React, { useState, useEffect } from 'react';
