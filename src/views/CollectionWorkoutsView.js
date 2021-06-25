@@ -30,7 +30,9 @@ const CollectionWorkoutsView = ({
     let mounted = true;
     // retrieving collection title
     getSingleCollection(id).then((collectionObj) => {
-      setCollection(collectionObj);
+      if (mounted) {
+        setCollection(collectionObj);
+      }
     });
     const tmpArr = [];
     getCollectionWorkoutJoins(id).then((joinArr) => {
@@ -40,6 +42,7 @@ const CollectionWorkoutsView = ({
         };
         tmpArr.push(tmpObj);
       });
+    }).then(() => {
       if (mounted) {
         setCollectionWorkouts(tmpArr);
         setLoaded(true);
@@ -48,7 +51,7 @@ const CollectionWorkoutsView = ({
     return function cleanup() {
       mounted = false;
     };
-  }, []);
+  }, [trigger]);
 
   return (
     <div className='workouts-view'>

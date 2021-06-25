@@ -92,9 +92,10 @@ const WorkoutCard = ({
           joinArr.forEach((join) => {
             deleteJoinND(join.id);
           });
+        }).then(() => {
+          setUserWorkouts(workoutsArr);
+          setTrigger(!trigger);
         });
-        setUserWorkouts(workoutsArr);
-        setTrigger(!trigger);
       });
     }
   };

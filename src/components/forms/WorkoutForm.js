@@ -178,7 +178,7 @@ const WorkoutForm = ({
           history.push('/workouts');
         };
         // delay for Firebase writing
-        setTimeout(submitHistory, 500);
+        setTimeout(submitHistory, 200);
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -211,7 +211,7 @@ const WorkoutForm = ({
           history.push('/workouts');
         };
         // delay for Firebase writing
-        setTimeout(submitHistory, 500);
+        setTimeout(submitHistory, 200);
       });
     } // if else
   }); // handleSubmit
