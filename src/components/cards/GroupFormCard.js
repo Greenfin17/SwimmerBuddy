@@ -1,7 +1,6 @@
 // GroupFormCard.js
 
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Button
@@ -12,7 +11,6 @@ const GroupFormCard = ({
   group,
   handleInputChange
 }) => {
-  // const history = useHistory();
   const [viewForm, setViewForm] = useState(false);
 
   const handleDeleteClick = (e) => {

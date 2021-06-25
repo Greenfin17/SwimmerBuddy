@@ -18,6 +18,7 @@ const WorkoutsView = ({
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [filterCopy, setFilterCopy] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [trigger, setTrigger] = useState(false);
 
   const handleAddClick = () => {
     history.push('/add-workout');
@@ -58,7 +59,7 @@ const WorkoutsView = ({
     return function cleanup() {
       mounted = false;
     };
-  }, []);
+  }, [trigger]);
 
   return (
   <div className='workouts-view'>
@@ -76,6 +77,8 @@ const WorkoutsView = ({
         workout={workout}
         user={user}
         setUserWorkouts={setUserWorkouts}
+        trigger={trigger}
+        setTrigger={setTrigger}
         />)
       }
     </div>

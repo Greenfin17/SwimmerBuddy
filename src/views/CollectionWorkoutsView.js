@@ -10,8 +10,6 @@ import TitleBox from '../components/TitleBox';
 import WorkoutCard from '../components/cards/WorkoutCard';
 import { getCollectionWorkoutJoins } from '../helpers/data/workoutCollectionData';
 import { getSingleCollection } from '../helpers/data/collectionData';
-// import { getSingleWorkout } from '../helpers/data/workoutData';
-// import { getSingleWorkout } from '../helpers/data/workoutData';
 
 const CollectionWorkoutsView = ({
   user,

@@ -24,6 +24,8 @@ const WorkoutCard = ({
   user,
   workout,
   setUserWorkouts,
+  trigger,
+  setTrigger
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
@@ -92,6 +94,7 @@ const WorkoutCard = ({
           });
         });
         setUserWorkouts(workoutsArr);
+        setTrigger(!trigger);
       });
     }
   };
@@ -228,7 +231,9 @@ const WorkoutCard = ({
 WorkoutCard.propTypes = {
   user: PropTypes.any,
   workout: PropTypes.object,
-  setUserWorkouts: PropTypes.func
+  setUserWorkouts: PropTypes.func,
+  trigger: PropTypes.bool,
+  setTrigger: PropTypes.func
 };
 
 export default WorkoutCard;
