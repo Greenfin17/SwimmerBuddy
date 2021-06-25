@@ -103,9 +103,7 @@ const WorkoutCard = ({
     let mounted = true;
     if (user && workout && mounted) {
       getWorkoutCollectionsCheckedArr(user.uid, workout.id).then((responseArr) => {
-        if (mounted) {
-          setCollectionsArr(responseArr);
-        }
+        setCollectionsArr(responseArr);
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
           const tmpObj = { checked: false };
