@@ -44,6 +44,7 @@ const CollectionWorkoutsView = ({
       });
     }).then(() => {
       if (mounted) {
+        console.warn(tmpArr);
         setCollectionWorkouts(tmpArr);
         setLoaded(true);
       }
