@@ -1,7 +1,7 @@
 {
   "rules": {
-    ".read": "now < 1625461200000",  // 2021-7-5
-    ".write": "now < 1625461200000",  // 2021-7-5
+    ".read": true,
+    ".write": true,
     "user": { 
     	".indexOn": [ "uid", "fullName", "username" ]
     },
