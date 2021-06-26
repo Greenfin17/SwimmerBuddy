@@ -302,9 +302,9 @@ const WorkoutForm = ({
               <Label for='public-checkbox'>Make Public</Label>
             </div>
             <div className='mt-auto card-btn-container'>
-              <Button className='btn btn-info submit-workout'
+              <Button className='btn btn-info btn-submit-workout'
                 onClick={handleSubmit}>Submit Workout</Button>
-              <Button className="btn btn-secondary"
+              <Button className="btn btn-secondary btn-cancel-workout"
                 onClick={handleCancelClick}>Cancel</Button>
             </div>
           </FormGroup>

@@ -73,12 +73,21 @@
     margin: 0 0 .5rem 0;
   }
   
-  .btn {
-    margin: 1rem 0 1rem;
+  .btn-submit-workout {
+    margin: 1rem 1rem 1rem 0;
   }
-  
+ 
+  .btn-cancel-workout {
+    margin: 1rem 0 1rem 1rem;
+  }  
+
   .card-btn-container {
     display: flex;
     justify-content: space-between;
+    margin-right: 1rem;
+  }
+
+  .set-interval-label {
+    text-align: right;
   }
 }
