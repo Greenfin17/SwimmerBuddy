@@ -72,7 +72,7 @@ const SetForm = ({
           name='stroke' value={localSet.stroke || ''} onChange={handleInputChange}
           placeholder='' />
       </div>
-      <div className='col-4'>
+      <div className='col-4 set-comment'>
         <Input type='text' className='form-control' aria-describedby='Set Comment'
           name='comment' value={localSet.comment || ''} onChange={handleInputChange}
           placeholder='' />
