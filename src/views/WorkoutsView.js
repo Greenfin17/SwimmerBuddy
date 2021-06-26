@@ -1,4 +1,4 @@
-// Workouts.js
+// WorkoutsView.js
 // View of workouts
 
 import React, { useState, useEffect } from 'react';
