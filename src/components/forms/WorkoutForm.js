@@ -116,6 +116,10 @@ const WorkoutForm = ({
     }
   };
 
+  const handleCancelClick = () => {
+    history.push('/workouts');
+  };
+
   const handleSubmit = ((e) => {
     e.preventDefault();
     // retain workout id for new workouts history push
@@ -297,8 +301,12 @@ const WorkoutForm = ({
                 onChange={handlePublicCheckboxChange} checked={workout.public} />
               <Label for='public-checkbox'>Make Public</Label>
             </div>
-            <Button className='btn btn-info submit-workout'
-            onClick={handleSubmit}>Submit Workout</Button>
+            <div className='mt-auto card-btn-container'>
+              <Button className='btn btn-info submit-workout'
+                onClick={handleSubmit}>Submit Workout</Button>
+              <Button className="btn btn-secondary"
+                onClick={handleCancelClick}>Cancel</Button>
+            </div>
           </FormGroup>
           <GroupFormDiv workoutId={id}
             localGroupArr={localGroupArr}
