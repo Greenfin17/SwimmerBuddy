@@ -158,8 +158,8 @@ const SetGroupForm = ({
           <Label className='col-2 set-distance' for='set-distance'>Distance</Label>
           <Label className='col-1 set-reps' for='set-repetitions'>Reps</Label>
           <Label className='col-3' for='set-stroke'>Stroke</Label>
-          <Label className='col-4' for='set-comment'>Comment</Label>
-          <Label className='col-1 set-interval-label' for='set-interval'>Interval</Label>
+          <Label className='col-4 set-comment' for='set-comment'>Comment</Label>
+          <Label className='col-2 set-interval-label' for='set-interval'>Interval</Label>
         </div>
         { localGroup.setArr.map((set, key) => <SetForm
           key={key} index={key}

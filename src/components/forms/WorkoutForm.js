@@ -183,6 +183,7 @@ const WorkoutForm = ({
     // add if there is no id, we are adding a workout
     } else {
       addWorkout(tempWorkoutObj).then((workoutObj) => {
+        const promiseArr = [];
         let groupSequence = 0;
         let setSequence = 0;
         localGroupArr.forEach((groupObj) => {
@@ -201,17 +202,14 @@ const WorkoutForm = ({
               tmpSetObj.sequence = setSequence;
               tmpSetObj.group_id = group.id;
               setSequence += 1;
-              addSet(tmpSetObj);
+              promiseArr.push(addSet(tmpSetObj));
             });
           });
         });
         saveCollectionChoices(workoutObj.id);
-      }).then(() => {
-        const submitHistory = () => {
+        Promise.all(promiseArr).then(() => {
           history.push('/workouts');
-        };
-        // delay for Firebase writing
-        setTimeout(submitHistory, 200);
+        });
       });
     } // if else
   }); // handleSubmit
