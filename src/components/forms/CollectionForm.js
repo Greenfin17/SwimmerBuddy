@@ -34,6 +34,10 @@ const CollectionForm = ({
     }));
   };
 
+  const handleCancelClick = () => {
+    history.push('/collections');
+  };
+
   const handleSubmit = () => {
     if (id) {
       updateCollection(id, collection).then(() => {
@@ -73,8 +77,12 @@ const CollectionForm = ({
             <Input type='text' className='form-control' aria-describedby='Collection Description'
               name='description' value={collection.description || ''} onChange={handleInputChange}
               placeholder='Collection Description' />
-            <Button className='btn btn-info btn-submit-collection'
-              onClick={handleSubmit}>Submit Collection</Button>
+            <div className='mt-auto card-btn-container'>
+              <Button className='btn btn-info btn-submit-collection'
+                onClick={handleSubmit}>Submit Collection</Button>
+              <Button className="btn btn-secondary"
+                onClick={handleCancelClick}>Cancel</Button>
+            </div>
           </FormGroup>
          </div>
       </Form>

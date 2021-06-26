@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Button
+  Button, Spinner
 } from 'reactstrap';
 import TitleBox from '../components/TitleBox';
 import WorkoutCard from '../components/cards/WorkoutCard';
@@ -12,11 +12,13 @@ import { getCollectionWorkoutJoins } from '../helpers/data/workoutCollectionData
 import { getSingleCollection } from '../helpers/data/collectionData';
 
 const CollectionWorkoutsView = ({
-  user
+  user,
 }) => {
   const [collectionWorkouts, setCollectionWorkouts] = useState([]);
   const [collection, setCollection] = useState({});
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
+  const [trigger, setTrigger] = useState(false);
 
   const { id } = useParams();
 
@@ -25,9 +27,12 @@ const CollectionWorkoutsView = ({
   };
 
   useEffect(() => {
+    let mounted = true;
     // retrieving collection title
     getSingleCollection(id).then((collectionObj) => {
-      setCollection(collectionObj);
+      if (mounted) {
+        setCollection(collectionObj);
+      }
     });
     const tmpArr = [];
     getCollectionWorkoutJoins(id).then((joinArr) => {
@@ -37,11 +42,16 @@ const CollectionWorkoutsView = ({
         };
         tmpArr.push(tmpObj);
       });
-      setCollectionWorkouts(tmpArr);
+    }).then(() => {
+      if (mounted) {
+        setCollectionWorkouts(tmpArr);
+        setLoaded(true);
+      }
     });
-
-    // getting the collection workouts
-  }, []);
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [trigger]);
 
   return (
     <div className='workouts-view'>
@@ -51,12 +61,15 @@ const CollectionWorkoutsView = ({
       onClick={handleAddClick} >Add Workout</Button>
     </div>
     <div className='card-container workout-cards-container'>
+    { !loaded && <Spinner className='collections-view-spinner' color='primary' /> }
       { user && collectionWorkouts.map((workout) => <WorkoutCard
         key={workout.id}
         workout={workout}
         user={user}
         setUserWorkouts={setCollectionWorkouts}
         collectionId={id}
+        trigger={trigger}
+        setTrigger={setTrigger}
         />)
       }
     </div>
@@ -65,7 +78,7 @@ const CollectionWorkoutsView = ({
 };
 
 CollectionWorkoutsView.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
 };
 
 export default CollectionWorkoutsView;

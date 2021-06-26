@@ -26,11 +26,14 @@ AuthedRoute.propTypes = {
 
 const Routes = ({
   user,
-  setUser
+  setUser,
+  searchTerms
 }) => (
   <div>
     <Switch>
-      <Route exact path='/' component={() => <Home user={user} />} />
+      <Route exact path='/'
+      component={() => <Home user={user}
+      searchTerms={searchTerms}/>} />
       <AuthedRoute exact path='/collections'
         user={user}
         component={() => <CollectionsView
@@ -54,12 +57,14 @@ const Routes = ({
       <Route exact path='/workouts'
         user={user}
         component={() => <WorkoutsView
-          user={user} />}
+          user={user}
+          searchTerms={searchTerms} />}
       />
       <Route exact path='/shared-workouts'
         user={user}
         component={() => <SharedWorkoutsView
-          user={user} />}
+          user={user}
+          searchTerms={searchTerms}/>}
       />
       <AuthedRoute exact path='/edit-workout/:id'
         user={user}
@@ -86,7 +91,8 @@ const Routes = ({
 
 Routes.propTypes = {
   user: PropTypes.any,
-  setUser: PropTypes.func
+  setUser: PropTypes.func,
+  searchTerms: PropTypes.string
 };
 
 export default Routes;

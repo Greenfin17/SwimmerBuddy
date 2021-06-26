@@ -4,9 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TitleBox from '../components/TitleBox';
 
-const Home = ({ user }) => {
+const Home = ({
+  user,
+}) => {
   const title = 'Swimmer Buddy';
   const subTitle = 'Organize your Workouts';
+
   return (
     <div className='home-page-container'>
     <TitleBox

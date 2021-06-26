@@ -16,4 +16,12 @@
   .btn-submit-collection {
     margin: 1rem;
   }
+  
+  .btn {
+    margin: 1rem 0 1rem;
+  }
+  .card-btn-container {
+    display: flex;
+    justify-content: space-between;
+  }
 }

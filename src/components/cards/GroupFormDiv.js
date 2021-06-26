@@ -1,5 +1,6 @@
 // GroupFormDiv.js
 // Displays groups and sets in the workout form
+// in separate div to the right.
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';

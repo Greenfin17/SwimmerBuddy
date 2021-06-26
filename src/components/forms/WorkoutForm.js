@@ -11,7 +11,6 @@ import {
   Button,
 } from 'reactstrap';
 import GroupFormDiv from '../cards/GroupFormDiv';
-// import { getWorkoutIndex } from '../../helpers/data/workoutGroupSetData';
 import {
   getSets, deleteSetND,
   updateSet, addSet
@@ -179,7 +178,7 @@ const WorkoutForm = ({
           history.push('/workouts');
         };
         // delay for Firebase writing
-        setTimeout(submitHistory, 500);
+        setTimeout(submitHistory, 200);
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -212,7 +211,7 @@ const WorkoutForm = ({
           history.push('/workouts');
         };
         // delay for Firebase writing
-        setTimeout(submitHistory, 500);
+        setTimeout(submitHistory, 200);
       });
     } // if else
   }); // handleSubmit
@@ -298,7 +297,7 @@ const WorkoutForm = ({
                 onChange={handlePublicCheckboxChange} checked={workout.public} />
               <Label for='public-checkbox'>Make Public</Label>
             </div>
-            <Button className='btn btn-info'
+            <Button className='btn btn-info submit-workout'
             onClick={handleSubmit}>Submit Workout</Button>
           </FormGroup>
           <GroupFormDiv workoutId={id}

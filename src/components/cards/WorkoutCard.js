@@ -24,6 +24,8 @@ const WorkoutCard = ({
   user,
   workout,
   setUserWorkouts,
+  trigger,
+  setTrigger
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
@@ -85,13 +87,18 @@ const WorkoutCard = ({
       deleteGroupND(groupObj.id);
     });
     if (workout) {
-      deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
-        getWorkoutCollectionJoins(workout.id).then((joinArr) => {
-          joinArr.forEach((join) => {
-            deleteJoinND(join.id);
+      const promiseArr = [];
+      getWorkoutCollectionJoins(workout.id).then((joinArr) => {
+        joinArr.forEach((join) => {
+          promiseArr.push(deleteJoinND(join.id));
+        });
+        // wait for all deletions to avoid orphans displaying
+        Promise.all(promiseArr).then(() => {
+          deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
+            setUserWorkouts(workoutsArr);
+            setTrigger(!trigger);
           });
         });
-        setUserWorkouts(workoutsArr);
       });
     }
   };
@@ -133,7 +140,7 @@ const WorkoutCard = ({
     let mounted = true;
     if (workout && workout.id) {
       getSingleWorkout(workout.id).then((workoutObj) => {
-        if (mounted) {
+        if (mounted && workoutObj) {
           setLocalWorkout(workoutObj);
         }
       });
@@ -176,6 +183,9 @@ const WorkoutCard = ({
               <div className='col-4 author-club'>{author?.club}</div>
               <div className='col-4 author-location'>{author?.location}</div>
             </CardSubtitle>
+            <div className='workout-description row'>
+              <p className='col-12'>{localWorkout.description}</p>
+            </div>
           { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}
@@ -223,7 +233,9 @@ const WorkoutCard = ({
 WorkoutCard.propTypes = {
   user: PropTypes.any,
   workout: PropTypes.object,
-  setUserWorkouts: PropTypes.func
+  setUserWorkouts: PropTypes.func,
+  trigger: PropTypes.bool,
+  setTrigger: PropTypes.func
 };
 
 export default WorkoutCard;

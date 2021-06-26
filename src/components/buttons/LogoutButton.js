@@ -12,7 +12,7 @@ const LogoutButton = () => {
 
   return (
     <div>
-    <button id="google-auth" className="btn btn-danger ml-2"
+    <button id="google-auth" className="btn btn-danger btn-sm"
       onClick={handleClick}>
       <i className="fas fa-sign-out-alt logout"
         onClick={handleClick}></i><br />Log Out</button>
