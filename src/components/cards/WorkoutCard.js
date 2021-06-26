@@ -92,6 +92,7 @@ const WorkoutCard = ({
         joinArr.forEach((join) => {
           promiseArr.push(deleteJoinND(join.id));
         });
+        // wait for all deletions to avoid orphans displaying
         Promise.all(promiseArr).then(() => {
           deleteWorkout(workout.author_uid, workout.id).then((workoutsArr) => {
             setUserWorkouts(workoutsArr);
