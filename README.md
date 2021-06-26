@@ -49,6 +49,16 @@ https://bio-site-john-maple.netlify.app/
 ## Loom Video
 https://www.loom.com/share/92d159faeaa4420cac18761b302ec346
 
+## Screenshots
+![Home_Page_SS](https://user-images.githubusercontent.com/51683901/123522827-9bee1d00-d685-11eb-95f2-8b3311931cbd.PNG)
+
+![Workouts_Page](https://user-images.githubusercontent.com/51683901/123522831-a0b2d100-d685-11eb-832d-eb965596d08f.png)
+
+![Collections_Page](https://user-images.githubusercontent.com/51683901/123522837-a6a8b200-d685-11eb-93f6-14bbaa02238e.PNG)
+
+
+
+
 ## Deploy Instructions
 - Clone repo
 - npm install 
