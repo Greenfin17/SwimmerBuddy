@@ -207,6 +207,7 @@ const WorkoutForm = ({
           });
         });
         saveCollectionChoices(workoutObj.id);
+        // waiting for all addSet promises to resolve
         Promise.all(promiseArr).then(() => {
           history.push('/workouts');
         });
