@@ -215,7 +215,7 @@ const WorkoutForm = ({
           history.push('/workouts');
         };
         // delay for Firebase writing
-        setTimeout(submitHistory, 200);
+        setTimeout(submitHistory, 500);
       });
     } // if else
   }); // handleSubmit
