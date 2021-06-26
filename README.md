@@ -48,3 +48,14 @@ https://bio-site-john-maple.netlify.app/
 
 ## Loom Video
 https://www.loom.com/share/92d159faeaa4420cac18761b302ec346
+
+## Deploy Instructions
+- Clone repo
+- npm install 
+- create firebase database at firebase.google.com
+- add small portion of data from src/data/sample_data to firebase - to create database url
+- rename or copy .sample.env to .env
+- copy environment variables from firebase to .env  ( not to sample.env !)
+- add rules found in firebase_rules.txt to firebase
+- select sign-in method at firebase under Authentication
+- add any deployed domain to firebase under sign-in method
