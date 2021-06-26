@@ -14,6 +14,7 @@ const GroupCardDiv = ({
   const [setArr, setSetArr] = useState([]);
 
   // calculate workout total distance
+  // todo: user must enter a repetition value
   useEffect(() => {
     let mounted = true;
     if (group) {
