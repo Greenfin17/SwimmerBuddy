@@ -26,7 +26,9 @@ import {
 import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsCheckedArr } from '../../helpers/data/workoutCollectionData';
 
 const WorkoutForm = ({
-  user
+  user,
+  crossTrigger,
+  setCrossTrigger
 }) => {
   const [workout, setWorkout] = useState({
     author_uid: user.uid,
@@ -153,17 +155,23 @@ const WorkoutForm = ({
           if (tempGroupObj.id) {
             updateGroup(tempGroupObj.id, tempGroupObj);
             setSequence = 0;
+            const promiseArr = [];
             groupObj.setArr.forEach((setObj) => {
               // add sequence number.
               const tmpSetObj = { ...setObj };
               tmpSetObj.sequence = setSequence;
               setSequence += 1;
               if (setObj.id) {
-                updateSet(setObj.id, tmpSetObj);
-              } else addSet(tmpSetObj);
+                promiseArr.push(updateSet(setObj.id, tmpSetObj));
+              } else promiseArr.push(addSet(tmpSetObj));
+            });
+            // render after sets are updated
+            Promise.all(promiseArr).then(() => {
+              setCrossTrigger(!crossTrigger);
             });
           // add group and any associated sets
           } else {
+            const promiseArr = [];
             addGroup(tempGroupObj).then((newGroup) => {
               setSequence = 0;
               groupObj.setArr.forEach((setObj) => {
@@ -171,18 +179,18 @@ const WorkoutForm = ({
                 tmpSetObj.sequence = setSequence;
                 tmpSetObj.group_id = newGroup.id;
                 setSequence += 1;
-                addSet(tmpSetObj);
+                promiseArr.push(addSet(tmpSetObj));
+              });
+              // render after sets are written
+              Promise.all(promiseArr).then(() => {
+                setCrossTrigger(!crossTrigger);
               });
             });
           } // else addGroup
         });
       }).then(() => {
         saveCollectionChoices();
-        const submitHistory = () => {
-          history.push('/workouts');
-        };
-        // delay for Firebase writing
-        setTimeout(submitHistory, 200);
+        history.push('/workouts');
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -198,6 +206,7 @@ const WorkoutForm = ({
           tempGroupObj.workout_id = workoutObj.id;
           groupSequence += 1;
           addGroup(tempGroupObj).then((group) => {
+            const promiseArr = [];
             setSequence = 0;
             groupObj.setArr.forEach((setObj) => {
               // add sequence number.
@@ -205,17 +214,17 @@ const WorkoutForm = ({
               tmpSetObj.sequence = setSequence;
               tmpSetObj.group_id = group.id;
               setSequence += 1;
-              addSet(tmpSetObj);
+              promiseArr.push(addSet(tmpSetObj));
+            });
+            // trigger render after set group is written
+            Promise.all(promiseArr).then(() => {
+              setCrossTrigger(!crossTrigger);
             });
           });
         });
         saveCollectionChoices(workoutObj.id);
       }).then(() => {
-        const submitHistory = () => {
-          history.push('/workouts');
-        };
-        // delay for Firebase writing
-        setTimeout(submitHistory, 500);
+        history.push('/workouts');
       });
     } // if else
   }); // handleSubmit
@@ -236,17 +245,23 @@ const WorkoutForm = ({
           tmpObj.checked = responseArr[i].checked;
           tmpArr.push(tmpObj);
         }
-        setInitialCollectionsArr(tmpArr);
+        if (mounted) {
+          setInitialCollectionsArr(tmpArr);
+        }
       });
     } else {
       getWorkoutCollectionsCheckedArr(user.uid, id).then((responseArr) => {
-        setCollectionsArr(responseArr);
+        if (mounted) {
+          setCollectionsArr(responseArr);
+        }
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
           const tmpObj = { checked: false };
           tmpArr.push(tmpObj);
         }
-        setInitialCollectionsArr(tmpArr);
+        if (mounted) {
+          setInitialCollectionsArr(tmpArr);
+        }
       });
     }
     return function cleanup() {
@@ -322,7 +337,9 @@ const WorkoutForm = ({
 };
 
 WorkoutForm.propTypes = {
-  user: PropTypes.any
+  user: PropTypes.any,
+  crossTrigger: PropTypes.bool,
+  setCrossTrigger: PropTypes.func
 };
 
 export default WorkoutForm;

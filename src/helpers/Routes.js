@@ -1,5 +1,5 @@
 // Routes.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Home from '../views/Home';
@@ -28,66 +28,75 @@ const Routes = ({
   user,
   setUser,
   searchTerms
-}) => (
-  <div>
-    <Switch>
-      <Route exact path='/'
-      component={() => <Home user={user}
-      searchTerms={searchTerms}/>} />
-      <AuthedRoute exact path='/collections'
-        user={user}
-        component={() => <CollectionsView
-          user={user} />}
-      />
-      <AuthedRoute exact path='/edit-collection/:id'
-        user={user}
-        component={() => <CollectionForm
-          user={user} />}
-      />
-      <AuthedRoute exact path='/collection-workouts/:id'
-        user={user}
-        component={() => <CollectionWorkoutsView
-          user={user} />}
-      />
-      <AuthedRoute exact path='/add-collection'
-        user={user}
-        component={() => <CollectionForm
-          user={user} />}
-      />
-      <Route exact path='/workouts'
-        user={user}
-        component={() => <WorkoutsView
+}) => {
+  const [crossTrigger, setCrossTrigger] = useState(false);
+
+  return (
+    <div>
+      <Switch>
+        <Route exact path='/'
+        component={() => <Home user={user}
+        searchTerms={searchTerms}/>} />
+        <AuthedRoute exact path='/collections'
           user={user}
-          searchTerms={searchTerms} />}
-      />
-      <Route exact path='/shared-workouts'
-        user={user}
-        component={() => <SharedWorkoutsView
+          component={() => <CollectionsView
+            user={user} />}
+        />
+        <AuthedRoute exact path='/edit-collection/:id'
           user={user}
-          searchTerms={searchTerms}/>}
-      />
-      <AuthedRoute exact path='/edit-workout/:id'
-        user={user}
-        component={() => <WorkoutForm
-          user={user} />}
-      />
-      <AuthedRoute exact path='/add-workout'
-        user={user}
-        component={() => <WorkoutForm
-          user={user} />}
-      />
-      <AuthedRoute exact path='/account'
-        user={user}
-        component={() => <UserForm
+          component={() => <CollectionForm
+            user={user} />}
+        />
+        <AuthedRoute exact path='/collection-workouts/:id'
           user={user}
-          setUser={setUser} />}
-      />
-      <Route path='*'
-        component={NotFound}
-      />
-    </Switch>
-  </div>
-);
+          component={() => <CollectionWorkoutsView
+            user={user} />}
+        />
+        <AuthedRoute exact path='/add-collection'
+          user={user}
+          component={() => <CollectionForm
+            user={user} />}
+        />
+        <Route exact path='/workouts'
+          user={user}
+          component={() => <WorkoutsView
+            user={user}
+            searchTerms={searchTerms}
+            crossTrigger={crossTrigger} />}
+        />
+        <Route exact path='/shared-workouts'
+          user={user}
+          component={() => <SharedWorkoutsView
+            user={user}
+            searchTerms={searchTerms}/>}
+        />
+        <AuthedRoute exact path='/edit-workout/:id'
+          user={user}
+          component={() => <WorkoutForm
+            user={user}
+            crossTrigger={crossTrigger}
+            setCrossTrigger={setCrossTrigger} />}
+        />
+        <AuthedRoute exact path='/add-workout'
+          user={user}
+          component={() => <WorkoutForm
+            user={user}
+            crossTrigger={crossTrigger}
+            setCrossTrigger={setCrossTrigger} />}
+        />
+        <AuthedRoute exact path='/account'
+          user={user}
+          component={() => <UserForm
+            user={user}
+            setUser={setUser} />}
+        />
+        <Route path='*'
+          component={NotFound}
+        />
+      </Switch>
+    </div>
+  );
+};
 
 Routes.propTypes = {
   user: PropTypes.any,

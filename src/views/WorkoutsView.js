@@ -13,6 +13,7 @@ import searchWorkouts from '../helpers/data/search';
 const WorkoutsView = ({
   user,
   searchTerms,
+  crossTrigger
 }) => {
   const history = useHistory();
   const [userWorkouts, setUserWorkouts] = useState([]);
@@ -79,6 +80,7 @@ const WorkoutsView = ({
         setUserWorkouts={setUserWorkouts}
         trigger={trigger}
         setTrigger={setTrigger}
+        crossTrigger={crossTrigger}
         />)
       }
     </div>
@@ -89,6 +91,7 @@ const WorkoutsView = ({
 WorkoutsView.propTypes = {
   user: PropTypes.any,
   searchTerms: PropTypes.string,
+  crossTrigger: PropTypes.bool
 };
 
 export default WorkoutsView;

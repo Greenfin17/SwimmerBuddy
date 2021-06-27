@@ -10,6 +10,7 @@ const GroupCardDiv = ({
   index,
   groupDistanceArr,
   setGroupDistanceArr,
+  crossTrigger
 }) => {
   const [setArr, setSetArr] = useState([]);
 
@@ -44,7 +45,7 @@ const GroupCardDiv = ({
     return function cleanup() {
       mounted = false;
     };
-  }, []);
+  }, [crossTrigger]);
 
   return (
     <div className='group-data' id={`group-data-${id}`}>
@@ -68,7 +69,8 @@ GroupCardDiv.propTypes = {
   group: PropTypes.object,
   index: PropTypes.number,
   groupDistanceArr: PropTypes.array,
-  setGroupDistanceArr: PropTypes.func
+  setGroupDistanceArr: PropTypes.func,
+  crossTrigger: PropTypes.bool
 };
 
 export default GroupCardDiv;

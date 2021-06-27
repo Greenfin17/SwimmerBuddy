@@ -25,7 +25,8 @@ const WorkoutCard = ({
   workout,
   setUserWorkouts,
   trigger,
-  setTrigger
+  setTrigger,
+  crossTrigger
 }) => {
   const [groupArr, setGroupArr] = useState([]);
   const [localWorkout, setLocalWorkout] = useState({});
@@ -189,7 +190,8 @@ const WorkoutCard = ({
           { groupArr && groupArr.map((group, index) => <GroupCardDiv key={group.id}
             index={index} id={group.id} group={group}
             groupDistanceArr={groupDistanceArr}
-            setGroupDistanceArr={setGroupDistanceArr} />)}
+            setGroupDistanceArr={setGroupDistanceArr}
+            crossTrigger={crossTrigger} />)}
             { !loaded && <Spinner className='card-spinner' color='primary' /> }
         </CardBody>
         { user?.uid === localWorkout.author_uid
@@ -235,7 +237,8 @@ WorkoutCard.propTypes = {
   workout: PropTypes.object,
   setUserWorkouts: PropTypes.func,
   trigger: PropTypes.bool,
-  setTrigger: PropTypes.func
+  setTrigger: PropTypes.func,
+  crossTrigger: PropTypes.bool
 };
 
 export default WorkoutCard;
