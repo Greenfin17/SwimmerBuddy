@@ -29,8 +29,6 @@ https://swimmer-buddy.netlify.app/
 - The unauthenticated user can view and search public workouts.
 - The authenticated user can create, read update and delete collections of workouts
 - The authenticated user can search their own collections.
-- The user can print a workout to bring to the pool.
-
  
 ## ERD
 https://dbdiagram.io/d/60a5b120b29a09603d15abec
@@ -39,7 +37,7 @@ https://dbdiagram.io/d/60a5b120b29a09603d15abec
 https://www.figma.com/file/uziJlOLbyn5l9UUaELQA4t/Swimmer-Buddy?node-id=1%3A2
 
 ## Flow Chart
-https://lucid.app/lucidchart/5d56ad97-811f-4e41-8585-388dedf594f0/edit?page=0_0#
+https://lucid.app/lucidchart/invitations/accept/inv_a1d008fe-916c-451f-820c-44514b70ebc1
 
 ## Personal Bio Site
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9e639f94-6157-4618-a5ed-dbb4c6d7dc1e/deploy-status)](https://app.netlify.com/sites/bio-site-john-maple/deploys)
@@ -56,6 +54,7 @@ https://www.loom.com/share/92d159faeaa4420cac18761b302ec346
 
 ![Collections_Page](https://user-images.githubusercontent.com/51683901/123522837-a6a8b200-d685-11eb-93f6-14bbaa02238e.PNG)
 
+![Screenshot_2021-07-05_11-33-40](https://user-images.githubusercontent.com/51683901/124500389-4e5c6900-dd85-11eb-951e-484c7b8e5a80.png)
 
 
 
