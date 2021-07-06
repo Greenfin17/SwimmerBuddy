@@ -27,7 +27,6 @@ import { addWorkoutCollection, deleteWorkoutCollection, getWorkoutCollectionsChe
 
 const WorkoutForm = ({
   user,
-  crossTrigger,
   setCrossTrigger
 }) => {
   const [workout, setWorkout] = useState({
@@ -167,7 +166,9 @@ const WorkoutForm = ({
             });
             // render after sets are updated
             Promise.all(promiseArr).then(() => {
-              setCrossTrigger(!crossTrigger);
+              setCrossTrigger({
+                group_id: groupObj.id
+              });
             });
           // add group and any associated sets
           } else {
@@ -183,7 +184,9 @@ const WorkoutForm = ({
               });
               // render after sets are written
               Promise.all(promiseArr).then(() => {
-                setCrossTrigger(!crossTrigger);
+                setCrossTrigger({
+                  group_id: newGroup.id
+                });
               });
             });
           } // else addGroup
@@ -218,7 +221,9 @@ const WorkoutForm = ({
             });
             // trigger render after set group is written
             Promise.all(promiseArr).then(() => {
-              setCrossTrigger(!crossTrigger);
+              setCrossTrigger({
+                group_id: workoutObj.id
+              });
             });
           });
         });
@@ -338,7 +343,6 @@ const WorkoutForm = ({
 
 WorkoutForm.propTypes = {
   user: PropTypes.any,
-  crossTrigger: PropTypes.bool,
   setCrossTrigger: PropTypes.func
 };
 

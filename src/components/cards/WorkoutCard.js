@@ -106,16 +106,20 @@ const WorkoutCard = ({
 
   useEffect(() => {
     let mounted = true;
-    if (user && workout && mounted) {
+    if (user && workout) {
       getWorkoutCollectionsCheckedArr(user.uid, workout.id).then((responseArr) => {
-        setCollectionsArr(responseArr);
+        if (mounted) {
+          setCollectionsArr(responseArr);
+        }
         const tmpArr = [];
         for (let i = 0; i < responseArr.length; i += 1) {
           const tmpObj = { checked: false };
           tmpObj.checked = responseArr[i].checked;
           tmpArr.push(tmpObj);
         }
-        setInitialCollectionsArr(tmpArr);
+        if (mounted) {
+          setInitialCollectionsArr(tmpArr);
+        }
       });
     }
     return function cleanup() {
@@ -238,7 +242,7 @@ WorkoutCard.propTypes = {
   setUserWorkouts: PropTypes.func,
   trigger: PropTypes.bool,
   setTrigger: PropTypes.func,
-  crossTrigger: PropTypes.bool
+  crossTrigger: PropTypes.object
 };
 
 export default WorkoutCard;

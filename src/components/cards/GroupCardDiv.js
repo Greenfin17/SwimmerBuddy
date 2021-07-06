@@ -13,6 +13,7 @@ const GroupCardDiv = ({
   crossTrigger
 }) => {
   const [setArr, setSetArr] = useState([]);
+  const [localTrigger, setLocalTrigger] = useState(false);
 
   // calculate workout total distance
   // todo: user must enter a repetition value
@@ -33,6 +34,26 @@ const GroupCardDiv = ({
 
   useEffect(() => {
     let mounted = true;
+    if (crossTrigger.group_id === group.id && mounted) {
+      setLocalTrigger(!localTrigger);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [crossTrigger]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      console.warn(crossTrigger.group_id);
+    }
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [localTrigger]);
+
+  useEffect(() => {
+    let mounted = true;
     if (group) {
       getSets(group.id).then((sets) => {
         // put sets in order
@@ -45,7 +66,7 @@ const GroupCardDiv = ({
     return function cleanup() {
       mounted = false;
     };
-  }, [crossTrigger]);
+  }, []);
 
   return (
     <div className='group-data' id={`group-data-${id}`}>
@@ -70,7 +91,7 @@ GroupCardDiv.propTypes = {
   index: PropTypes.number,
   groupDistanceArr: PropTypes.array,
   setGroupDistanceArr: PropTypes.func,
-  crossTrigger: PropTypes.bool
+  crossTrigger: PropTypes.object
 };
 
 export default GroupCardDiv;

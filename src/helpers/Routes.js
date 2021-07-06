@@ -29,7 +29,7 @@ const Routes = ({
   setUser,
   searchTerms
 }) => {
-  const [crossTrigger, setCrossTrigger] = useState(false);
+  const [crossTrigger, setCrossTrigger] = useState({});
 
   return (
     <div>

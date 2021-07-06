@@ -27,10 +27,14 @@ const WorkoutsView = ({
 
   // run search when the search terms change, run when userWorkouts is loaded
   useEffect(() => {
-    if (searchTerms) {
+    let mounted = true;
+    if (mounted && searchTerms) {
       const tmpArr = userWorkouts.filter((workout) => searchWorkouts(workout, searchTerms));
       setFilterCopy(tmpArr);
     }
+    return function cleanup() {
+      mounted = false;
+    };
   }, [searchTerms, userWorkouts]);
 
   useEffect(() => {
@@ -91,7 +95,7 @@ const WorkoutsView = ({
 WorkoutsView.propTypes = {
   user: PropTypes.any,
   searchTerms: PropTypes.string,
-  crossTrigger: PropTypes.bool
+  crossTrigger: PropTypes.object
 };
 
 export default WorkoutsView;
