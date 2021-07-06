@@ -121,6 +121,10 @@ const WorkoutForm = ({
     history.push('/workouts');
   };
 
+  const submitHistory = () => {
+    history.push('/workouts');
+  };
+
   const handleSubmit = ((e) => {
     e.preventDefault();
     // retain workout id for new workouts history push
@@ -193,7 +197,7 @@ const WorkoutForm = ({
         });
       }).then(() => {
         saveCollectionChoices();
-        history.push('/workouts');
+        setTimeout(submitHistory, 200);
       });
     // add if there is no id, we are adding a workout
     } else {
@@ -229,7 +233,7 @@ const WorkoutForm = ({
         });
         saveCollectionChoices(workoutObj.id);
       }).then(() => {
-        history.push('/workouts');
+        setTimeout(submitHistory, 200);
       });
     } // if else
   }); // handleSubmit
